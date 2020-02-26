@@ -1,5 +1,6 @@
 # Worked-on-my-machine
-
+[![Build Status](https://travis-ci.com/joaomlneto/travis-ci-tutorial-java.svg?branch=master)](https://travis-ci.com/bryanscw/travis-ci-tutorial-java)
+[![Code Coverage](https://codecov.io/github/joaomlneto/travis-ci-tutorial-java/coverage.svg)](https://codecov.io/gh/bryanscw/travis-ci-tutorial-java)
 
 ## 3. Contributing 
 ### 3.1 Style Guide - Java
