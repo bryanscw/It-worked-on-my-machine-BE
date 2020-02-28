@@ -12,16 +12,6 @@
   <version>0.1.0</version>
   <packaging>pom</packaging>
 
-  <modules>
-    <module>eduamp</module>
-  </modules>
-
-  <properties>
-    <oauth.version>2.3.5.RELEASE</oauth.version>
-    <jwt.version>1.0.10.RELEASE</jwt.version>
-    <spotless.version>1.26.1</spotless.version>
-  </properties>
-
   <build>
     <plugins>
       <plugin>
@@ -43,5 +33,13 @@
       </plugin>
     </plugins>
   </build>
+
+  <properties>
+    <spotless.version>1.26.1</spotless.version>
+  </properties>
+
+  <modules>
+    <module>eduamp</module>
+  </modules>
 
 </project>
