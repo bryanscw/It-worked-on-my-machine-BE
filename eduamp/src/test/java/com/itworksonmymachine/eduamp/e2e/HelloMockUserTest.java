@@ -4,9 +4,10 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -26,9 +27,10 @@ public class HelloMockUserTest {
   @Test
   @WithMockUser(username = "user@test.com")
   public void shouldAllowAnyAuthenticatedUser() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
+    this.mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.greetings", is("Welcome Seb (user@test.com)!")));
   }
+
 }
