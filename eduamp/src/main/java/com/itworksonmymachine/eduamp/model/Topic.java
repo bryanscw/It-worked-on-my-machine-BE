@@ -22,4 +22,5 @@ public class Topic{
 
     @Getter @Setter
     public Date createdAt;
+
 }
