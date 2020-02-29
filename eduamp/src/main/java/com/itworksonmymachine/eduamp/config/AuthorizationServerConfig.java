@@ -1,111 +1,79 @@
 package com.itworksonmymachine.eduamp.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
-@Slf4j
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-  @Autowired
-  private UserDetailsService userDetailsService;
+  @Value("${oauth2.client-id}")
+  private String oauthClientId;
+
+  @Value("${oauth2.client-secret}")
+  private String oauthClientSecret;
+
+  @Value("${oauth2.grant-type}")
+  private String grantType;
+
+  @Value("${oauth2.authorization-code}")
+  private String authorizationCode;
+
+  @Value("${oauth2.refresh-token}")
+  private String refreshToken;
+
+  @Value("${oauth2.scope-read}")
+  private String scopeRead;
+
+  @Value("${oauth2.scope-write}")
+  private String scopeWrite;
+
+  @Value("${oauth2.scope-trust}")
+  private String scopeTrust;
+
+  @Value("${oauth2.access-token-validity-seconds}")
+  private int accessTokenValiditySeconds;
+
+  @Value("${oauth2.refresh-token-validity-seconds}")
+  private int refreshTokenValiditySeconds;
 
   @Autowired
-  private AuthenticationManager authenticationManager;
-
-  @Value("${config.oauth2.tokenTimeout}")
-  private int expiration;
-
-  @Value("${config.oauth2.privateKey}")
-  private String privateKey;
-
-  @Value("${config.oauth2.publicKey}")
-  private String publicKey;
+  private AuthenticationManager authManager;
 
   @Autowired
-  private ClientDetailsService clientDetailsService;
+  private TokenStore tokenStore;
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     clients
         .inMemory()
-        .withClient("client")
-        .authorizedGrantTypes("client_credentials", "password", "refresh_token",
-            "authorization_code")
-        .scopes("read", "write")
-        .resourceIds("oauth2-resource")
-        .accessTokenValiditySeconds(expiration)
-        .refreshTokenValiditySeconds(expiration)
-        .secret("secret");
-
-  }
-
-  @Bean
-  public JwtAccessTokenConverter accessTokenConverter() {
-
-    log.info("Initializing JWT with public key: " + publicKey);
-
-    JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-    converter.setSigningKey(privateKey);
-
-    return converter;
-  }
-
-  @Bean
-  public JwtTokenStore tokenStore() {
-    return new JwtTokenStore(accessTokenConverter());
-  }
-
-  @Bean
-  @Primary
-  public DefaultTokenServices tokenServices() {
-    DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-    defaultTokenServices.setTokenStore(tokenStore());
-    defaultTokenServices.setClientDetailsService(clientDetailsService);
-    defaultTokenServices.setSupportRefreshToken(true);
-    defaultTokenServices.setTokenEnhancer(accessTokenConverter());
-    return defaultTokenServices;
+        .withClient(oauthClientId)
+        .secret(passwordEncoder.encode(oauthClientSecret))
+        .authorizedGrantTypes(grantType, authorizationCode, refreshToken)
+        .scopes(scopeRead, scopeWrite, scopeTrust)
+        .accessTokenValiditySeconds(accessTokenValiditySeconds)
+        .refreshTokenValiditySeconds(refreshTokenValiditySeconds);
   }
 
   /**
    * Defines the authorization and token endpoints and the token services
    *
    * @param endpoints
-   * @throws Exception
    */
   @Override
-  public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-
-    endpoints
-        .authenticationManager(authenticationManager)
-        .userDetailsService(userDetailsService)
-        .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-        .tokenStore(tokenStore())
-        .tokenServices(tokenServices())
-        .accessTokenConverter(accessTokenConverter());
+  public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+    endpoints.tokenStore(tokenStore)
+        .authenticationManager(authManager);
   }
-
 }

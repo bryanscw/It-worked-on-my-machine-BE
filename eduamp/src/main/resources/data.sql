@@ -1,4 +1,2 @@
-INSERT INTO users (user_id, username, password, enabled) VALUES
-	('1', 'user1', '$2a$10$DaJIZrllB6V2OwWO00uTLe1ZNiscFeBDNflEh8o1kM5k/PrrzWOQe', true),
-	('2', 'user2', '$2a$10$DaJIZrllB6V2OwWO00uTLe1ZNiscFeBDNflEh8o1kM5k/PrrzWOQe', true),
-	('3', 'user3', '$2a$10$DaJIZrllB6V2OwWO00uTLe1ZNiscFeBDNflEh8o1kM5k/PrrzWOQe', true);
+INSERT INTO app_user (user_email, user_pass, user_role) VALUES ('admin1@test.com', '$2y$12$SuYibPdYWQ7EsDfgvvvM1eUhGB4kbRr.Rod8ctgasELFO/spNbuEC', 'ROLE_ADMIN');
+INSERT INTO app_user (user_email, user_pass, user_role) VALUES ('user1@test.com', '$2y$12$VO4g7Wg/YuI051vri9E9YOBuw7RAvyNczZD3MT2kckPkoSsuBUMcW', 'ROLE_USER');
