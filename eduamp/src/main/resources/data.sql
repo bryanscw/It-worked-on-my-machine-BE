@@ -1,0 +1,2 @@
+INSERT INTO app_user (user_email, user_pass, user_role) VALUES ('admin1@test.com', '$2y$12$SuYibPdYWQ7EsDfgvvvM1eUhGB4kbRr.Rod8ctgasELFO/spNbuEC', 'ROLE_ADMIN');
+INSERT INTO app_user (user_email, user_pass, user_role) VALUES ('user1@test.com', '$2y$12$VO4g7Wg/YuI051vri9E9YOBuw7RAvyNczZD3MT2kckPkoSsuBUMcW', 'ROLE_USER');
