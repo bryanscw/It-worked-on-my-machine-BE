@@ -26,7 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(outputDir = "src/docs/asciidocs")
+@AutoConfigureRestDocs
 class OrderControllerTest {
 
   List<Order> orders = null;
