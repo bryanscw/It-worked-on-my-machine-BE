@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp.e2e;
+package com.itworksonmymachine.eduamp.unit;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

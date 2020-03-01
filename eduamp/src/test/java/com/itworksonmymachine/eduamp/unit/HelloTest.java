@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp.e2e;
+package com.itworksonmymachine.eduamp.unit;
 
 
 import com.itworksonmymachine.eduamp.model.Welcome;
