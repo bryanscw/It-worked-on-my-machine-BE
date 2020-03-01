@@ -1,9 +1,10 @@
 package com.itworksonmymachine.eduamp.service;
 
-import com.itworksonmymachine.eduamp.entity.AppUser;
-import com.itworksonmymachine.eduamp.repository.AppUserRepository;
+import com.itworksonmymachine.eduamp.entity.User;
+import com.itworksonmymachine.eduamp.repository.UserRepository;
 import java.util.Collections;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,12 +12,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+@Slf4j
 public class DefaultAuthenticationProvider implements AuthenticationProvider {
 
-  private final AppUserRepository appUserRepository;
+  private final UserRepository userRepository;
 
-  public DefaultAuthenticationProvider(AppUserRepository appUserRepository) {
-    this.appUserRepository = appUserRepository;
+  public DefaultAuthenticationProvider(UserRepository userRepository) {
+    this.userRepository = userRepository;
   }
 
   @Override
@@ -32,22 +34,23 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
       return null;
     }
 
-    final Optional<AppUser> appUser = this.appUserRepository.findById(authentication.getName());
+    final Optional<User> appUser = this.userRepository.findById(authentication.getName());
 
     if (appUser.isPresent()) {
-      final AppUser user = appUser.get();
+      final User user = appUser.get();
       final String providedUserEmail = authentication.getName();
       final Object providedUserPassword = authentication.getCredentials();
 
-      if (providedUserEmail.equalsIgnoreCase(user.getUserEmail())
-          && providedUserPassword.equals(user.getUserPass())) {
+      if (providedUserEmail.equalsIgnoreCase(user.getEmail())
+          && providedUserPassword.equals(user.getPass())) {
         return new UsernamePasswordAuthenticationToken(
-            user.getUserEmail(),
-            user.getUserPass(),
-            Collections.singleton(new SimpleGrantedAuthority(user.getUserRole())));
+            user.getEmail(),
+            user.getPass(),
+            Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
       }
     }
 
+    log.error("Invalid user name or password");
     throw new UsernameNotFoundException("Invalid username or password.");
   }
 

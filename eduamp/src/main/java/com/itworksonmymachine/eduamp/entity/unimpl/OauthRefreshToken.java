@@ -1,10 +1,10 @@
-package com.itworksonmymachine.eduamp.entity;
+package com.itworksonmymachine.eduamp.entity.unimpl;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import java.sql.Blob;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,31 +12,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user")
+@Table(name = "oauth_refresh_token")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class OauthRefreshToken {
 
   @Id
   @Column
   @Getter
   @Setter
-  private String email;
+  private String tokenId;
 
   @Column
+  @Lob
   @Getter
   @Setter
-  @JsonProperty(access = Access.WRITE_ONLY)
-  private String pass;
+  private Blob token;
 
   @Column
+  @Lob
   @Getter
   @Setter
-  private String role;
-
-  @Column
-  @Getter
-  @Setter
-  private String name;
+  private Blob authentication;
 
 }
