@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp;
+package com.itworksonmymachine.eduamp.e2e;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;

@@ -17,15 +17,23 @@ public class AppUser {
 
   @Id
   @Column
-  @Getter @Setter
+  @Getter
+  @Setter
   private String userEmail;
 
   @Column
-  @Getter @Setter
+  @Getter
+  @Setter
   private String userPass;
 
   @Column
-  @Getter @Setter
+  @Getter
+  @Setter
   private String userRole;
+
+  @Column
+  @Getter
+  @Setter
+  private String name;
 
 }

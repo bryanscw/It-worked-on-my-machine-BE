@@ -1,11 +1,14 @@
 package com.itworksonmymachine.eduamp.e2e;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.itworksonmymachine.eduamp.config.TestConfig;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
     classes = TestConfig.class
 )
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
+@AutoConfigureRestDocs
 public class HelloMvcTest {
 
   @Autowired
@@ -36,7 +39,10 @@ public class HelloMvcTest {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.greetings", is("Welcome Seb (user1@test.com)!")));
+        .andExpect(jsonPath("$.greetings", is("Welcome Seb (user1@test.com)!")))
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -44,14 +50,20 @@ public class HelloMvcTest {
   public void shouldRejectUserWithNoAuthorities() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
-        .andExpect(status().isForbidden());
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
   public void shouldRejectIfNoAuthentication() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
-        .andExpect(status().isUnauthorized());
+        .andExpect(status().isUnauthorized())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
 }

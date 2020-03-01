@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of the resource orders API.
+
+=== POST /orders
+
+.Request sample with curl
+include::{snippets}/testAddOrder/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/testAddOrder/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/testAddOrder/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/testAddOrder/http-response.adoc[]
+
+.Request sample
+include::{snippets}/testAddOrder/request-body.adoc[]
+
+.Response sample
+include::{snippets}/testAddOrder/response-body.adoc[]
