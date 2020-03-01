@@ -1,5 +1,4 @@
-dist: xenial
+os: linux
 language: java
-services: - docker
-jdk: -openjdk11
+jdk: openjdk11
 script: mvn clean install

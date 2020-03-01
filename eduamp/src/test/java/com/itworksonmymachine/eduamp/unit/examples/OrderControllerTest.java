@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp;
+package com.itworksonmymachine.eduamp.unit.examples;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -29,7 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 @AutoConfigureRestDocs
 class OrderControllerTest {
 
-  List<Order> orders = null;
+  private List<Order> orders = null;
 
   @Autowired
   private WebApplicationContext context;
@@ -38,15 +38,16 @@ class OrderControllerTest {
   private MockMvc mockMvc;
 
   @BeforeEach
-  public void setUp() {
-    orders = Stream.of(new Order(101, "Mobile", 1, 15000)
-        , new Order(102, "laptop", 1, 75000))
-        .collect(Collectors.toList());
+  private void setup() {
+    this.orders = Stream.of(
+        new Order(101, "Mobile", 1, 15000),
+        new Order(102, "laptop", 1, 75000)
+    ).collect(Collectors.toList());
   }
 
   @Test
   public void testAddOrder() throws Exception {
-    String ordersJson = new ObjectMapper().writeValueAsString(orders);
+    String ordersJson = new ObjectMapper().writeValueAsString(this.orders);
     mockMvc.perform(post("/PlaceOrder")
         .content(ordersJson)
         .contentType("application/json")).andDo(print())

@@ -1,0 +1,79 @@
+package com.itworksonmymachine.eduamp.service;
+
+import com.itworksonmymachine.eduamp.entity.User;
+import com.itworksonmymachine.eduamp.exception.ResourceAlreadyExistsException;
+import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
+import com.itworksonmymachine.eduamp.repository.UserRepository;
+import java.util.List;
+import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+public class UserServiceImpl implements UserService {
+
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
+  private Pattern BCRYPT_PATTERN = Pattern.compile("^\\$2[ayb]\\$.{56}$");
+
+  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+  }
+
+  @Override
+  public User create(User user) {
+    if (userRepository.existsUserByEmail(user.getEmail())) {
+      log.error("User with email [{}] is already in use", user.getEmail());
+      throw new ResourceAlreadyExistsException(
+          String.format("User with email [%s] is already in use", user.getEmail()));
+    }
+
+    String encryptedPassword = encryptPassword(user.getPass());
+    user.setPass(encryptedPassword);
+
+    return userRepository.save(user);
+  }
+
+  @Override
+  public User save(User user) {
+    user.setPass(encryptPassword(user.getPass()));
+    return userRepository.save(user);
+  }
+
+  @Override
+  public boolean delete(String email) {
+    return userRepository.deleteUserByEmail(email);
+  }
+
+  @Override
+  public User get(String email) {
+    return userRepository.findUserByEmail(email).orElseThrow(
+        () -> new ResourceNotFoundException(
+            String.format("User with email [%s] not found", email)));
+  }
+
+  @Override
+  public List<User> getAll() {
+    return userRepository.findAll();
+  }
+
+  /**
+   * Checks if a password is Bcrypt crypted. It will Bcrypt encrypt the password if it is not.
+   *
+   * @param password Password, can be in plaintext or Bcrypt crypted
+   * @return Bcrypt encrypted password
+   */
+  private String encryptPassword(String password) {
+    // Check if password is encrypted
+    if (!BCRYPT_PATTERN.matcher(password).matches()) {
+      // Encrypt the password
+      return passwordEncoder.encode(password);
+    }
+    // Password is already Bcrypt crypted
+    return password;
+  }
+
+}

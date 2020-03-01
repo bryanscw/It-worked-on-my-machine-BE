@@ -15,16 +15,32 @@ public class TestConfig {
   @Bean
   @Primary
   public UserDetailsService userDetailsService() {
-    User basicUser1 = new org.springframework.security.core.userdetails.User(
-        "user1@test.com",
-        "password",
-        Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
 
-    User basicUser2 = new org.springframework.security.core.userdetails.User(
-        "user2@test.com",
+    // Creating a user with the no roles
+    User basicUser = new org.springframework.security.core.userdetails.User(
+        "user1@test.com",
         "password",
         Collections.emptyList());
 
-    return new InMemoryUserDetailsManager(basicUser1, basicUser2);
+    // Creating a user with the STUDENT role
+    User student = new org.springframework.security.core.userdetails.User(
+        "student1@test.com",
+        "password",
+        Collections.singletonList(new SimpleGrantedAuthority("ROLE_STUDENT")));
+
+    // Creating a user with the ADMIN role
+    User admin = new org.springframework.security.core.userdetails.User(
+        "admin1@test.com",
+        "password",
+        Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+
+    // Creating a user with the TEACHER role
+    User teacher = new org.springframework.security.core.userdetails.User(
+        "teacher1@test.com",
+        "password",
+        Collections.singletonList(new SimpleGrantedAuthority("ROLE_TEACHER")));
+
+    return new InMemoryUserDetailsManager(basicUser, student, admin, teacher);
   }
+
 }

@@ -22,7 +22,7 @@ public class HelloController {
 
   @RequestMapping(method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
+  @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Welcome greetings(@RequestParam("name") String name, Principal principal) {
     return new Welcome(name + " (" + principal.getName() + ")");
   }

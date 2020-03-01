@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp.entity;
+package com.itworksonmymachine.eduamp.entity.unimpl;
 
 import java.sql.Blob;
 import javax.persistence.Column;
@@ -12,17 +12,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "oauth_access_token")
+@Table(name = "oauth_refresh_token")
 @AllArgsConstructor
 @NoArgsConstructor
-public class OauthAccessToken {
+public class OauthRefreshToken {
 
   @Id
-  @Column
-  @Getter
-  @Setter
-  private String authenticationId;
-
   @Column
   @Getter
   @Setter
@@ -35,24 +30,9 @@ public class OauthAccessToken {
   private Blob token;
 
   @Column
-  @Getter
-  @Setter
-  private String userName;
-
-  @Column
-  @Getter
-  @Setter
-  private String clientId;
-
-  @Column
   @Lob
   @Getter
   @Setter
   private Blob authentication;
-
-  @Column
-  @Getter
-  @Setter
-  private String refreshToken;
 
 }
