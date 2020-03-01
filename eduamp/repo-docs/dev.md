@@ -1,6 +1,6 @@
 # Development Notes
 
-This document contains the development notes.
+This document contains development notes that contributors might find helpful.
 
 # 1. MySQL server
 
