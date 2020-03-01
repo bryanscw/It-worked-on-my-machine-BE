@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp.unit;
+package com.itworksonmymachine.eduamp.unit.examples;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -34,19 +34,19 @@ public class HelloMvcTest {
   private MockMvc mockMvc;
 
   @Test
-  @WithUserDetails("user1@test.com")
+  @WithUserDetails("student1@test.com")
   public void shouldAllowUserWithUserRole() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.greetings", is("Welcome Seb (user1@test.com)!")))
+        .andExpect(jsonPath("$.greetings", is("Welcome Seb (student1@test.com)!")))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
 
   @Test
-  @WithUserDetails("user2@test.com")
+  @WithUserDetails("user1@test.com")
   public void shouldRejectUserWithNoAuthorities() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))

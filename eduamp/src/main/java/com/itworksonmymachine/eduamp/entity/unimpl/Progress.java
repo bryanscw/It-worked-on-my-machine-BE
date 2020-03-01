@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp.entity;
+package com.itworksonmymachine.eduamp.entity.unimpl;
 
 import lombok.Getter;
 import lombok.Setter;

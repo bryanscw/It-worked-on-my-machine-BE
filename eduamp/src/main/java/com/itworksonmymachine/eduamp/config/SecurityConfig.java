@@ -1,6 +1,6 @@
 package com.itworksonmymachine.eduamp.config;
 
-import com.itworksonmymachine.eduamp.repository.AppUserRepository;
+import com.itworksonmymachine.eduamp.repository.UserRepository;
 import com.itworksonmymachine.eduamp.service.DefaultUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  private AppUserRepository appUserRepository;
+  private UserRepository userRepository;
 
   @Override
   @Bean
@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(new DefaultUserDetailsService(appUserRepository))
+    auth.userDetailsService(new DefaultUserDetailsService(userRepository))
         .passwordEncoder(passwordEncoder());
   }
 }

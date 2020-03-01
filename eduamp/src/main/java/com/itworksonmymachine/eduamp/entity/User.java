@@ -1,20 +1,42 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public class User{
+@Entity
+@Table(name = "user")
+@AllArgsConstructor
+@NoArgsConstructor
+public class User {
 
-    @Getter @Setter
-    private int userID;
+  @Id
+  @Column
+  @Getter
+  @Setter
+  private String email;
 
-    @Getter @Setter
-    private String username;
+  @Column
+  @Getter
+  @Setter
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private String pass;
 
-    @Getter @Setter
-    private String password;
+  @Column
+  @Getter
+  @Setter
+  private String role;
 
-    enum Role {
-        Student, Teacher, Admin
-    }
+  @Column
+  @Getter
+  @Setter
+  private String name;
+
 }

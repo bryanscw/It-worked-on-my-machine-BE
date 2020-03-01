@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp.unit;
+package com.itworksonmymachine.eduamp.unit.examples;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,7 +24,7 @@ public class HelloMockUserTest {
   private MockMvc mockMvc;
 
   @Test
-  @WithMockUser(username = "user@test.com")
+  @WithMockUser(username = "user@test.com", roles = {"STUDENT"})
   public void shouldAllowAnyAuthenticatedUser() throws Exception {
     this.mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
