@@ -105,6 +105,11 @@
             <configuration>
               <backend>html</backend>
               <doctype>book</doctype>
+              <attributes>
+                <snippets>${project.build.directory}/generated-snippets</snippets>
+              </attributes>
+              <sourceDirectory>${project.build.directory}/generated-snippets</sourceDirectory>
+              <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
             </configuration>
           </execution>
         </executions>
