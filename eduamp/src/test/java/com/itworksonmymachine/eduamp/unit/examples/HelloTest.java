@@ -20,7 +20,7 @@ public class HelloTest {
   private TestRestTemplate restTemplate;
 
   @Test
-  public void noAuth() {
+  public void should_reject_ifNotAuthorized() {
     // Given
     String testName = "test";
     String request = "/api/hello?name=" + testName;

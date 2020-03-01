@@ -46,7 +46,7 @@ class OrderControllerTest {
   }
 
   @Test
-  public void testAddOrder() throws Exception {
+  public void should_allowAddOrder_always() throws Exception {
     String ordersJson = new ObjectMapper().writeValueAsString(this.orders);
     mockMvc.perform(post("/PlaceOrder")
         .content(ordersJson)
@@ -59,7 +59,7 @@ class OrderControllerTest {
   }
 
   @Test
-  public void testGetOrders() throws Exception {
+  public void should_allowGetOrders_always() throws Exception {
     mockMvc.perform(get("/getOrders")
         .contentType("application/json")).andDo(print())
         .andExpect(status().isOk())

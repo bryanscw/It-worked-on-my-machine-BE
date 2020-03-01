@@ -35,7 +35,7 @@ public class HelloMvcTest {
 
   @Test
   @WithUserDetails("student1@test.com")
-  public void shouldAllowUserWithUserRole() throws Exception {
+  public void should_allowUser_ifAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isOk())
@@ -47,7 +47,7 @@ public class HelloMvcTest {
 
   @Test
   @WithUserDetails("user1@test.com")
-  public void shouldRejectUserWithNoAuthorities() throws Exception {
+  public void should_rejectUser_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isForbidden())
@@ -57,7 +57,7 @@ public class HelloMvcTest {
   }
 
   @Test
-  public void shouldRejectIfNoAuthentication() throws Exception {
+  public void should_reject_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isUnauthorized())
