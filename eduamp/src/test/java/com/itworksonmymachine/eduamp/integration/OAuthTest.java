@@ -20,10 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Base64Utils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -32,7 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
 )
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-public class AdminControllerTest {
+public class OAuthTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -49,50 +51,26 @@ public class AdminControllerTest {
   }
 
   @Test
-  @WithUserDetails("teacher1@test.com")
-  public void shouldRejectCreateWithNonAdminRole() throws Exception {
-    String userJson = new ObjectMapper().writeValueAsString(this.user);
-    this.mockMvc.perform(post("/admin/user/create")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(userJson))
-        .andExpect(status().isForbidden())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
-  }
-
-  @Test
   @WithUserDetails("admin1@test.com")
   @Transactional
-  public void shouldAllowCreateWithAdminRole() throws Exception {
+  public void shouldLogin() throws Exception {
+    // Create user
     String userJson = new ObjectMapper().writeValueAsString(this.user);
-    this.mockMvc.perform(post("/admin/user/create")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(userJson))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.email", is("create-student@test.com")))
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
-  }
-
-  @Test
-  @WithUserDetails("admin1@test.com")
-  @Transactional
-  public void shouldRejectUserAlreadyExists() throws Exception {
-    String userJson = new ObjectMapper().writeValueAsString(this.user);
-
-    // Create a user
     this.mockMvc.perform(post("/admin/user/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk());
 
-    // Add a user that already exists
-    this.mockMvc.perform(post("/admin/user/create")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(userJson))
-        .andExpect(status().isBadRequest())
+    // Perform login
+    this.mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", "create-student@test.com")
+        .param("password", "password")
+        .param("grant_type", "password"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.token_type", is("bearer")))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));

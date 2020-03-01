@@ -29,7 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 @AutoConfigureRestDocs
 class OrderControllerTest {
 
-  List<Order> orders = null;
+  private List<Order> orders = null;
 
   @Autowired
   private WebApplicationContext context;
@@ -38,7 +38,7 @@ class OrderControllerTest {
   private MockMvc mockMvc;
 
   @BeforeEach
-  public void setUp() {
+  private void setup() {
     this.orders = Stream.of(
         new Order(101, "Mobile", 1, 15000),
         new Order(102, "laptop", 1, 75000)
