@@ -53,7 +53,7 @@ public class OAuthTest {
   @Test
   @WithUserDetails("admin1@test.com")
   @Transactional
-  public void shouldLogin() throws Exception {
+  public void should_allow_ifValidCredentials() throws Exception {
     // Create user
     String userJson = new ObjectMapper().writeValueAsString(this.user);
     this.mockMvc.perform(post("/admin/user/create")
@@ -66,11 +66,27 @@ public class OAuthTest {
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
-        .param("username", "create-student@test.com")
-        .param("password", "password")
+        .param("username", this.user.getEmail())
+        .param("password", this.user.getPass())
         .param("grant_type", "password"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.token_type", is("bearer")))
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  public void should_reject_ifInvalidCredentials() throws Exception {
+    // Perform login
+    this.mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", "invalid_account@test.com")
+        .param("password", "invalid_password")
+        .param("grant_type", "password"))
+        .andExpect(status().isBadRequest())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));

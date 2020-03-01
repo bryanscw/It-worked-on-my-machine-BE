@@ -50,7 +50,7 @@ public class AdminControllerTest {
 
   @Test
   @WithUserDetails("teacher1@test.com")
-  public void shouldRejectCreateWithNonAdminRole() throws Exception {
+  public void should_rejectCreate_ifNotAuthorized() throws Exception {
     String userJson = new ObjectMapper().writeValueAsString(this.user);
     this.mockMvc.perform(post("/admin/user/create")
         .contentType(MediaType.APPLICATION_JSON)
@@ -64,7 +64,7 @@ public class AdminControllerTest {
   @Test
   @WithUserDetails("admin1@test.com")
   @Transactional
-  public void shouldAllowCreateWithAdminRole() throws Exception {
+  public void should_allowCreate_ifAuthorized() throws Exception {
     String userJson = new ObjectMapper().writeValueAsString(this.user);
     this.mockMvc.perform(post("/admin/user/create")
         .contentType(MediaType.APPLICATION_JSON)
@@ -79,7 +79,7 @@ public class AdminControllerTest {
   @Test
   @WithUserDetails("admin1@test.com")
   @Transactional
-  public void shouldRejectUserAlreadyExists() throws Exception {
+  public void should_rejectCreate_ifUserAlreadyExists() throws Exception {
     String userJson = new ObjectMapper().writeValueAsString(this.user);
 
     // Create a user
