@@ -1,5 +1,5 @@
 # Worked-on-my-machine
-[![Build Status](https://travis-ci.com/bryanscw/It-worked-on-my-machine-BE.svg?branch=master)](https://travis-ci.com/bryanscw/It-worked-on-my-machine-BE)
+[![Build Status](https://travis-ci.com/bryanscw/It-worked-on-my-machine-BE.svg?token=q7C1PLBif2CYVGier3sp&branch=master)](https://travis-ci.com/bryanscw/It-worked-on-my-machine-BE)
 
 ## 3. Contributing 
 ### 3.1 Style Guide - Java
