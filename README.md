@@ -1,6 +1,5 @@
 # Worked-on-my-machine
 [![Build Status](https://travis-ci.com/bryanscw/It-worked-on-my-machine-BE.svg?branch=master)](https://travis-ci.com/bryanscw/It-worked-on-my-machine-BE)
-[![Code Coverage](https://codecov.io/github/bryanscw/It-worked-on-my-machine-BE/coverage.svg)](https://codecov.io/gh/bryanscw/It-worked-on-my-machine-BE)
 
 ## 3. Contributing 
 ### 3.1 Style Guide - Java
