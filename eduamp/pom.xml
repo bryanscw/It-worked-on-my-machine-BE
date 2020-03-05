@@ -17,6 +17,7 @@
 
   <properties>
     <java.version>11</java.version>
+    <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
     <oauth.version>2.3.5.RELEASE</oauth.version>
   </properties>
 
