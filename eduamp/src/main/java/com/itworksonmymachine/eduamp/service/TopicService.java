@@ -8,6 +8,8 @@ public interface TopicService {
 
   Page<Topic> fetchAllTopics(Pageable pageable);
 
+  Topic fetchTopic(Integer topicId);
+
   Topic createTopic(Topic topic);
 
   Topic updateTopic(Topic topic, String userEmail);

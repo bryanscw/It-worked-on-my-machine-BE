@@ -8,6 +8,8 @@ public interface LevelService {
 
   Page<Level> fetchAllLevels(Pageable pageable, Integer topicId);
 
+  Level fetchLevelById(Integer topicId, Integer levelId);
+
   Level createLevel(Level level);
 
   Level updateLevel(Level level, String userEmail);

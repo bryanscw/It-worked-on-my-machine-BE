@@ -1,13 +1,9 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,10 +31,5 @@ public class Topic extends Auditable<String> {
   @Getter
   @Setter
   private String description;
-
-  @Getter
-  @Setter
-  @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
-  private List<Level> levels;
 
 }

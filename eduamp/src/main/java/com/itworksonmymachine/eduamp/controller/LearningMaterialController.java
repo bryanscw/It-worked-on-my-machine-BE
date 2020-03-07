@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -53,7 +54,7 @@ public class LearningMaterialController {
   @RequestMapping(method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public LearningMaterial createLearningMaterial(LearningMaterial learningMaterial) {
+  public LearningMaterial createLearningMaterial(@RequestBody LearningMaterial learningMaterial) {
     return learningMaterialService.createLearningMaterial(learningMaterial);
   }
 
@@ -67,7 +68,7 @@ public class LearningMaterialController {
   @RequestMapping(method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public LearningMaterial updateLearningMaterial(LearningMaterial learningMaterial,
+  public LearningMaterial updateLearningMaterial(@RequestBody LearningMaterial learningMaterial,
       Principal principal) {
     return learningMaterialService.updateLearningMaterial(learningMaterial, principal.getName());
   }

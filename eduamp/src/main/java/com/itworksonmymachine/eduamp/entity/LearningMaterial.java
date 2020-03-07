@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @Table(name = "learning_material")
@@ -27,6 +28,7 @@ public class LearningMaterial extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @JsonBackReference
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "level_id", nullable = false)
   private Level level;

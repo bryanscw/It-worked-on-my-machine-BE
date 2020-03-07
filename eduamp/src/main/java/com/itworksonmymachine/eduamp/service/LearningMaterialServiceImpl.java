@@ -3,6 +3,7 @@ package com.itworksonmymachine.eduamp.service;
 import com.itworksonmymachine.eduamp.entity.LearningMaterial;
 import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.repository.LearningMaterialRepository;
+import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@Transactional
 public class LearningMaterialServiceImpl implements LearningMaterialService {
 
   private final LearningMaterialRepository learningMaterialRepository;

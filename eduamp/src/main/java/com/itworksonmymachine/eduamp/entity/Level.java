@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -33,17 +32,17 @@ public class Level extends Auditable<String> {
   @Getter
   @Setter
   @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "topic_id", nullable = false)
+  @JoinColumn(name = "topic_id")
   private Topic topic;
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
+//  @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
   private List<LearningMaterial> learningMaterials;
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
+//  @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
   private List<Question> questions;
 
   @Getter

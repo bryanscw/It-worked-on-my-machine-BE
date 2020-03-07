@@ -2,6 +2,7 @@ package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.Topic;
 import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
+import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.TopicRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,16 @@ public class TopicServiceImpl implements TopicService {
   }
 
   @Override
+  public Topic fetchTopic(Integer topicId) {
+    log.info("Fetching topic with topicId: [{}]", topicId);
+    return topicRepository.findById(topicId).orElseThrow(() -> {
+      String errorMsg = String.format("Topic with topicId: [%s] not found", topicId);
+      log.error(errorMsg);
+      return new ResourceNotFoundException(errorMsg);
+    });
+  }
+
+  @Override
   public Topic createTopic(Topic topic) {
     return topicRepository.save(topic);
   }
@@ -36,5 +47,5 @@ public class TopicServiceImpl implements TopicService {
     }
     return topicRepository.save(topic);
   }
-  
+
 }
