@@ -73,7 +73,8 @@ public class TopicController {
   /**
    * Update a topic. Only the creator of the topic is allowed to modify it.
    *
-   * @param topic Topic to be updated
+   * @param topic     Topic to be updated
+   * @param principal Principal context containing information of the user submitting the request
    * @return Updated topic
    */
   @RequestMapping(method = RequestMethod.PUT)

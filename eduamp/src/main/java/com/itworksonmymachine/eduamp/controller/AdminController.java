@@ -26,26 +26,35 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AdminController {
 
+  private final TokenStore tokenStore;
+  private final UserService userService;
   @Value("${oauth2.client-id}")
   private String oauthClientId;
-
-  private final TokenStore tokenStore;
-
-  private final UserService userService;
 
   public AdminController(TokenStore tokenStore, UserService userService) {
     this.tokenStore = tokenStore;
     this.userService = userService;
   }
 
+  /**
+   * List all valid tokens in the token store.
+   *
+   * @return All tokens in the token store.
+   */
   @RequestMapping(method = RequestMethod.GET, path = "/token/list")
   @Secured({"ROLE_ADMIN"})
   public List<String> findAllTokens() {
     final Collection<OAuth2AccessToken> tokensByClientId = tokenStore
         .findTokensByClientId(oauthClientId);
-    return tokensByClientId.stream().map(token -> token.getValue()).collect(Collectors.toList());
+    return tokensByClientId.stream().map(OAuth2AccessToken::getValue).collect(Collectors.toList());
   }
 
+  /**
+   * Create a new user.
+   *
+   * @param user User to be created
+   * @return Created user
+   */
   @RequestMapping(method = RequestMethod.POST, path = "/user/create")
   @Secured({"ROLE_ADMIN"})
   public User createUser(@RequestBody User user) {

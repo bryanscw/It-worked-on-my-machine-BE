@@ -34,7 +34,7 @@ public class LearningMaterialController {
   /**
    * Fetch all available levels.
    *
-   * @param pageable
+   * @param pageable Pagination context
    * @param levelId  Level id that LearningMaterial is referenced by
    * @return LearningMaterials belonging to a specific levelId
    */
@@ -62,7 +62,8 @@ public class LearningMaterialController {
    * Update a topic. Only the creator of the topic is allowed to modify it.
    *
    * @param learningMaterial LearningMaterial to be updated
-   * @param principal
+   * @param principal        Principal context containing information of the user submitting the
+   *                         request
    * @return Updated learningMaterial
    */
   @RequestMapping(method = RequestMethod.PUT)

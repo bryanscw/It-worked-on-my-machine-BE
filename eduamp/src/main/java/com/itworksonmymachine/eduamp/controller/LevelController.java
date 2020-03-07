@@ -50,8 +50,8 @@ public class LevelController {
   /**
    * Fetch a specific level.
    *
-   * @param topicId  Topic id that level is referenced by
-   * @param levelId  Level id that level is referenced by
+   * @param topicId Topic id that level is referenced by
+   * @param levelId Level id that level is referenced by
    * @return Levels belonging to a specific topic Id
    */
   @RequestMapping(method = RequestMethod.GET, path = "/{topicId}/levels/{levelId}")
@@ -79,11 +79,12 @@ public class LevelController {
 
   /**
    * Update a Level.
+   * <p>
    * Only the creator of the level is allowed to modify it.
    *
    * @param topicId   Topic id that level is referenced by
    * @param level     Level to be updated
-   * @param principal
+   * @param principal Principal context containing information of the user submitting the request
    * @return Updated level
    */
   @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}/levels/create")

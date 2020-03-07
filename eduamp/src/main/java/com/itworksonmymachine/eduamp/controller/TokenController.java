@@ -23,6 +23,15 @@ public class TokenController {
   @Autowired
   private DefaultTokenServices tokenServices;
 
+  /**
+   * Revoke the existing access and refresh token.
+   * <p>
+   * This can be used whenever a user wants to logout and wants all existing access and refresh
+   * tokens that are stil valid to be invalidated.
+   *
+   * @param authentication Authentication context containing information of the user submitting the
+   *                       request
+   */
   @RequestMapping(method = RequestMethod.DELETE, path = "/revoke")
   @ResponseStatus(HttpStatus.OK)
   public void revokeToken(Authentication authentication) {
