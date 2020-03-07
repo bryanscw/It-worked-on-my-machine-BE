@@ -20,7 +20,7 @@ public class LevelServiceImpl implements LevelService {
 
   @Override
   public Page<Level> fetchAllLevels(Pageable pageable, Integer topicId) {
-    return levelRepository.findLevelsByTopic_Id(topicId);
+    return levelRepository.findLevelsByTopic_Id(pageable, topicId);
   }
 
   @Override

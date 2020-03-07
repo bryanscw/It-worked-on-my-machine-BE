@@ -20,7 +20,7 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
 
   @Override
   public Page<LearningMaterial> fetchAllLearningMaterials(Pageable pageable, Integer levelId) {
-    return learningMaterialRepository.findLearningMaterialsByLevel_Id(levelId);
+    return learningMaterialRepository.findLearningMaterialsByLevel_Id(pageable, levelId);
   }
 
   @Override
