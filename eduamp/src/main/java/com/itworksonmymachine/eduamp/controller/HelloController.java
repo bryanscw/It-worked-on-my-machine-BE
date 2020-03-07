@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(
-    value = {"/api/hello"},
+    value = {"/hello"},
     produces = MediaType.APPLICATION_JSON_VALUE
 )
 @Validated

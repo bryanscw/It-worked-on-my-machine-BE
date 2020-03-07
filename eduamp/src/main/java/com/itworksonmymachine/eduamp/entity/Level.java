@@ -1,6 +1,5 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.itworksonmymachine.eduamp.controller.unimpl.LearningMaterialController;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
