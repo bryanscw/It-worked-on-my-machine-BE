@@ -57,7 +57,7 @@ public class TopicControllerTest {
   @Transactional
   public void should_createTopic_ifAuthorized() throws Exception {
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.post("/topic/create")
+    mockMvc.perform(MockMvcRequestBuilders.post("/topics/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isOk())
