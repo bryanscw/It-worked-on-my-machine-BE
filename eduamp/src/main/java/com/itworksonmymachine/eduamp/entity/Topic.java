@@ -41,8 +41,4 @@ public class Topic extends Auditable<String> {
   @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
   private List<Level> levels;
 
-  @Getter
-  @Setter
-  private Date createdAt;
-
 }
