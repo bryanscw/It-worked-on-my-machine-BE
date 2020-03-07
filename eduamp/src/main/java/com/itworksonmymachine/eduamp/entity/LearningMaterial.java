@@ -24,8 +24,8 @@ public class LearningMaterial extends Auditable<String> {
   @Id
   @Getter
   @Setter
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private int learningMaterialID;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "level_id", nullable = false)
