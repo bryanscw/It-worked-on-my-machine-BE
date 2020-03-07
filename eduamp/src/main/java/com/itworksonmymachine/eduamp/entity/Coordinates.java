@@ -1,22 +1,22 @@
-package com.itworksonmymachine.eduamp.entity.unimpl;
+package com.itworksonmymachine.eduamp.entity;
 
+import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
+@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class Coordinate {
+public class Coordinates {
 
   @Getter
   @Setter
-  public int x;
+  private int x;
 
   @Getter
   @Setter
-  public int y;
+  private int y;
 
 }

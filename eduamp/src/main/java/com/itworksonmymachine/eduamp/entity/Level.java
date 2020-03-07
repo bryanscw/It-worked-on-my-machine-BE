@@ -1,14 +1,25 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.itworksonmymachine.eduamp.entity.unimpl.GameMap;
-import java.util.ArrayList;
+import com.itworksonmymachine.eduamp.controller.unimpl.LearningMaterialController;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Entity
+@Table(name = "level")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -17,22 +28,32 @@ public class Level {
   @Id
   @Getter
   @Setter
-  public int levelID;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
   @Getter
   @Setter
-  public ArrayList<LearningMaterial> learningMaterials;
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "topic_id", nullable = false)
+  private Topic topic;
 
   @Getter
   @Setter
-  public ArrayList<Question> questions;
+  @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
+  private List<LearningMaterial> learningMaterials;
 
   @Getter
   @Setter
-  public GameMap map;
+  @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
+  private List<Question> questions;
 
   @Getter
   @Setter
-  public boolean isPlayable;
+  @OneToOne(cascade = CascadeType.ALL)
+  private GameMap map;
+
+  @Getter
+  @Setter
+  private boolean isPlayable;
 
 }

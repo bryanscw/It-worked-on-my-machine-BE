@@ -1,12 +1,14 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import javax.persistence.CascadeType;
+import java.util.Map;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,32 +17,31 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "learning_material")
+@Table(name = "game_map")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class LearningMaterial extends Auditable<String> {
+public class GameMap {
 
   @Id
   @Getter
   @Setter
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private int learningMaterialID;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "level_id", nullable = false)
+  @Getter
+  @Setter
+  private String mapDescriptor;
+
+  @Getter
+  @Setter
+  @ElementCollection
+  private Map<Coordinates, Question> map;
+
+  @OneToOne
+  @PrimaryKeyJoinColumn
+  @Getter
+  @Setter
   private Level level;
-
-  @Getter
-  @Setter
-  private String title;
-
-  @Getter
-  @Setter
-  private String link;
-
-  @Getter
-  @Setter
-  private String description;
 
 }

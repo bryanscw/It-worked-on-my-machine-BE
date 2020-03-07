@@ -1,12 +1,14 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,21 +17,17 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "learning_material")
+@Table(name = "topic")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class LearningMaterial extends Auditable<String> {
+public class Topic {
 
   @Id
   @Getter
   @Setter
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private int learningMaterialID;
-
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "level_id", nullable = false)
-  private Level level;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
   @Getter
   @Setter
@@ -37,10 +35,15 @@ public class LearningMaterial extends Auditable<String> {
 
   @Getter
   @Setter
-  private String link;
+  private String description;
 
   @Getter
   @Setter
-  private String description;
+  @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
+  private List<Level> levels;
+
+  @Getter
+  @Setter
+  private Date createdAt;
 
 }
