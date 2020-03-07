@@ -1,6 +1,5 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,16 +33,6 @@ public class Level extends Auditable<String> {
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "topic_id")
   private Topic topic;
-
-  @Getter
-  @Setter
-//  @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
-  private List<LearningMaterial> learningMaterials;
-
-  @Getter
-  @Setter
-//  @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
-  private List<Question> questions;
 
   @Getter
   @Setter
