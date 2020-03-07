@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to reject creation of user if user already exists.
+
+=== POST /admin/user/create
+
+.Request sample with curl
+include::{snippets}/should_rejectCreate_ifUserAlreadyExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectCreate_ifUserAlreadyExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectCreate_ifUserAlreadyExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectCreate_ifUserAlreadyExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectCreate_ifUserAlreadyExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectCreate_ifUserAlreadyExists/response-body.adoc[]
