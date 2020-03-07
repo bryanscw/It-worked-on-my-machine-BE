@@ -1,4 +1,4 @@
-package com.itworksonmymachine.eduamp.entity;
+package com.itworksonmymachine.eduamp.model;
 
 import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;

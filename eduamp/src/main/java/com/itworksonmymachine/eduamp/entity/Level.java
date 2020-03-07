@@ -23,7 +23,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Level {
+public class Level extends Auditable<String> {
 
   @Id
   @Getter
@@ -49,7 +49,7 @@ public class Level {
 
   @Getter
   @Setter
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne
   private GameMap map;
 
   @Getter

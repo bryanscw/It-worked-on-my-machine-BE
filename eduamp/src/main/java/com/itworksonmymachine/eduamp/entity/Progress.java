@@ -1,26 +1,25 @@
 package com.itworksonmymachine.eduamp.entity;
 
 import com.itworksonmymachine.eduamp.model.Coordinates;
-import java.util.Map;
-import javax.persistence.ElementCollection;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-@Entity
-@Table(name = "game_map")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class GameMap extends Auditable<String> {
+@Entity
+@Table(name = "progress")
+public class Progress extends Auditable<String> {
 
   @Id
   @Getter
@@ -30,17 +29,29 @@ public class GameMap extends Auditable<String> {
 
   @Getter
   @Setter
-  private String mapDescriptor;
-
-  @Getter
-  @Setter
-  @ElementCollection
-  private Map<Coordinates, Question> map;
-
+  @OneToOne
+  private User user;
 
   @Getter
   @Setter
   @OneToOne
-  private Level level;
+  private GameMap map;
+
+  @Getter
+  @Setter
+  private Coordinates position;
+
+  @Getter
+  @Setter
+  private double timeTaken;
+
+  @Getter
+  @Setter
+  private boolean isComplete;
+
+  @Getter
+  @Setter
+  @OneToMany(mappedBy = "progress", cascade = CascadeType.ALL)
+  private List<QuestionProgress> questionProgressList;
 
 }

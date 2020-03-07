@@ -1,26 +1,23 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.itworksonmymachine.eduamp.model.Coordinates;
-import java.util.Map;
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-@Entity
-@Table(name = "game_map")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class GameMap extends Auditable<String> {
+@Entity
+@Table(name = "question_progress")
+public class QuestionProgress extends Auditable<String> {
 
   @Id
   @Getter
@@ -28,19 +25,18 @@ public class GameMap extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "progress_id", nullable = false)
   @Getter
   @Setter
-  private String mapDescriptor;
+  private Progress progress;
 
   @Getter
   @Setter
-  @ElementCollection
-  private Map<Coordinates, Question> map;
-
+  private int attemptCount;
 
   @Getter
   @Setter
-  @OneToOne
-  private Level level;
+  private boolean isCleared;
 
 }
