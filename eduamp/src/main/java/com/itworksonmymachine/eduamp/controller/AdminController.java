@@ -30,11 +30,14 @@ public class AdminController {
   @Value("${oauth2.client-id}")
   private String oauthClientId;
 
-  @Autowired
-  private TokenStore tokenStore;
+  private final TokenStore tokenStore;
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
+
+  public AdminController(TokenStore tokenStore, UserService userService) {
+    this.tokenStore = tokenStore;
+    this.userService = userService;
+  }
 
   @RequestMapping(method = RequestMethod.GET, path = "/token/list")
   @Secured({"ROLE_ADMIN"})
