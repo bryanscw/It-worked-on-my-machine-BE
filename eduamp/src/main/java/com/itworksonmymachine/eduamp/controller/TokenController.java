@@ -1,6 +1,5 @@
 package com.itworksonmymachine.eduamp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -20,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class TokenController {
 
-  @Autowired
-  private DefaultTokenServices tokenServices;
+  private final DefaultTokenServices tokenServices;
+
+  public TokenController(DefaultTokenServices tokenServices) {
+    this.tokenServices = tokenServices;
+  }
 
   /**
    * Revoke the existing access and refresh token.
