@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@Transactional
 public class LearningMaterialServiceImpl implements LearningMaterialService {
 
   private final LearningMaterialRepository learningMaterialRepository;
@@ -21,8 +20,8 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
   }
 
   @Override
-  public Page<LearningMaterial> fetchAllLearningMaterials(Pageable pageable, Integer levelId) {
-    return learningMaterialRepository.findLearningMaterialsByLevel_Id(pageable, levelId);
+  public Page<LearningMaterial> fetchAllLearningMaterials(Integer gameMapId, Pageable pageable) {
+    return learningMaterialRepository.findLearningMaterialsByGameMap_Id(gameMapId, pageable);
   }
 
   @Override

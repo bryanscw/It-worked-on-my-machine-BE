@@ -7,8 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,17 +31,22 @@ public class GameMap extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToOne(cascade = {CascadeType.ALL})
-  @JoinColumn(name = "level_id")
-  private Level level;
-
-  @Getter
-  @Setter
   private String mapDescriptor;
 
   @Getter
   @Setter
   @OneToMany(mappedBy = "gameMap", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   private List<Question> questions;
+
+  @Getter
+  @Setter
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "topic_id")
+  // https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis
+  private Topic topic;
+
+  @Getter
+  @Setter
+  private boolean isPlayable;
 
 }

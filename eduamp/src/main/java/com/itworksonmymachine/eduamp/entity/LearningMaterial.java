@@ -30,8 +30,8 @@ public class LearningMaterial extends Auditable<String> {
 
   @JsonBackReference
   @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "level_id", nullable = false)
-  private Level level;
+  @JoinColumn(name = "gameMap_id", nullable = false)
+  private GameMap gameMap;
 
   @Getter
   @Setter

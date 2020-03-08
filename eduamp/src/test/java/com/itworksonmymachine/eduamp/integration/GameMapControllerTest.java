@@ -5,10 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itworksonmymachine.eduamp.config.TestConfig;
 import com.itworksonmymachine.eduamp.entity.GameMap;
-import com.itworksonmymachine.eduamp.entity.Level;
 import com.itworksonmymachine.eduamp.entity.Topic;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
-import com.itworksonmymachine.eduamp.repository.LevelRepository;
 import com.itworksonmymachine.eduamp.repository.TopicRepository;
 import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -37,21 +35,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @TestMethodOrder(OrderAnnotation.class)
-public class LevelControllerTest {
+public class GameMapControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
-  private LevelRepository levelRepository;
+  private GameMapRepository gameMapRepository;
 
   @Autowired
   private TopicRepository topicRepository;
 
-  @Autowired
-  private GameMapRepository gameMapRepository;
-
-  private Level level;
+  private GameMap gameMap;
 
   /**
    * Returns the topic created on the test: should_allowCreateTopic_ifAuthorized.
@@ -66,16 +61,15 @@ public class LevelControllerTest {
 
   @BeforeEach
   private void setup() throws Exception {
-    this.level = new Level();
-    this.level.setGameMap(new GameMap());
-    this.level.setPlayable(false);
-    this.level.setTopic(new Topic());
+    this.gameMap = new GameMap();
+    this.gameMap.setPlayable(false);
+    this.gameMap.setTopic(new Topic());
   }
 
   @Test
   @Order(1)
   @WithUserDetails("teacher1@test.com")
-  public void should_allowCreateLevel_ifAuthorized() throws Exception {
+  public void should_allowCreateGameMap_ifAuthorized() throws Exception {
     Topic topic = new Topic();
     topic.setTitle("[Topic Title]: Multiplication");
     topic.setDescription("[Topic Description]: This topic is about simple multiplication");
@@ -87,10 +81,10 @@ public class LevelControllerTest {
             .content(topicJson))
         .andExpect(status().isOk()).andReturn();
 
-    String levelJson = new ObjectMapper().writeValueAsString(this.level);
+    String levelJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
         MockMvcRequestBuilders
-            .post(String.format("/topics/%s/levels/create", getPersistentTopic().getId()))
+            .post(String.format("/topics/%s/gamemaps/create", getPersistentTopic().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(levelJson))
         .andExpect(status().isOk());
@@ -100,13 +94,13 @@ public class LevelControllerTest {
   @Order(2)
   @WithUserDetails("student1@test.com")
   @Transactional
-  public void should_rejectCreateLevel_ifNotAuthorized() throws Exception {
+  public void should_rejectCreateGameMap_ifNotAuthorized() throws Exception {
     Topic topic = getPersistentTopic();
-    this.level.setTopic(topic);
+    this.gameMap.setTopic(topic);
 
-    String levelJson = new ObjectMapper().writeValueAsString(this.level);
+    String levelJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
-        MockMvcRequestBuilders.post(String.format("/topics/%s/levels/create", topic.getId()))
+        MockMvcRequestBuilders.post(String.format("/topics/%s/gamemaps/create", topic.getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(levelJson))
         .andExpect(status().isForbidden());
