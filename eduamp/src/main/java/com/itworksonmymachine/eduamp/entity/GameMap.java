@@ -1,8 +1,11 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,8 +38,8 @@ public class GameMap extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "gameMap", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-  private List<Question> questions;
+  @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  private Set<Question> questions;
 
   @Getter
   @Setter

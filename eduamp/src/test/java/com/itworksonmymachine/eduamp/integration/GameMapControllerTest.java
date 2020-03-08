@@ -1,5 +1,11 @@
 package com.itworksonmymachine.eduamp.integration;
 
+import static org.hamcrest.Matchers.is;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,11 +65,16 @@ public class GameMapControllerTest {
     return allTopics.iterator().next();
   }
 
+  private int getPersistentGameMapId() {
+    Iterable<GameMap> allGameMaps = gameMapRepository.findAll();
+    return allGameMaps.iterator().next().getId();
+  }
+
   @BeforeEach
-  private void setup() throws Exception {
+  private void setup() {
     this.gameMap = new GameMap();
+    this.gameMap.setMapDescriptor("This is a map descriptor");
     this.gameMap.setPlayable(false);
-    this.gameMap.setTopic(new Topic());
   }
 
   @Test
@@ -74,6 +85,7 @@ public class GameMapControllerTest {
     topic.setTitle("[Topic Title]: Multiplication");
     topic.setDescription("[Topic Description]: This topic is about simple multiplication");
 
+    // We want principal information to be saved, do not use TopicRepository directly
     String topicJson = new ObjectMapper().writeValueAsString(topic);
     mockMvc.perform(
         MockMvcRequestBuilders.post("/topics/create")
@@ -81,13 +93,16 @@ public class GameMapControllerTest {
             .content(topicJson))
         .andExpect(status().isOk()).andReturn();
 
-    String levelJson = new ObjectMapper().writeValueAsString(this.gameMap);
+    String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
         MockMvcRequestBuilders
             .post(String.format("/topics/%s/gamemaps/create", getPersistentTopic().getId()))
             .contentType(MediaType.APPLICATION_JSON)
-            .content(levelJson))
-        .andExpect(status().isOk());
+            .content(gameMapJson))
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -98,12 +113,74 @@ public class GameMapControllerTest {
     Topic topic = getPersistentTopic();
     this.gameMap.setTopic(topic);
 
-    String levelJson = new ObjectMapper().writeValueAsString(this.gameMap);
+    String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
         MockMvcRequestBuilders.post(String.format("/topics/%s/gamemaps/create", topic.getId()))
             .contentType(MediaType.APPLICATION_JSON)
-            .content(levelJson))
+            .content(gameMapJson))
         .andExpect(status().isForbidden());
+  }
+
+  @Test
+  @Order(3)
+  @WithUserDetails("user1@test.com")
+  public void should_rejectFetchGameMaps_IfNotAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders
+        .get(String.format("/topics/%s/gamemaps", getPersistentTopic().getId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(4)
+  @WithUserDetails("teacher1@test.com")
+  public void should_allowFetchGameMaps_IfAuthorized() throws Exception {
+    // There will only be 1 topic in the database
+    mockMvc.perform(MockMvcRequestBuilders
+        .get(String.format("/topics/%s/gamemaps", getPersistentTopic().getId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content[0].mapDescriptor", is(this.gameMap.getMapDescriptor())))
+        .andExpect(jsonPath("$.content[0].playable", is(this.gameMap.isPlayable())))
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(5)
+  @WithUserDetails("user1@test.com")
+  public void should_rejectFetchGameMap_IfNotAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders
+        .get(String
+            .format("/topics/%s/gamemaps/%s", getPersistentTopic().getId(),
+                getPersistentGameMapId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(12)
+  @WithUserDetails("teacher1@test.com")
+  public void should_allowDeleteGameMap_ifAuthorizedAndOwner() throws Exception {
+    // Delete GameMap
+    mockMvc.perform(MockMvcRequestBuilders.delete(String
+        .format("/topics/%s/gamemaps/%s", getPersistentTopic().getId(),
+            getPersistentGameMapId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+
+    // Delete topic
+    topicRepository.deleteById(getPersistentTopic().getId());
   }
 
 }

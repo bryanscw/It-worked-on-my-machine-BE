@@ -112,7 +112,7 @@ public class GameMapController {
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public boolean deleteGameMap(@PathVariable(value = "topicId") Integer topicId,
-      @PathVariable(value = "levelId") Integer gameMapId, Principal principal) {
+      @PathVariable(value = "gameMapId") Integer gameMapId, Principal principal) {
     return gameMapService.deleteGameMap(topicId, gameMapId, principal.getName());
   }
 
