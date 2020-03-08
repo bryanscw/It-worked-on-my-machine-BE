@@ -15,7 +15,10 @@ import com.itworksonmymachine.eduamp.repository.TopicRepository;
 import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -35,6 +38,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 )
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@TestMethodOrder(OrderAnnotation.class)
 public class TopicControllerTest {
 
   @Autowired
@@ -66,6 +70,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(1)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectCreateTopic_ifNotAuthorized() throws Exception {
@@ -80,6 +85,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(2)
   @WithUserDetails("teacher1@test.com")
   public void should_allowCreateTopic_ifAuthorized() throws Exception {
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
@@ -96,6 +102,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(3)
   @WithUserDetails("user1@test.com")
   public void should_rejectFetchTopics_IfNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/topics/")
@@ -107,6 +114,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(4)
   @WithUserDetails("teacher1@test.com")
   public void should_allowFetchTopics_IfAuthorized() throws Exception {
     // There will only be 1 topic in the database
@@ -118,9 +126,11 @@ public class TopicControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+    log.info("Order: [{}]", 4);
   }
 
   @Test
+  @Order(5)
   @WithUserDetails("user1@test.com")
   public void should_rejectFetchTopic_IfNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/topics/" + getPersistentTopicId())
@@ -132,6 +142,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(6)
   @WithUserDetails("teacher1@test.com")
   public void should_allowFetchTopic_IfAuthorized() throws Exception {
     // There will only be 1 topic in the database
@@ -146,6 +157,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(7)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectUpdateTopic_ifNotAuthorized() throws Exception {
@@ -161,6 +173,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(8)
   @WithUserDetails("teacher2@test.com")
   @Transactional
   public void should_rejectUpdateTopic_ifNotOwner() throws Exception {
@@ -180,6 +193,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(9)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowUpdateTopic_ifAuthorized() throws Exception {
@@ -201,6 +215,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(10)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectDeleteTopic_ifNotAuthorized() throws Exception {
@@ -216,6 +231,7 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(11)
   @WithUserDetails("teacher2@test.com")
   @Transactional
   public void should_rejectDeleteTopic_ifNotOwner() throws Exception {
@@ -231,8 +247,10 @@ public class TopicControllerTest {
   }
 
   @Test
+  @Order(12)
   @WithUserDetails("teacher1@test.com")
   public void should_allowDeleteTopic_ifAuthorizedAndOwner() throws Exception {
+    log.info("Deleted this: {}", getPersistentTopicId());
     // Delete topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
     mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
