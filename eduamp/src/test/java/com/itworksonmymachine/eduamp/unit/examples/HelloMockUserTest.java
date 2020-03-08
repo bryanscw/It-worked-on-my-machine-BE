@@ -26,7 +26,7 @@ public class HelloMockUserTest {
   @Test
   @WithMockUser(username = "user@test.com", roles = {"STUDENT"})
   public void should_allow_anyAuthenticatedUser() throws Exception {
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
+    this.mockMvc.perform(MockMvcRequestBuilders.get("/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.greetings", is("Welcome Seb (user@test.com)!")));

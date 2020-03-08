@@ -14,12 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(
-    value = {"/api/hello"},
+    value = {"/hello"},
     produces = MediaType.APPLICATION_JSON_VALUE
 )
 @Validated
 public class HelloController {
 
+  /**
+   * This is an example controller method to test for authorization and principal identification.
+   *
+   * @param name      Sample input string passed in as a request parameter
+   * @param principal Principal context containing information of the user submitting the request
+   * @return JSON string with the request parameter and id (email) of user submitting the request
+   */
   @RequestMapping(method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})

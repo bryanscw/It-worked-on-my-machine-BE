@@ -36,7 +36,7 @@ public class HelloMvcTest {
   @Test
   @WithUserDetails("student1@test.com")
   public void should_allowUser_ifAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
+    mockMvc.perform(MockMvcRequestBuilders.get("/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.greetings", is("Welcome Seb (student1@test.com)!")))
@@ -48,7 +48,7 @@ public class HelloMvcTest {
   @Test
   @WithUserDetails("user1@test.com")
   public void should_rejectUser_ifNotAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
+    mockMvc.perform(MockMvcRequestBuilders.get("/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isForbidden())
         .andDo(document("{methodName}",
@@ -58,7 +58,7 @@ public class HelloMvcTest {
 
   @Test
   public void should_reject_ifNotAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/hello?name=Seb")
+    mockMvc.perform(MockMvcRequestBuilders.get("/hello?name=Seb")
         .accept(MediaType.ALL))
         .andExpect(status().isUnauthorized())
         .andDo(document("{methodName}",
