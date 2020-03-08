@@ -12,6 +12,8 @@ public interface LevelService {
 
   Level createLevel(Level level);
 
-  Level updateLevel(Level level, String userEmail);
+  Level updateLevel(Integer topicId, Level level, String userEmail);
+
+  boolean deleteLevel(Integer topicId, Integer levelId, String userEmail);
 
 }

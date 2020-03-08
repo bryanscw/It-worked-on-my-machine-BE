@@ -48,12 +48,51 @@ public class LevelServiceImpl implements LevelService {
   }
 
   @Override
-  public Level updateLevel(Level level, String userEmail) {
+  public Level updateLevel(Integer topicId, Level level, String userEmail) {
+    Level levelToFind = levelRepository.findById(level.getId()).orElseThrow(() -> {
+      String errorMsg = String.format("Level with levelId: [%s] not found", level.getId());
+      log.error(errorMsg);
+      return new ResourceNotFoundException(errorMsg);
+    });
+
+    if (levelToFind.getTopic().getId() != topicId) {
+      String errorMsg = String
+          .format("Level with topicId [%s] and levelId: [%s] not found", topicId, level.getId());
+      log.error(errorMsg);
+      throw new ResourceNotFoundException(errorMsg);
+    }
+
     // Only the creator/owner of the level is allowed to modify it
-    if (!level.getCreatedBy().equals(userEmail)) {
+    if (!levelToFind.getCreatedBy().equals(userEmail)) {
       throw new NotAuthorizedException();
     }
+
     return levelRepository.save(level);
   }
 
+  @Override
+  public boolean deleteLevel(Integer topicId, Integer levelId, String userEmail) {
+    Level levelToFind = levelRepository.findById(levelId).orElseThrow(() -> {
+      String errorMsg = String.format("Level with levelId: [%s] not found", levelId);
+      log.error(errorMsg);
+      return new ResourceNotFoundException(errorMsg);
+    });
+
+    if (levelToFind.getTopic().getId() != topicId) {
+      String errorMsg = String
+          .format("Level with topicId [%s] and levelId: [%s] not found", topicId, levelId);
+      log.error(errorMsg);
+      throw new ResourceNotFoundException(errorMsg);
+    }
+
+    // Only the creator/owner of the level is allowed to modify it
+    if (!levelToFind.getCreatedBy().equals(userEmail)) {
+      throw new NotAuthorizedException();
+    }
+
+    // Delete the level
+    levelRepository.delete(levelToFind);
+
+    return true;
+  }
 }

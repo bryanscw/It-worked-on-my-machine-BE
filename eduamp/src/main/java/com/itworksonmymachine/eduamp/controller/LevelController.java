@@ -33,7 +33,7 @@ public class LevelController {
   }
 
   /**
-   * Fetch all available levels.
+   * Fetch all available Levels.
    *
    * @param pageable Pagination context
    * @param topicId  Topic id that level is referenced by
@@ -80,19 +80,40 @@ public class LevelController {
   /**
    * Update a Level.
    * <p>
-   * Only the creator of the level is allowed to modify it.
+   * Only the creator of the Level is allowed to modify it.
    *
    * @param topicId   Topic id that level is referenced by
+   * @param levelId   Level id that level is referenced by
    * @param level     Level to be updated
    * @param principal Principal context containing information of the user submitting the request
    * @return Updated level
    */
-  @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}/levels/create")
+  @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}/levels/{levelId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public Level updateLevel(@PathVariable(value = "topicId") Integer topicId,
+      @PathVariable(value = "levelId") Integer levelId,
       @RequestBody Level level, Principal principal) {
-    return levelService.updateLevel(level, principal.getName());
+    level.setId(levelId);
+    return levelService.updateLevel(topicId, level, principal.getName());
+  }
+
+  /**
+   * Delete a Level.
+   * <p>
+   * Only the creator of the Level is allowed to modify it.
+   *
+   * @param topicId   Topic id that topic is referenced by
+   * @param levelId   Level id that level is referenced by
+   * @param principal Principal context containing information of the user submitting the request
+   * @return Flag indicating if request is successful
+   */
+  @RequestMapping(method = RequestMethod.DELETE, path = "/{topicId}/levels/{levelId}")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_TEACHER"})
+  public boolean deleteTopic(@PathVariable(value = "topicId") Integer topicId,
+      @PathVariable(value = "levelId") Integer levelId, Principal principal) {
+    return levelService.deleteLevel(topicId, levelId, principal.getName());
   }
 
 }
