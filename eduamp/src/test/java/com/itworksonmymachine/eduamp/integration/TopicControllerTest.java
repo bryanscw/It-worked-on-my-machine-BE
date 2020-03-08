@@ -250,7 +250,6 @@ public class TopicControllerTest {
   @Order(12)
   @WithUserDetails("teacher1@test.com")
   public void should_allowDeleteTopic_ifAuthorizedAndOwner() throws Exception {
-    log.info("Deleted this: {}", getPersistentTopicId());
     // Delete topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
     mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
