@@ -1,5 +1,6 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.itworksonmymachine.eduamp.model.Coordinates;
 import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
@@ -15,14 +16,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
-@Table(name="question")
+@Table(name = "question")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Question extends Auditable<String>  {
+public class Question extends Auditable<String> {
 
   @Id
   @Getter
@@ -30,10 +30,9 @@ public class Question extends Auditable<String>  {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
-  @JsonBackReference
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "level_id", nullable = false)
-  private Level level;
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "game_map_id", nullable = false)
+  private GameMap gameMap;
 
   @Getter
   @Setter
@@ -47,5 +46,9 @@ public class Question extends Auditable<String>  {
   @Setter
   @ElementCollection
   private Map<Integer, String> options;
+
+  @Getter
+  @Setter
+  private Coordinates coordinates;
 
 }

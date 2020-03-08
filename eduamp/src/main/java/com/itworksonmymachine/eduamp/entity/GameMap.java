@@ -1,12 +1,13 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.itworksonmymachine.eduamp.model.Coordinates;
-import java.util.Map;
-import javax.persistence.ElementCollection;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -30,17 +31,17 @@ public class GameMap extends Auditable<String> {
 
   @Getter
   @Setter
+  @OneToOne(cascade = {CascadeType.ALL})
+  @JoinColumn(name = "level_id")
+  private Level level;
+
+  @Getter
+  @Setter
   private String mapDescriptor;
 
   @Getter
   @Setter
-  @ElementCollection
-  private Map<Coordinates, Question> map;
-
-
-  @Getter
-  @Setter
-  @OneToOne
-  private Level level;
+  @OneToMany(mappedBy = "gameMap", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  private List<Question> questions;
 
 }

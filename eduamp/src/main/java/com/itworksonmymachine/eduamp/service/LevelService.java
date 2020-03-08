@@ -10,7 +10,7 @@ public interface LevelService {
 
   Level fetchLevelById(Integer topicId, Integer levelId);
 
-  Level createLevel(Level level);
+  Level createLevel(Integer topicId, Level level);
 
   Level updateLevel(Integer topicId, Level level, String userEmail);
 

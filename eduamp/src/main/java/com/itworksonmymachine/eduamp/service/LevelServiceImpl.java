@@ -1,9 +1,11 @@
 package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.Level;
+import com.itworksonmymachine.eduamp.entity.Topic;
 import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.LevelRepository;
+import com.itworksonmymachine.eduamp.repository.TopicRepository;
 import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,8 +19,11 @@ public class LevelServiceImpl implements LevelService {
 
   private final LevelRepository levelRepository;
 
-  public LevelServiceImpl(LevelRepository levelRepository) {
+  private final TopicRepository topicRepository;
+
+  public LevelServiceImpl(LevelRepository levelRepository, TopicRepository topicRepository) {
     this.levelRepository = levelRepository;
+    this.topicRepository = topicRepository;
   }
 
   @Override
@@ -43,7 +48,13 @@ public class LevelServiceImpl implements LevelService {
   }
 
   @Override
-  public Level createLevel(Level level) {
+  public Level createLevel(Integer topicId, Level level) {
+    Topic topicToFind = topicRepository.findById(topicId).orElseThrow(() -> {
+      String errorMsg = String.format("Topic with topicId: [%s] not found", topicId);
+      log.error(errorMsg);
+      return new ResourceNotFoundException(errorMsg);
+    });
+    level.setTopic(topicToFind);
     return levelRepository.save(level);
   }
 

@@ -50,7 +50,6 @@ public class TopicControllerTest {
   private Topic topic;
 
   @BeforeEach
-  @WithUserDetails
   private void setup() throws Exception {
     this.topic = new Topic();
     this.topic.setTitle("[Topic Title]: Multiplication");

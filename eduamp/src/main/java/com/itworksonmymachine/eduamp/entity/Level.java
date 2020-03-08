@@ -30,14 +30,15 @@ public class Level extends Auditable<String> {
 
   @Getter
   @Setter
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "topic_id")
+  // https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis
   private Topic topic;
 
   @Getter
   @Setter
-  @OneToOne
-  private GameMap map;
+  @OneToOne(cascade = {CascadeType.ALL})
+  private GameMap gameMap;
 
   @Getter
   @Setter

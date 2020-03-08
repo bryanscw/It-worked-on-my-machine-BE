@@ -74,7 +74,7 @@ public class LevelController {
   @Secured({"ROLE_TEACHER"})
   public Level createLevel(@PathVariable(value = "topicId") Integer topicId,
       @RequestBody Level level) {
-    return levelService.createLevel(level);
+    return levelService.createLevel(topicId, level);
   }
 
   /**
