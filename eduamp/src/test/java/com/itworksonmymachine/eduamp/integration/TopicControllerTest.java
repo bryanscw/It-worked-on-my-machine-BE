@@ -36,7 +36,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 )
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-@Rollback
 public class TopicControllerTest {
 
   @Autowired
