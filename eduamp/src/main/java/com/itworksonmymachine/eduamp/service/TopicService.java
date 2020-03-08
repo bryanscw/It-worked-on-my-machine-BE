@@ -14,4 +14,6 @@ public interface TopicService {
 
   Topic updateTopic(Topic topic, String userEmail);
 
+  boolean deleteTopic(Integer topicId, String userEmail);
+
 }

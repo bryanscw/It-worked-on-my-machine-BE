@@ -36,7 +36,7 @@ public class TopicController {
    * Fetch all available topics.
    *
    * @param pageable Pagination context
-   * @return
+   * @return All available topics
    */
   @RequestMapping(method = RequestMethod.GET, path = "/")
   @ResponseStatus(HttpStatus.OK)
@@ -46,7 +46,7 @@ public class TopicController {
   }
 
   /**
-   * Fetch all available topics.
+   * Fetch a specific topic by id.
    *
    * @param topicId Topic id that topic is referenced by
    * @return Topic Topic with the requested topic id.
@@ -73,15 +73,33 @@ public class TopicController {
   /**
    * Update a topic. Only the creator of the topic is allowed to modify it.
    *
+   * @param topicId   Topic id that topic is referenced by
    * @param topic     Topic to be updated
    * @param principal Principal context containing information of the user submitting the request
    * @return Updated topic
    */
-  @RequestMapping(method = RequestMethod.PUT)
+  @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public Topic updateTopic(@RequestBody Topic topic, Principal principal) {
+  public Topic updateTopic(@PathVariable(value = "topicId") Integer topicId,
+      @RequestBody Topic topic, Principal principal) {
+    topic.setId(topicId);
     return topicService.updateTopic(topic, principal.getName());
+  }
+
+  /**
+   * Delete a topic.
+   *
+   * @param topicId   Topic id that topic is referenced by
+   * @param principal Principal context containing information of the user submitting the request
+   * @return Flag indicating if request is successful
+   */
+  @RequestMapping(method = RequestMethod.DELETE, path = "/{topicId}")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_TEACHER"})
+  public boolean deleteTopic(@PathVariable(value = "topicId") Integer topicId,
+      Principal principal) {
+    return topicService.deleteTopic(topicId, principal.getName());
   }
 
 }

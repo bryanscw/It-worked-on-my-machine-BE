@@ -41,11 +41,36 @@ public class TopicServiceImpl implements TopicService {
 
   @Override
   public Topic updateTopic(Topic topic, String userEmail) {
+    Topic topicToFind = topicRepository.findById(topic.getId()).orElseThrow(() -> {
+      String errorMsg = String.format("Topic with topicId: [%s] not found", topic.getId());
+      log.error(errorMsg);
+      return new ResourceNotFoundException(errorMsg);
+    });
+
     // Only the creator/owner of the topic is allowed to modify it
-    if (!topic.getCreatedBy().equals(userEmail)) {
+    if (!topicToFind.getCreatedBy().equals(userEmail)) {
       throw new NotAuthorizedException();
     }
+
     return topicRepository.save(topic);
   }
 
+  @Override
+  public boolean deleteTopic(Integer topicId, String userEmail) {
+    Topic topicToFind = topicRepository.findById(topicId).orElseThrow(() -> {
+      String errorMsg = String.format("Topic with topicId: [%s] not found", topicId);
+      log.error(errorMsg);
+      return new ResourceNotFoundException(errorMsg);
+    });
+
+    // Only the creator/owner of the topic is allowed to modify it
+    if (!topicToFind.getCreatedBy().equals(userEmail)) {
+      throw new NotAuthorizedException();
+    }
+
+    // Delete the topic
+    topicRepository.delete(topicToFind);
+
+    return true;
+  }
 }

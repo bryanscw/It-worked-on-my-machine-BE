@@ -40,7 +40,13 @@ public class TestConfig {
         "password",
         Collections.singletonList(new SimpleGrantedAuthority("ROLE_TEACHER")));
 
-    return new InMemoryUserDetailsManager(basicUser, student, admin, teacher);
+    // Creating a user with the TEACHER role
+    User teacher2 = new org.springframework.security.core.userdetails.User(
+        "teacher2@test.com",
+        "password",
+        Collections.singletonList(new SimpleGrantedAuthority("ROLE_TEACHER")));
+
+    return new InMemoryUserDetailsManager(basicUser, student, admin, teacher, teacher2);
   }
 
 }
