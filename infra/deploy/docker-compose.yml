@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+
+  app:
+    container_name: eduamp-app
+    image: eduamp:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - 3306
+    networks:
+      eduamp_network:
+        aliases:
+          - eduamp_service
+    environment:      
+      - SPRING_DATASOURCE_URL=jdbc:mysql://eduamp-mysql:3306/security?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=12345
+          
+  db:
+    container_name: eduamp-mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=my5ql
+      - MYSQL_DATABASE=security
+    networks:
+      eduamp_network:
+        aliases:
+          - eduamp_service
+
+networks:
+  eduamp_network:

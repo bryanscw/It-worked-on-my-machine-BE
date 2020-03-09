@@ -21,6 +21,7 @@ You can read more about the [related issue here](https://github.com/spring-proje
 ## 2. Dependencies
 
 The following dependencies are required to run eduamp
+* Build-essentials
 * Maven
 * Java 11
 * Docker
@@ -28,6 +29,9 @@ The following dependencies are required to run eduamp
 To install dependencies for this project, execute the following 
 commands:
 ```
+# Installing build essentials
+sudo apt install build-essentials
+
 # Installing maven
 sudo apt install maven
 
@@ -42,15 +46,23 @@ sudo usermod -aG docker $USER
 
 ## 3. Deployment
 
-### Backend
+### Local deployment
+#### Backend
 To deploy Eduamp on your local host, do the following:
 1. Edit eduamp/src/main/resources/application.properties such that under the `Data source properties` section, the database source url is pointing to local host (127.0.0.1) 
 2. Change directory to root and execute command `mvn clean install`. This will take about 10 minutes.
 3. Change directory to eduamp/target and execute command `java -jar eduamp-0.0.1-SNAPSHOT.jar`
 
-### Database
+#### Database
 To deploy the an instance of MySQL on your local host, do the following:
 1. Execute command `docker run --name eduamp-mysql -e MYSQL_ROOT_PASSWORD=12345 -e MYSQL_USER=user -e MYSQL_PASSWORD=my5ql -p 3306:3306 -d mysql:latest`
+
+### Application deployment
+To deploy the app, do the following:
+1. Go to root folder.
+2. Execute `sudo make build-docker`. This will create the latest eduamp Docker image.
+3. Execute `sudo make deploy`. This will run the Docker containers for eduamp-app and eduamp-mysql. Note that on first run, the eduamp-app will throw errors as the MySQL is getting started.
+4. To clean up, execute `sudo make clean-docker`. This will stop and remove the running Docker containers.
 
 ## 4. Testing
 

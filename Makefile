@@ -10,7 +10,13 @@ build-java:
 	mvn clean verify
 
 build-docker:
-	docker build -t $(REGISTRY)/eduamp:$(VERSION) -f infra/Dockerfile .
+	./infra/docker/build_eduamp_backend.sh
+	
+clean-docker:
+	cd ./infra/deploy && docker-compose down
+	
+deploy:
+	cd ./infra/deploy && docker-compose up -d
 
 # For cleaning of java docs
 clean-html:
