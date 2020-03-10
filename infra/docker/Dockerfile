@@ -1,14 +1,15 @@
-# ============================================================
-# Build stage 1: Builder
-# ============================================================
-FROM maven:3.6-jdk-11-slim as builder
-ARG REVISION=dev
-COPY  . /build
-WORKDIR /build
+FROM maven:3.6-jdk-11-slim
 
 
-# ============================================================
-# Build stage 2: Production
-# ============================================================
-FROM openjdk:11-jre-alpine as production
-ARG REVISION=dev
+MAINTAINER Bryan Sin "csin001@e.ntu.edu.sg"
+
+RUN apt update -y
+
+RUN mkdir /root/app
+WORKDIR /root/app
+
+ADD . .
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "/root/app/eduamp/target/eduamp-0.0.1-SNAPSHOT.jar"]
