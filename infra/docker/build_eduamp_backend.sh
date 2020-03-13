@@ -42,7 +42,7 @@ sleep 10
 printf "MySQL container started.\n\n"
 
 printf "Building jar file...\n"
-mvn clean install
+sudo mvn clean install
 printf "Jar file created.\n\n"
 
 printf "Copying files...\n"
