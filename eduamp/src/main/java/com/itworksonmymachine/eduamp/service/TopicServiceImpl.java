@@ -52,7 +52,10 @@ public class TopicServiceImpl implements TopicService {
       throw new NotAuthorizedException();
     }
 
-    return topicRepository.save(topic);
+    topicToFind.setDescription(topic.getDescription());
+    topicToFind.setTitle(topic.getTitle());
+
+    return topicRepository.save(topicToFind);
   }
 
   @Override

@@ -31,7 +31,7 @@ public class TokenController {
    * Revoke the existing access and refresh token.
    * <p>
    * This can be used whenever a user wants to logout and wants all existing access and refresh
-   * tokens that are stil valid to be invalidated.
+   * tokens that are still valid to be invalidated.
    *
    * @param authentication Authentication context containing information of the user submitting the
    *                       request

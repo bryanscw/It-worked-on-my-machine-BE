@@ -88,6 +88,8 @@ public class TopicController {
   public Topic updateTopic(@PathVariable(value = "topicId") Integer topicId,
       @RequestBody Topic topic, Principal principal) {
     topic.setId(topicId);
+    log.info(principal.toString());
+    log.info(principal.getName());
     return topicService.updateTopic(topic, principal.getName());
   }
 
