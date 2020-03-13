@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface LearningMaterialRepository extends
     PagingAndSortingRepository<LearningMaterial, Integer> {
 
-  Page<LearningMaterial> findLearningMaterialsByLevel_Id(Pageable pageable, Integer id);
+  Page<LearningMaterial> findLearningMaterialsByGameMap_Id(Integer gameMapId, Pageable pageable);
 
 }

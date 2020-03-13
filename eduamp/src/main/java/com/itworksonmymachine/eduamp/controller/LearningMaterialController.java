@@ -34,15 +34,15 @@ public class LearningMaterialController {
   /**
    * Fetch all available levels.
    *
-   * @param pageable Pagination context
-   * @param levelId  Level id that LearningMaterial is referenced by
+   * @param pageable  Pagination context
+   * @param gameMapId GameMap id that LearningMaterial is referenced by
    * @return LearningMaterials belonging to a specific levelId
    */
   @RequestMapping(method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public Page<LearningMaterial> fetchAllLearningMaterials(Pageable pageable, Integer levelId) {
-    return learningMaterialService.fetchAllLearningMaterials(pageable, levelId);
+  public Page<LearningMaterial> fetchAllLearningMaterials(Pageable pageable, Integer gameMapId) {
+    return learningMaterialService.fetchAllLearningMaterials(gameMapId, pageable);
   }
 
   /**

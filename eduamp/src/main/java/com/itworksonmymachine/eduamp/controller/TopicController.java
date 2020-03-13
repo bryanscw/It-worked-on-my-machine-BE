@@ -33,7 +33,7 @@ public class TopicController {
   }
 
   /**
-   * Fetch all available topics.
+   * Fetch all available Topics.
    *
    * @param pageable Pagination context
    * @return All available topics
@@ -46,7 +46,7 @@ public class TopicController {
   }
 
   /**
-   * Fetch a specific topic by id.
+   * Fetch a specific Topic by id.
    *
    * @param topicId Topic id that topic is referenced by
    * @return Topic Topic with the requested topic id.
@@ -59,7 +59,7 @@ public class TopicController {
   }
 
   /**
-   * Create a topic.
+   * Create a Topic.
    *
    * @param topic Topic to be created
    * @return Created topic
@@ -71,7 +71,9 @@ public class TopicController {
   }
 
   /**
-   * Update a topic. Only the creator of the topic is allowed to modify it.
+   * Update a Topic.
+   * <p>
+   * Only the creator of the Topic is allowed to modify it.
    *
    * @param topicId   Topic id that topic is referenced by
    * @param topic     Topic to be updated
@@ -88,7 +90,9 @@ public class TopicController {
   }
 
   /**
-   * Delete a topic.
+   * Delete a Topic.
+   * <p>
+   * Only the creator of the Topic is allowed to modify it.
    *
    * @param topicId   Topic id that topic is referenced by
    * @param principal Principal context containing information of the user submitting the request

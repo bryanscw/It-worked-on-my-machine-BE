@@ -1,13 +1,17 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.itworksonmymachine.eduamp.model.Coordinates;
-import java.util.Map;
-import javax.persistence.ElementCollection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,13 +38,18 @@ public class GameMap extends Auditable<String> {
 
   @Getter
   @Setter
-  @ElementCollection
-  private Map<Coordinates, Question> map;
-
+  @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  private Set<Question> questions;
 
   @Getter
   @Setter
-  @OneToOne
-  private Level level;
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "topic_id")
+  // https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis
+  private Topic topic;
+
+  @Getter
+  @Setter
+  private boolean isPlayable;
 
 }

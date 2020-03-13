@@ -50,8 +50,7 @@ public class TopicControllerTest {
   private Topic topic;
 
   @BeforeEach
-  @WithUserDetails
-  private void setup() throws Exception {
+  private void setup() {
     this.topic = new Topic();
     this.topic.setTitle("[Topic Title]: Multiplication");
     this.topic.setDescription("[Topic Description]: This topic is about simple multiplication");
@@ -126,7 +125,6 @@ public class TopicControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
-    log.info("Order: [{}]", 4);
   }
 
   @Test
@@ -251,10 +249,8 @@ public class TopicControllerTest {
   @WithUserDetails("teacher1@test.com")
   public void should_allowDeleteTopic_ifAuthorizedAndOwner() throws Exception {
     // Delete topic
-    String topicJson = new ObjectMapper().writeValueAsString(this.topic);
     mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(topicJson))
+        .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
