@@ -10,6 +10,4 @@ WORKDIR /root/app
 
 ADD . .
 
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "/root/app/eduamp/target/eduamp-0.0.1-SNAPSHOT.jar"]
+CMD sleep 10 && java -jar /root/app/eduamp/target/eduamp-0.0.1-SNAPSHOT.jar
