@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
     produces = MediaType.APPLICATION_JSON_VALUE
 )
 @Validated
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TokenController {
 
   private final DefaultTokenServices tokenServices;
@@ -29,7 +31,7 @@ public class TokenController {
    * Revoke the existing access and refresh token.
    * <p>
    * This can be used whenever a user wants to logout and wants all existing access and refresh
-   * tokens that are stil valid to be invalidated.
+   * tokens that are still valid to be invalidated.
    *
    * @param authentication Authentication context containing information of the user submitting the
    *                       request
