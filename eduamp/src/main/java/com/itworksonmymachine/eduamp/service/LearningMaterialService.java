@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface LearningMaterialService {
 
-  Page<LearningMaterial> fetchAllLearningMaterials(Pageable pageable, Integer levelId);
+  Page<LearningMaterial> fetchAllLearningMaterials(Integer gameMapId, Pageable pageable);
 
   LearningMaterial createLearningMaterial(LearningMaterial learningMaterial);
 
