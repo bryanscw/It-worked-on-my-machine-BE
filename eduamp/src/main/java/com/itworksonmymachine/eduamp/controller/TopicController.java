@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
     produces = MediaType.APPLICATION_JSON_VALUE
 )
 @Validated
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TopicController {
 
   private final TopicService topicService;
@@ -44,7 +42,7 @@ public class TopicController {
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Page<Topic> fetchAllTopics(Pageable pageable) {
-    log.debug("Fetching all topics: [{}]", pageable.toString());
+    log.info("Fetching all topics: [{}]", pageable.toString());
     return topicService.fetchAllTopics(pageable);
   }
 
@@ -58,7 +56,7 @@ public class TopicController {
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Topic fetchTopic(@PathVariable(value = "topicId") Integer topicId) {
-    log.debug("Fetching topic with id: [{}]", topicId);
+    log.info("Fetching topic with id: [{}]", topicId);
     return topicService.fetchTopic(topicId);
   }
 
@@ -72,7 +70,7 @@ public class TopicController {
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public Topic createTopic(@RequestBody Topic topic) {
-    log.debug("Creating topic: [{}]", topic.toString());
+    log.info("Creating topic: [{}]", topic.toString());
     return topicService.createTopic(topic);
   }
 
@@ -91,7 +89,7 @@ public class TopicController {
   @Secured({"ROLE_TEACHER"})
   public Topic updateTopic(@PathVariable(value = "topicId") Integer topicId,
       @RequestBody Topic topic, Principal principal) {
-    log.debug("Updating topic with id: [{}]", topicId);
+    log.info("Updating topic with id: [{}]", topicId);
     topic.setId(topicId);
     return topicService.updateTopic(topic, principal.getName());
   }
@@ -111,7 +109,7 @@ public class TopicController {
   @Secured({"ROLE_TEACHER"})
   public Topic patchTopic(@PathVariable(value = "topicId") Integer topicId,
       @RequestBody Topic topic, Principal principal) {
-    log.debug("Patching topic with id: [{}]", topicId);
+    log.info("Patching topic with id: [{}]", topicId);
       topic.setId(topicId);
       return topicService.updateTopic(topic, principal.getName());
   }
@@ -130,7 +128,7 @@ public class TopicController {
   @Secured({"ROLE_TEACHER"})
   public boolean deleteTopic(@PathVariable(value = "topicId") Integer topicId,
       Principal principal) {
-    log.debug("Deleting topic with id: [{}]", topicId);
+    log.info("Deleting topic with id: [{}]", topicId);
     return topicService.deleteTopic(topicId, principal.getName());
   }
 
