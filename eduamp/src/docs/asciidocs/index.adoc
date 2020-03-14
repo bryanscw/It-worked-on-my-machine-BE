@@ -233,26 +233,6 @@ include::{snippets}/should_allowCreateTopic_ifAuthorized/response-body.adoc[]
 .Response sample
 include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/response-body.adoc[]
 
-=== Allow delete if authorized and owner
-
-.Request sample with curl
-include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/response-body.adoc[]
-
 === Allow fetch if authorized
 
 .Request sample with curl
@@ -347,26 +327,6 @@ include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/http-response.adoc[
 .Request sample
 include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/request-body.adoc[]
 
-=== Reject delete topic if not owner
-
-.Request sample with curl
-include::{snippets}/should_rejectDeleteTopic_ifNotOwner/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_rejectDeleteTopic_ifNotOwner/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_rejectDeleteTopic_ifNotOwner/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_rejectDeleteTopic_ifNotOwner/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_rejectDeleteTopic_ifNotOwner/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_rejectDeleteTopic_ifNotOwner/response-body.adoc[]
-
 === Reject fetch topic if not authorized
 
 .Request sample with curl
@@ -427,28 +387,6 @@ include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/response-body.adoc[]
 
-=== Reject update topic if not owner
-
-.Request sample with curl
-include::{snippets}/should_rejectUpdateTopic_ifNotOwner/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_rejectUpdateTopic_ifNotOwner/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_rejectUpdateTopic_ifNotOwner/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_rejectUpdateTopic_ifNotOwner/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_rejectUpdateTopic_ifNotOwner/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_rejectUpdateTopic_ifNotOwner/response-body.adoc[]
-.Response sample
-include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/response-body.adoc[]
-
 == Game Map
 
 === Allow creation of game map if user is authorized
@@ -470,26 +408,6 @@ include::{snippets}/should_allowCreateGameMap_ifAuthorized/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_allowCreateGameMap_ifAuthorized/response-body.adoc[]
-
-=== Allow deletion of game map if user is authorized and owner
-
-.Request sample with curl
-include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/response-body.adoc[]
 
 === Allow fetching of game map if user is authorized
 
