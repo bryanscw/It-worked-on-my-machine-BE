@@ -59,7 +59,7 @@ public class OAuthTest {
   public void should_allow_ifValidCredentials() throws Exception {
     // Create user
     String userJson = new ObjectMapper().writeValueAsString(this.user);
-    this.mockMvc.perform(post("/admin/user/create")
+    this.mockMvc.perform(post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk());
@@ -101,7 +101,7 @@ public class OAuthTest {
   public void should_logout_ifValidSession() throws Exception {
     // Create user
     String userJson = new ObjectMapper().writeValueAsString(this.user);
-    this.mockMvc.perform(post("/admin/user/create")
+    this.mockMvc.perform(post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk());
