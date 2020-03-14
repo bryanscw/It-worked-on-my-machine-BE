@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to allow for deletion of game map if user is authorized.
+
+=== Allow deletion of game map if user is authorized and owner
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/response-body.adoc[]

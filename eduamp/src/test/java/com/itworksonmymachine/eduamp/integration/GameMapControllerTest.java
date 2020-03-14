@@ -124,7 +124,7 @@ public class GameMapControllerTest {
   @Test
   @Order(3)
   @WithUserDetails("user1@test.com")
-  public void should_rejectFetchGameMaps_IfNotAuthorized() throws Exception {
+  public void should_rejectFetchGameMaps_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders
         .get(String.format("/topics/%s/gamemaps", getPersistentTopic().getId()))
         .contentType(MediaType.APPLICATION_JSON))
@@ -137,7 +137,7 @@ public class GameMapControllerTest {
   @Test
   @Order(4)
   @WithUserDetails("teacher1@test.com")
-  public void should_allowFetchGameMaps_IfAuthorized() throws Exception {
+  public void should_allowFetchGameMaps_ifAuthorized() throws Exception {
     // There will only be 1 topic in the database
     mockMvc.perform(MockMvcRequestBuilders
         .get(String.format("/topics/%s/gamemaps", getPersistentTopic().getId()))
@@ -153,7 +153,7 @@ public class GameMapControllerTest {
   @Test
   @Order(5)
   @WithUserDetails("user1@test.com")
-  public void should_rejectFetchGameMap_IfNotAuthorized() throws Exception {
+  public void should_rejectFetchGameMap_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders
         .get(String
             .format("/topics/%s/gamemaps/%s", getPersistentTopic().getId(),

@@ -103,7 +103,7 @@ public class TopicControllerTest {
   @Test
   @Order(3)
   @WithUserDetails("user1@test.com")
-  public void should_rejectFetchTopics_IfNotAuthorized() throws Exception {
+  public void should_rejectFetchTopics_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/topics/")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
@@ -115,7 +115,7 @@ public class TopicControllerTest {
   @Test
   @Order(4)
   @WithUserDetails("teacher1@test.com")
-  public void should_allowFetchTopics_IfAuthorized() throws Exception {
+  public void should_allowFetchTopics_ifAuthorized() throws Exception {
     // There will only be 1 topic in the database
     mockMvc.perform(MockMvcRequestBuilders.get("/topics/")
         .contentType(MediaType.APPLICATION_JSON))
@@ -130,7 +130,7 @@ public class TopicControllerTest {
   @Test
   @Order(5)
   @WithUserDetails("user1@test.com")
-  public void should_rejectFetchTopic_IfNotAuthorized() throws Exception {
+  public void should_rejectFetchTopic_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/topics/" + getPersistentTopicId())
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
@@ -142,7 +142,7 @@ public class TopicControllerTest {
   @Test
   @Order(6)
   @WithUserDetails("teacher1@test.com")
-  public void should_allowFetchTopic_IfAuthorized() throws Exception {
+  public void should_allowFetchTopic_ifAuthorized() throws Exception {
     // There will only be 1 topic in the database
     mockMvc.perform(MockMvcRequestBuilders.get("/topics/" + getPersistentTopicId())
         .contentType(MediaType.APPLICATION_JSON))

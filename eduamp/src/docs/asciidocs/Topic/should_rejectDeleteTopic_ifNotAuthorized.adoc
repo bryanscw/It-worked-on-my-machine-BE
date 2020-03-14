@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to reject deletion of topic if user is not authorized.
+
+=== Reject delete if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/response-body.adoc[]
