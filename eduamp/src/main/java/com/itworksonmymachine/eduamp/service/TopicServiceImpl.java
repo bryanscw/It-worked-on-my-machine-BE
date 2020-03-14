@@ -52,8 +52,14 @@ public class TopicServiceImpl implements TopicService {
       throw new NotAuthorizedException();
     }
 
-    topicToFind.setDescription(topic.getDescription());
-    topicToFind.setTitle(topic.getTitle());
+    // Facilitate partial updating (PATCH)
+    if (topic.getDescription() != null) {
+      topicToFind.setDescription(topic.getDescription());
+    }
+
+    if (topic.getTitle() != null) {
+      topicToFind.setTitle(topic.getTitle());
+    }
 
     return topicRepository.save(topicToFind);
   }
