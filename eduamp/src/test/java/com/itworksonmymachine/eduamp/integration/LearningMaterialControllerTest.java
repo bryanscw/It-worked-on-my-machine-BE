@@ -97,7 +97,7 @@ public class LearningMaterialControllerTest {
     String gameMapJson = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(this.learningMaterial.getGameMap());
     mockMvc.perform(
         MockMvcRequestBuilders
-            .post(String.format("/topics/%s/gamemaps/create", getPersistentTopic().getId()))
+            .post(String.format("/topics/%s/gameMaps/create", getPersistentTopic().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(gameMapJson))
         .andExpect(status().isOk())
@@ -107,7 +107,7 @@ public class LearningMaterialControllerTest {
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
     mockMvc.perform(
-        MockMvcRequestBuilders.post(String.format("/%s/learningmaterials/create", getPersistentGameMap().getId()))
+        MockMvcRequestBuilders.post(String.format("/%s/learningMaterials/create", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(learningMaterialJson))
         .andExpect(status().isOk())
@@ -124,7 +124,7 @@ public class LearningMaterialControllerTest {
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
     mockMvc.perform(
-        MockMvcRequestBuilders.post(String.format("/%s/learningmaterials/create", getPersistentGameMap().getId()))
+        MockMvcRequestBuilders.post(String.format("/%s/learningMaterials/create", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(learningMaterialJson))
         .andExpect(status().isForbidden())
@@ -140,7 +140,7 @@ public class LearningMaterialControllerTest {
   public void should_rejectCreateLearningMaterial_ifAlreadyExist() throws Exception {
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
     mockMvc.perform(
-        MockMvcRequestBuilders.post(String.format("/%s/learningmaterials/create", getPersistentGameMap().getId()))
+        MockMvcRequestBuilders.post(String.format("/%s/learningMaterials/create", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(learningMaterialJson))
         .andExpect(status().isBadRequest())
@@ -154,7 +154,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowFetchLearningMaterial_ifAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/%s/learningMaterials/%s",
                     getPersistentGameMap().getId(), this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -172,7 +172,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectFetchLearningMaterial_ifNotAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/%s/learningMaterials/%s",
                     getPersistentGameMap().getId(), this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
@@ -186,7 +186,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_allowFetchLearningMaterials_ifAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/%s/learningMaterials/%s",
         getPersistentGameMap().getId(), this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -204,7 +204,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectFetchLearningMaterials_ifNotAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/%s/learningMaterials/%s",
         getPersistentGameMap().getId(), this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
@@ -221,7 +221,7 @@ public class LearningMaterialControllerTest {
     this.learningMaterial.setTitle("New title");
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
-    mockMvc.perform(MockMvcRequestBuilders.put(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.put(String.format("/%s/learningMaterials/%s",
                     getPersistentGameMap().getId(),
                     this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON)
@@ -240,7 +240,7 @@ public class LearningMaterialControllerTest {
     this.learningMaterial.setTitle("New title");
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
-    mockMvc.perform(MockMvcRequestBuilders.put(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.put(String.format("/%s/learningMaterials/%s",
                     getPersistentGameMap().getId(),
                     this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON)
@@ -259,7 +259,7 @@ public class LearningMaterialControllerTest {
     this.learningMaterial.setTitle("New title");
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
-    mockMvc.perform(MockMvcRequestBuilders.put(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.put(String.format("/%s/learningMaterials/%s",
                     getPersistentGameMap().getId(),
                     this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON)
@@ -278,7 +278,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectDeleteLearningMaterial_ifNotAuthorized() throws Exception{
-    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/%s/learningMaterials/%s",
                     getPersistentGameMap().getId(),
                     this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON))
@@ -296,7 +296,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowDeleteLearningMaterial_ifNotAuthorized() throws Exception{
-    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/%s/learningMaterials/%s",
         getPersistentGameMap().getId(),
         this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON))
@@ -314,7 +314,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_rejectDeleteLearningMaterial_ifNotExist() throws Exception{
-    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/%s/learningmaterials/%s",
+    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/%s/learningMaterials/%s",
         getPersistentGameMap().getId(),
         this.learningMaterial.getId()))
         .contentType(MediaType.APPLICATION_JSON))
