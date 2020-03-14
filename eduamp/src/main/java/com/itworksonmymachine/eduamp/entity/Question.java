@@ -32,6 +32,8 @@ public class Question extends Auditable<String> {
 
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "game_map_id", nullable = false)
+  @Getter
+  @Setter
   private GameMap gameMap;
 
   @Getter
@@ -40,7 +42,7 @@ public class Question extends Auditable<String> {
 
   @Getter
   @Setter
-  private int answer;
+  private int answer = -1;
 
   @Getter
   @Setter

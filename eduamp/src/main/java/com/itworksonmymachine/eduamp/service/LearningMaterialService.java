@@ -10,7 +10,7 @@ public interface LearningMaterialService {
 
   LearningMaterial fetchLearningMaterialById(Integer gameMapId, Integer learningMaterialId);
 
-  LearningMaterial createLearningMaterial(LearningMaterial learningMaterial);
+  LearningMaterial createLearningMaterial(Integer gameMapId, LearningMaterial learningMaterial);
 
   LearningMaterial updateLearningMaterial(Integer gameMapId, LearningMaterial learningMaterial,
       String userEmail);

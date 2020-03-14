@@ -47,7 +47,7 @@ public class LearningMaterialController {
   }
 
   /**
-   * Fetch a specific LearningMaterial
+   * Fetch a specific LearningMaterial by Id.
    *
    * @param gameMapId          GameMap id that the LearningMaterial belongs to
    * @param learningMaterialId LearningMaterial id that the Learning Material is referenced by
@@ -65,14 +65,15 @@ public class LearningMaterialController {
   /**
    * Create a LearningMaterial.
    *
+   * @param gameMapId GameMap id that the question
    * @param learningMaterial LearningMaterial to be created
    * @return Created learningMaterial
    */
   @RequestMapping(method = RequestMethod.POST, path = "/{gameMapId}/learningMaterials/create")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public LearningMaterial createLearningMaterial(@RequestBody LearningMaterial learningMaterial) {
-    return learningMaterialService.createLearningMaterial(learningMaterial);
+  public LearningMaterial createLearningMaterial(@PathVariable(value = "gameMapId") Integer gameMapId, @RequestBody LearningMaterial learningMaterial) {
+    return learningMaterialService.createLearningMaterial(gameMapId, learningMaterial);
   }
 
   /**

@@ -32,7 +32,7 @@ public class GameMapServiceImpl implements GameMapService {
   @Override
   public GameMap fetchGameMapById(Integer topicId, Integer gameMapId) {
     String errorMsg = String
-        .format("Level with topicId [%s] and gameMapId [%s] not found", topicId, gameMapId);
+        .format("Level with topicId: [%s] and gameMapId: [%s] not found", topicId, gameMapId);
     GameMap gameMap = gameMapRepository.findById(gameMapId)
         .orElseThrow(() -> new ResourceNotFoundException(errorMsg));
 
@@ -64,11 +64,16 @@ public class GameMapServiceImpl implements GameMapService {
 
     if (gameMapToFind.getTopic().getId() != topicId) {
       String errorMsg = String
-          .format("GameMap with topicId [%s] and gameMap: [%s] not found", topicId,
+          .format("GameMap with topicId: [%s] and gameMap: [%s] not found", topicId,
               gameMap.getId());
       log.error(errorMsg);
       throw new ResourceNotFoundException(errorMsg);
     }
+
+//    // Only the creator/owner of the level is allowed to modify it
+//    if (!gameMapToFind.getCreatedBy().equals(userEmail)) {
+//      throw new NotAuthorizedException();
+//    }
 
     if (gameMap.getMapDescriptor() != null) {
       gameMapToFind.setMapDescriptor(gameMap.getMapDescriptor());
@@ -79,11 +84,6 @@ public class GameMapServiceImpl implements GameMapService {
     }
 
     gameMapToFind.setPlayable(gameMap.isPlayable());
-
-//    // Only the creator/owner of the level is allowed to modify it
-//    if (!gameMapToFind.getCreatedBy().equals(userEmail)) {
-//      throw new NotAuthorizedException();
-//    }
 
     return gameMapRepository.save(gameMap);
   }
@@ -98,7 +98,7 @@ public class GameMapServiceImpl implements GameMapService {
 
     if (gameMapToFind.getTopic().getId() != topicId) {
       String errorMsg = String
-          .format("GameMap with topicId [%s] and gameMapId: [%s] not found", topicId, gameMapId);
+          .format("GameMap with topicId: [%s] and gameMapId: [%s] not found", topicId, gameMapId);
       log.error(errorMsg);
       throw new ResourceNotFoundException(errorMsg);
     }
