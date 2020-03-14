@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to allow deletion of topic if user is authorized and is owner of topic.
+
+=== Allow delete if authorized and owner
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/response-body.adoc[]

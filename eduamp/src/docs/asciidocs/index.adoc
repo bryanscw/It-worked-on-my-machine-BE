@@ -67,6 +67,26 @@ include::{snippets}/should_allowUser_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowUser_ifAuthorized/response-body.adoc[]
 
+=== Logout if valid session
+
+.Request sample with curl
+include::{snippets}/should_logout_ifValidSession/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_logout_ifValidSession/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_logout_ifValidSession/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_logout_ifValidSession/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_logout_ifValidSession/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_logout_ifValidSession/response-body.adoc[]
+
 === Reject creation of user if admin is not authorized
 
 .Request sample with curl
@@ -168,3 +188,367 @@ include::{snippets}/should_rejectUser_ifNotAuthorized/request-body.adoc[]
 include::{snippets}/should_rejectUser_ifNotAuthorized/response-body.adoc[]
 .Response sample
 include::{snippets}/should_allow_ifValidCredentials/response-body.adoc[]
+
+=== Invalid Session
+
+.Request sample with curl
+include::{snippets}/should_throwError_ifInvalidSession/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_throwError_ifInvalidSession/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_throwError_ifInvalidSession/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_throwError_ifInvalidSession/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_throwError_ifInvalidSession/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_throwError_ifInvalidSession/response-body.adoc[]
+
+== Topic
+
+=== Allow create if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowCreateTopic_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowCreateTopic_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowCreateTopic_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowCreateTopic_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowCreateTopic_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowCreateTopic_ifAuthorized/response-body.adoc[]
+.Response sample
+include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/response-body.adoc[]
+
+=== Allow delete if authorized and owner
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteTopic_ifAuthorizedAndOwner/response-body.adoc[]
+
+=== Allow fetch if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchTopic_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchTopic_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchTopic_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchTopic_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchTopic_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchTopic_ifAuthorized/response-body.adoc[]
+
+=== Fetch topics if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchTopics_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchTopics_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchTopics_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchTopics_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchTopics_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchTopics_ifAuthorized/response-body.adoc[]
+
+=== Allow update of topic if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowUpdateTopic_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowUpdateTopic_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowUpdateTopic_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowUpdateTopic_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowUpdateTopic_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowUpdateTopic_ifAuthorized/response-body.adoc[]
+
+=== Reject create if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/request-body.adoc[]
+
+=== Reject delete if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/request-body.adoc[]
+
+=== Reject delete topic if not owner
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteTopic_ifNotOwner/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteTopic_ifNotOwner/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteTopic_ifNotOwner/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteTopic_ifNotOwner/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteTopic_ifNotOwner/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteTopic_ifNotOwner/response-body.adoc[]
+
+=== Reject fetch topic if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchTopic_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchTopic_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchTopic_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchTopic_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchTopic_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchTopic_ifNotAuthorized/response-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetch topics if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/request-body.adoc[]
+
+=== Reject update topic if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/response-body.adoc[]
+
+=== Reject update topic if not owner
+
+.Request sample with curl
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/response-body.adoc[]
+.Response sample
+include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/response-body.adoc[]
+
+== Game Map
+
+=== Allow creation of game map if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowCreateGameMap_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowCreateGameMap_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowCreateGameMap_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowCreateGameMap_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowCreateGameMap_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowCreateGameMap_ifAuthorized/response-body.adoc[]
+
+=== Allow deletion of game map if user is authorized and owner
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteGameMap_ifAuthorizedAndOwner/response-body.adoc[]
+
+=== Allow fetching of game map if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchGameMaps_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchGameMaps_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchGameMaps_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchGameMaps_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchGameMaps_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchGameMaps_ifAuthorized/response-body.adoc[]
+
+=== Reject fetching of game map if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchGameMap_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchGameMap_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchGameMap_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchGameMap_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchGameMap_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchGameMap_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetching of game maps if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/response-body.adoc[]
+
+

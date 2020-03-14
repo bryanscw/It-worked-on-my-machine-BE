@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to reject updating of topic if user is not owner.
+
+=== Reject update topic if not owner
+
+.Request sample with curl
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateTopic_ifNotOwner/response-body.adoc[]
