@@ -1,7 +1,6 @@
 package com.itworksonmymachine.eduamp.repository;
 
 import com.itworksonmymachine.eduamp.entity.GameMap;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
