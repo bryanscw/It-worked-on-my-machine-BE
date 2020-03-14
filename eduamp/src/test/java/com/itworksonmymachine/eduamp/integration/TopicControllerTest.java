@@ -216,6 +216,64 @@ public class TopicControllerTest {
   @Order(10)
   @WithUserDetails("student1@test.com")
   @Transactional
+  public void should_rejectPatchTopic_ifNotAuthorized() throws Exception {
+    // Update topic
+    String topicJson = new ObjectMapper().writeValueAsString(this.topic);
+    mockMvc.perform(MockMvcRequestBuilders.patch("/topics/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(topicJson))
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(11)
+  @WithUserDetails("teacher2@test.com")
+  @Transactional
+  public void should_rejectPatchTopic_ifNotOwner() throws Exception {
+    // Update the topic title
+    String newTitle = "This is a new title";
+    this.topic.setTitle(newTitle);
+
+    // Update topic with a different user
+    String topicJson = new ObjectMapper().writeValueAsString(this.topic);
+    mockMvc.perform(MockMvcRequestBuilders.patch("/topics/" + getPersistentTopicId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(topicJson))
+        .andExpect(status().isUnauthorized())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(12)
+  @WithUserDetails("teacher1@test.com")
+  @Transactional
+  public void should_allowPatchTopic_ifAuthorized() throws Exception {
+    // Update the topic title
+    String newTitle = "This is a new title";
+    this.topic.setTitle(newTitle);
+
+    // Update topic
+    String topicJson = new ObjectMapper().writeValueAsString(this.topic);
+    mockMvc.perform(MockMvcRequestBuilders.patch("/topics/" + getPersistentTopicId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(topicJson))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.title", is(newTitle)))
+        .andExpect(jsonPath("$.description", is(this.topic.getDescription())))
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(13)
+  @WithUserDetails("student1@test.com")
+  @Transactional
   public void should_rejectDeleteTopic_ifNotAuthorized() throws Exception {
     // Delete topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
@@ -229,7 +287,7 @@ public class TopicControllerTest {
   }
 
   @Test
-  @Order(11)
+  @Order(14)
   @WithUserDetails("teacher2@test.com")
   @Transactional
   public void should_rejectDeleteTopic_ifNotOwner() throws Exception {
@@ -245,7 +303,7 @@ public class TopicControllerTest {
   }
 
   @Test
-  @Order(12)
+  @Order(15)
   @WithUserDetails("teacher1@test.com")
   public void should_allowDeleteTopic_ifAuthorizedAndOwner() throws Exception {
     // Delete topic
