@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
     produces = MediaType.APPLICATION_JSON_VALUE
 )
 @Validated
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TopicController {
 
   private final TopicService topicService;
