@@ -15,8 +15,14 @@ build-docker:
 clean-docker:
 	cd ./infra/deploy && docker-compose down
 	
-deploy:
+deploy-full:
 	cd ./infra/deploy && docker-compose up -d
+	
+deploy-app:
+	cd ./infra/deploy && docker-compose up -d app
+	
+deploy-db:
+	cd ./infra/deploy && docker-compose up -d db
 
 # For cleaning of java docs
 clean-html:
