@@ -8,8 +8,13 @@ public interface LearningMaterialService {
 
   Page<LearningMaterial> fetchAllLearningMaterials(Integer gameMapId, Pageable pageable);
 
+  LearningMaterial fetchLearningMaterialById(Integer gameMapId, Integer learningMaterialId);
+
   LearningMaterial createLearningMaterial(LearningMaterial learningMaterial);
 
-  LearningMaterial updateLearningMaterial(LearningMaterial learningMaterial, String userEmail);
+  LearningMaterial updateLearningMaterial(Integer gameMapId, LearningMaterial learningMaterial,
+      String userEmail);
+
+  boolean deleteLearningMaterial(Integer gameMapId, Integer learningMaterialId, String userEmail);
 
 }

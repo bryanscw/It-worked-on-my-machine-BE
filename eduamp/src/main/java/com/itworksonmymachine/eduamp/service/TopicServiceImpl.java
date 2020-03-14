@@ -1,7 +1,6 @@
 package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.Topic;
-import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.TopicRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -47,10 +46,10 @@ public class TopicServiceImpl implements TopicService {
       return new ResourceNotFoundException(errorMsg);
     });
 
-    // Only the creator/owner of the topic is allowed to modify it
-    if (!topicToFind.getCreatedBy().equals(userEmail)) {
-      throw new NotAuthorizedException();
-    }
+//    // Only the creator/owner of the topic is allowed to modify it
+//    if (!topicToFind.getCreatedBy().equals(userEmail)) {
+//      throw new NotAuthorizedException();
+//    }
 
     // Facilitate partial updating (PATCH)
     if (topic.getDescription() != null) {
@@ -72,10 +71,10 @@ public class TopicServiceImpl implements TopicService {
       return new ResourceNotFoundException(errorMsg);
     });
 
-    // Only the creator/owner of the topic is allowed to modify it
-    if (!topicToFind.getCreatedBy().equals(userEmail)) {
-      throw new NotAuthorizedException();
-    }
+//    // Only the creator/owner of the topic is allowed to modify it
+//    if (!topicToFind.getCreatedBy().equals(userEmail)) {
+//      throw new NotAuthorizedException();
+//    }
 
     // Delete the topic
     topicRepository.delete(topicToFind);

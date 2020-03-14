@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +42,7 @@ public class TopicController {
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Page<Topic> fetchAllTopics(Pageable pageable) {
+    log.info("Fetching all topics: [{}]", pageable.toString());
     return topicService.fetchAllTopics(pageable);
   }
 
@@ -56,6 +56,7 @@ public class TopicController {
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Topic fetchTopic(@PathVariable(value = "topicId") Integer topicId) {
+    log.info("Fetching topic with id: [{}]", topicId);
     return topicService.fetchTopic(topicId);
   }
 
@@ -66,15 +67,16 @@ public class TopicController {
    * @return Created topic
    */
   @RequestMapping(method = RequestMethod.POST, path = "/create")
+  @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public Topic createTopic(@RequestBody Topic topic) {
+    log.info("Creating topic: [{}]", topic.toString());
     return topicService.createTopic(topic);
   }
 
   /**
    * Update a Topic.
    * <p>
-   * Only the creator of the Topic is allowed to modify it.
    *
    * @param topicId   Topic id that topic is referenced by
    * @param topic     Topic to be updated
@@ -86,6 +88,7 @@ public class TopicController {
   @Secured({"ROLE_TEACHER"})
   public Topic updateTopic(@PathVariable(value = "topicId") Integer topicId,
       @RequestBody Topic topic, Principal principal) {
+    log.info("Updating topic with id: [{}]", topicId);
     topic.setId(topicId);
     return topicService.updateTopic(topic, principal.getName());
   }
@@ -93,7 +96,6 @@ public class TopicController {
   /**
    * Patch a Topic.
    * <p>
-   * Only the creator of the Topic is allowed to modify it.
    *
    * @param topicId   Topic id that topic is referenced by
    * @param topic     Topic to be updated
@@ -105,14 +107,14 @@ public class TopicController {
   @Secured({"ROLE_TEACHER"})
   public Topic patchTopic(@PathVariable(value = "topicId") Integer topicId,
       @RequestBody Topic topic, Principal principal) {
-      topic.setId(topicId);
-      return topicService.updateTopic(topic, principal.getName());
+    log.info("Patching topic with id: [{}]", topicId);
+    topic.setId(topicId);
+    return topicService.updateTopic(topic, principal.getName());
   }
 
   /**
    * Delete a Topic.
    * <p>
-   * Only the creator of the Topic is allowed to modify it.
    *
    * @param topicId   Topic id that topic is referenced by
    * @param principal Principal context containing information of the user submitting the request
@@ -123,6 +125,7 @@ public class TopicController {
   @Secured({"ROLE_TEACHER"})
   public boolean deleteTopic(@PathVariable(value = "topicId") Integer topicId,
       Principal principal) {
+    log.info("Deleting topic with id: [{}]", topicId);
     return topicService.deleteTopic(topicId, principal.getName());
   }
 

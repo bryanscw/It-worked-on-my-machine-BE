@@ -4,9 +4,10 @@ import com.itworksonmymachine.eduamp.entity.User;
 import com.itworksonmymachine.eduamp.exception.ResourceAlreadyExistsException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
-import java.util.List;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +39,29 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User save(User user) {
-    user.setPass(encryptPassword(user.getPass()));
+  public User updateUser(User user) {
+    User userToFind = userRepository.findById(user.getEmail()).orElseThrow(() -> {
+      String errorMsg = String.format("User with email: [%s] not found", user.getEmail());
+      log.error(errorMsg);
+      return new ResourceNotFoundException(errorMsg);
+    });
+
+    if (user.getEmail() != null) {
+      userToFind.setPass(user.getEmail());
+    }
+
+    if (user.getName() != null) {
+      userToFind.setPass(user.getName());
+    }
+
+    if (user.getRole() != null) {
+      userToFind.setRole(user.getRole());
+    }
+
+    if (user.getPass() != null) {
+      userToFind.setPass(encryptPassword(user.getPass()));
+    }
+
     return userRepository.save(user);
   }
 
@@ -56,8 +78,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<User> getAll() {
-    return userRepository.findAll();
+  public Page<User> fetchAll(Pageable pageable) {
+    return userRepository.findAll(pageable);
   }
 
   /**
