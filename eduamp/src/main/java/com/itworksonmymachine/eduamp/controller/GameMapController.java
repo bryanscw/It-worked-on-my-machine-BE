@@ -80,7 +80,6 @@ public class GameMapController {
   /**
    * Update a GameMap.
    * <p>
-   * Only the creator of the GameMap is allowed to modify it.
    *
    * @param topicId   Topic id that GameMap is referenced by
    * @param gameMapId GameMap id that GameMap is referenced by
@@ -101,7 +100,6 @@ public class GameMapController {
   /**
    * Delete a GameMap.
    * <p>
-   * Only the creator of the GameMap is allowed to modify it.
    *
    * @param topicId   Topic id that GameMap is referenced by
    * @param gameMapId GameMap id that GameMap is referenced by

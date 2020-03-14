@@ -12,7 +12,8 @@ public interface LearningMaterialService {
 
   LearningMaterial createLearningMaterial(LearningMaterial learningMaterial);
 
-  LearningMaterial updateLearningMaterial(LearningMaterial learningMaterial, String userEmail);
+  LearningMaterial updateLearningMaterial(Integer gameMapId, LearningMaterial learningMaterial,
+      String userEmail);
 
   boolean deleteLearningMaterial(Integer gameMapId, Integer learningMaterialId, String userEmail);
 

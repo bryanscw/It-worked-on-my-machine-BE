@@ -77,7 +77,6 @@ public class TopicController {
   /**
    * Update a Topic.
    * <p>
-   * Only the creator of the Topic is allowed to modify it.
    *
    * @param topicId   Topic id that topic is referenced by
    * @param topic     Topic to be updated
@@ -97,7 +96,6 @@ public class TopicController {
   /**
    * Patch a Topic.
    * <p>
-   * Only the creator of the Topic is allowed to modify it.
    *
    * @param topicId   Topic id that topic is referenced by
    * @param topic     Topic to be updated
@@ -110,14 +108,13 @@ public class TopicController {
   public Topic patchTopic(@PathVariable(value = "topicId") Integer topicId,
       @RequestBody Topic topic, Principal principal) {
     log.info("Patching topic with id: [{}]", topicId);
-      topic.setId(topicId);
-      return topicService.updateTopic(topic, principal.getName());
+    topic.setId(topicId);
+    return topicService.updateTopic(topic, principal.getName());
   }
 
   /**
    * Delete a Topic.
    * <p>
-   * Only the creator of the Topic is allowed to modify it.
    *
    * @param topicId   Topic id that topic is referenced by
    * @param principal Principal context containing information of the user submitting the request

@@ -1,7 +1,6 @@
 package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.LearningMaterial;
-import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.LearningMaterialRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -46,13 +45,44 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
   }
 
   @Override
-  public LearningMaterial updateLearningMaterial(LearningMaterial learningMaterial,
-      String userEmail) {
-    // Only the creator/owner of the learningMaterial is allowed to modify it
-    if (!learningMaterial.getCreatedBy().equals(userEmail)) {
-      throw new NotAuthorizedException();
+  public LearningMaterial updateLearningMaterial(Integer gameMapId,
+      LearningMaterial learningMaterial, String userEmail) {
+    LearningMaterial learningMaterialToFind = learningMaterialRepository
+        .findById(learningMaterial.getId()).orElseThrow(() -> {
+          String errorMsg = String
+              .format("LearningMaterial with learningMaterialId: [%s] not found",
+                  learningMaterial.getId());
+          log.error(errorMsg);
+          return new ResourceNotFoundException(errorMsg);
+        });
+
+    if (learningMaterialToFind.getGameMap().getId() != gameMapId) {
+      String errorMsg = String
+          .format("LearningMaterial with gameMapId [%s] and learningMaterialId: [%s] not found",
+              gameMapId,
+              learningMaterial.getId());
+      log.error(errorMsg);
+      throw new ResourceNotFoundException(errorMsg);
     }
-    return learningMaterialRepository.save(learningMaterial);
+
+    //    // Only the creator/owner of the learningMaterial is allowed to modify it
+//    if (!learningMaterial.getCreatedBy().equals(userEmail)) {
+//      throw new NotAuthorizedException();
+//    }
+
+    if (learningMaterial.getDescription() != null) {
+      learningMaterialToFind.setDescription(learningMaterial.getDescription());
+    }
+
+    if (learningMaterial.getLink() != null) {
+      learningMaterialToFind.setLink(learningMaterial.getLink());
+    }
+
+    if (learningMaterial.getTitle() != null) {
+      learningMaterialToFind.setTitle(learningMaterial.getTitle());
+    }
+
+    return learningMaterialRepository.save(learningMaterialToFind);
   }
 
 
@@ -76,10 +106,10 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
       throw new ResourceNotFoundException(errorMsg);
     }
 
-    // Only the creator/owner of the learning material is allowed to modify it
-    if (!learningMaterialToFind.getCreatedBy().equals(userEmail)) {
-      throw new NotAuthorizedException();
-    }
+//    // Only the creator/owner of the learning material is allowed to modify it
+//    if (!learningMaterialToFind.getCreatedBy().equals(userEmail)) {
+//      throw new NotAuthorizedException();
+//    }
 
     // Delete the learning Material Id
     learningMaterialRepository.delete(learningMaterialToFind);

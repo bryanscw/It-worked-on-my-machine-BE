@@ -70,10 +70,21 @@ public class GameMapServiceImpl implements GameMapService {
       throw new ResourceNotFoundException(errorMsg);
     }
 
-    // Only the creator/owner of the level is allowed to modify it
-    if (!gameMapToFind.getCreatedBy().equals(userEmail)) {
-      throw new NotAuthorizedException();
+    if (gameMap.getMapDescriptor() != null) {
+      gameMapToFind.setMapDescriptor(gameMap.getMapDescriptor());
     }
+
+    if (gameMap.getQuestions() != null || !gameMap.getQuestions().isEmpty()) {
+      gameMapToFind.setQuestions(gameMap.getQuestions());
+    }
+
+    gameMapToFind.setPlayable(gameMap.isPlayable());
+
+//    // Only the creator/owner of the level is allowed to modify it
+//    if (!gameMapToFind.getCreatedBy().equals(userEmail)) {
+//      throw new NotAuthorizedException();
+//    }
+
     return gameMapRepository.save(gameMap);
   }
 
@@ -92,10 +103,10 @@ public class GameMapServiceImpl implements GameMapService {
       throw new ResourceNotFoundException(errorMsg);
     }
 
-    // Only the creator/owner of the level is allowed to modify it
-    if (!gameMapToFind.getCreatedBy().equals(userEmail)) {
-      throw new NotAuthorizedException();
-    }
+//    // Only the creator/owner of the level is allowed to modify it
+//    if (!gameMapToFind.getCreatedBy().equals(userEmail)) {
+//      throw new NotAuthorizedException();
+//    }
 
     // Delete the GameMap
     gameMapRepository.delete(gameMapToFind);

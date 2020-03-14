@@ -33,7 +33,7 @@ public class LearningMaterialController {
   }
 
   /**
-   * Fetch all available levels.
+   * Fetch all available LearningMaterials.
    *
    * @param pageable  Pagination context
    * @param gameMapId GameMap id that LearningMaterial is referenced by
@@ -76,7 +76,7 @@ public class LearningMaterialController {
   }
 
   /**
-   * Update a topic. Only the creator of the topic is allowed to modify it.
+   * Update a LearningMaterial.
    *
    * @param learningMaterial LearningMaterial to be updated
    * @param principal        Principal context containing information of the user submitting the
@@ -86,9 +86,12 @@ public class LearningMaterialController {
   @RequestMapping(method = RequestMethod.PUT, path = "/{gameMapId}/learningMaterials/{learningMaterialId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public LearningMaterial updateLearningMaterial(@RequestBody LearningMaterial learningMaterial,
-      Principal principal) {
-    return learningMaterialService.updateLearningMaterial(learningMaterial, principal.getName());
+  public LearningMaterial updateLearningMaterial(
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @PathVariable(value = "learningMaterialId") Integer learningMaterialId,
+      @RequestBody LearningMaterial learningMaterial, Principal principal) {
+    learningMaterial.setId(learningMaterialId);
+    return learningMaterialService.updateLearningMaterial(gameMapId, learningMaterial, principal.getName());
   }
 
   @RequestMapping(method = RequestMethod.DELETE, path = "/gameMapId/learningMaterials/{learningMaterialId}")
