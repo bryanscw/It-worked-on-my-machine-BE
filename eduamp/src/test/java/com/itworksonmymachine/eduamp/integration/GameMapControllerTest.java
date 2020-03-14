@@ -96,7 +96,7 @@ public class GameMapControllerTest {
     String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
         MockMvcRequestBuilders
-            .post(String.format("/topics/%s/gamemaps/create", getPersistentTopic().getId()))
+            .post(String.format("/topics/%s/gameMaps/create", getPersistentTopic().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(gameMapJson))
         .andExpect(status().isOk())
@@ -115,7 +115,7 @@ public class GameMapControllerTest {
 
     String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
-        MockMvcRequestBuilders.post(String.format("/topics/%s/gamemaps/create", topic.getId()))
+        MockMvcRequestBuilders.post(String.format("/topics/%s/gameMaps/create", topic.getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(gameMapJson))
         .andExpect(status().isForbidden());
@@ -126,7 +126,7 @@ public class GameMapControllerTest {
   @WithUserDetails("user1@test.com")
   public void should_rejectFetchGameMaps_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders
-        .get(String.format("/topics/%s/gamemaps", getPersistentTopic().getId()))
+        .get(String.format("/topics/%s/gameMaps", getPersistentTopic().getId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
         .andDo(document("{methodName}",
@@ -140,7 +140,7 @@ public class GameMapControllerTest {
   public void should_allowFetchGameMaps_ifAuthorized() throws Exception {
     // There will only be 1 topic in the database
     mockMvc.perform(MockMvcRequestBuilders
-        .get(String.format("/topics/%s/gamemaps", getPersistentTopic().getId()))
+        .get(String.format("/topics/%s/gameMaps", getPersistentTopic().getId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.content[0].mapDescriptor", is(this.gameMap.getMapDescriptor())))
@@ -156,7 +156,7 @@ public class GameMapControllerTest {
   public void should_rejectFetchGameMap_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders
         .get(String
-            .format("/topics/%s/gamemaps/%s", getPersistentTopic().getId(),
+            .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
                 getPersistentGameMapId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
@@ -171,7 +171,7 @@ public class GameMapControllerTest {
   public void should_allowDeleteGameMap_ifAuthorizedAndOwner() throws Exception {
     // Delete GameMap
     mockMvc.perform(MockMvcRequestBuilders.delete(String
-        .format("/topics/%s/gamemaps/%s", getPersistentTopic().getId(),
+        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
             getPersistentGameMapId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())

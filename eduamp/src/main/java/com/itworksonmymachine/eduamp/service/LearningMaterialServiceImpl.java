@@ -1,7 +1,9 @@
 package com.itworksonmymachine.eduamp.service;
 
+import com.itworksonmymachine.eduamp.entity.GameMap;
 import com.itworksonmymachine.eduamp.entity.LearningMaterial;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
+import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.LearningMaterialRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,9 +15,12 @@ import org.springframework.stereotype.Service;
 public class LearningMaterialServiceImpl implements LearningMaterialService {
 
   private final LearningMaterialRepository learningMaterialRepository;
+  private final GameMapRepository gameMapRepository;
 
-  public LearningMaterialServiceImpl(LearningMaterialRepository learningMaterialRepository) {
+  public LearningMaterialServiceImpl(LearningMaterialRepository learningMaterialRepository,
+      GameMapRepository gameMapRepository) {
     this.learningMaterialRepository = learningMaterialRepository;
+    this.gameMapRepository = gameMapRepository;
   }
 
   @Override
@@ -26,7 +31,7 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
   @Override
   public LearningMaterial fetchLearningMaterialById(Integer gameMapId, Integer learningMaterialId) {
     String errorMsg = String
-        .format("LearningMaterial with gameMapId [%s] and learningMaterialId [%s] not found",
+        .format("LearningMaterial with gameMapId: [%s] and learningMaterialId: [%s] not found",
             gameMapId, learningMaterialId);
     LearningMaterial learningMaterial = learningMaterialRepository
         .findById(learningMaterialId).orElseThrow((() -> new ResourceNotFoundException(errorMsg)));
@@ -40,7 +45,16 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
   }
 
   @Override
-  public LearningMaterial createLearningMaterial(LearningMaterial learningMaterial) {
+  public LearningMaterial createLearningMaterial(Integer gameMapId,
+      LearningMaterial learningMaterial) {
+    GameMap gameMapToFind = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
+      String errorMsg = String.format("GameMap with gameMapId: [%s] not found", gameMapId);
+      log.error(errorMsg);
+      return new ResourceNotFoundException(errorMsg);
+    });
+
+    learningMaterial.setGameMap(gameMapToFind);
+    
     return learningMaterialRepository.save(learningMaterial);
   }
 
@@ -58,9 +72,8 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
 
     if (learningMaterialToFind.getGameMap().getId() != gameMapId) {
       String errorMsg = String
-          .format("LearningMaterial with gameMapId [%s] and learningMaterialId: [%s] not found",
-              gameMapId,
-              learningMaterial.getId());
+          .format("LearningMaterial with gameMapId: [%s] and learningMaterialId: [%s] not found",
+              gameMapId, learningMaterial.getId());
       log.error(errorMsg);
       throw new ResourceNotFoundException(errorMsg);
     }
@@ -84,7 +97,6 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
 
     return learningMaterialRepository.save(learningMaterialToFind);
   }
-
 
   @Override
   public boolean deleteLearningMaterial(Integer gameMapId, Integer learningMaterialId,
