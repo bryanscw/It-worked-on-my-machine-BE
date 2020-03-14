@@ -79,6 +79,7 @@ public class QuestionController {
   public Question createQuestion(
       @PathVariable(value = "gameMapId") Integer gameMapId,
       @RequestBody Question question) {
+    log.info("Creating question: [{}]", question.toString());
     return questionService.createQuestion(gameMapId, question);
   }
 
@@ -99,6 +100,7 @@ public class QuestionController {
       @PathVariable(value = "questionId") Integer questionId,
       @RequestBody Question question, Principal principal) {
     question.setId(questionId);
+    log.info("Updating question with id: [{}]", questionId);
     return questionService.updateQuestion(gameMapId, question, principal.getName());
   }
 
@@ -116,6 +118,7 @@ public class QuestionController {
   @Secured({"ROLE_TEACHER"})
   public boolean deleteGameMap(@PathVariable(value = "gameMapId") Integer gameMapId,
       @PathVariable(value = "questionId") Integer questionId, Principal principal) {
+    log.info("Deleting question with id: [{}]", questionId);
     return questionService.deleteQuestion(gameMapId, questionId, principal.getName());
   }
 }
