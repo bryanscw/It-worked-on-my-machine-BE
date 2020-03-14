@@ -149,15 +149,11 @@ public class LearningMaterialControllerTest {
 
   @Test
   @Order(5)
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("user1@test.com")
   @Transactional
-  public void should_rejectUpdateLearningMaterial_ifNotAuthorized() throws Exception {
-    this.learningMaterial.setTitle("New title");
-
-    String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
-    mockMvc.perform(MockMvcRequestBuilders.put("/learningMaterial")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(learningMaterialJson))
+  public void should_rejectFetchLearningMaterial_ifNotAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/learningMaterial")
+        .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
@@ -166,9 +162,9 @@ public class LearningMaterialControllerTest {
 
   @Test
   @Order(6)
-  @WithUserDetails("teacher2@test.com")
+  @WithUserDetails("student1@test.com")
   @Transactional
-  public void should_rejectUpdateLearningMaterial_ifNotOwner() throws Exception {
+  public void should_rejectUpdateLearningMaterial_ifNotAuthorized() throws Exception {
     this.learningMaterial.setTitle("New title");
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
@@ -201,4 +197,5 @@ public class LearningMaterialControllerTest {
             preprocessResponse(prettyPrint())));
   }
 }
+
 
