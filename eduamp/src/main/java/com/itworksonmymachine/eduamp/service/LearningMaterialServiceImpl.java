@@ -98,39 +98,6 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
     return learningMaterialRepository.save(learningMaterialToFind);
   }
 
-
-  @Override
-  public boolean deleteLearningMaterial(Integer gameMapId, Integer learningMaterialId,
-      String userEmail) {
-    LearningMaterial learningMaterialToFind = learningMaterialRepository
-        .findById(learningMaterialId).orElseThrow(() -> {
-          String errorMsg = String
-              .format("LearningMaterial with learningMaterialId: [%s] not found",
-                  learningMaterialId);
-          log.error(errorMsg);
-          return new ResourceNotFoundException(errorMsg);
-        });
-
-    if (learningMaterialToFind.getGameMap().getId() != gameMapId) {
-      String errorMsg = String
-          .format("LearningMaterial with gameMapId: [%s] and learningMaterialId: [%s] not found",
-              gameMapId, learningMaterialId);
-      log.error(errorMsg);
-      throw new ResourceNotFoundException(errorMsg);
-    }
-
-//    // Only the creator/owner of the learning material is allowed to modify it
-//    if (!learningMaterialToFind.getCreatedBy().equals(userEmail)) {
-//      throw new NotAuthorizedException();
-//    }
-
-    // Delete the learning Material Id
-    learningMaterialRepository.delete(learningMaterialToFind);
-
-    return true;
-  }
-
-
   @Override
   public boolean deleteLearningMaterial(Integer gameMapId, Integer learningMaterialId,
       String userEmail) {
