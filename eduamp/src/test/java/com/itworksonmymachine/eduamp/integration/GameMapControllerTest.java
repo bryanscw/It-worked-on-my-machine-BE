@@ -180,6 +180,7 @@ public class GameMapControllerTest {
             preprocessResponse(prettyPrint())));
 
     // Delete topic
+    // END OF TEST, delete topic
     topicRepository.deleteById(getPersistentTopic().getId());
   }
 
