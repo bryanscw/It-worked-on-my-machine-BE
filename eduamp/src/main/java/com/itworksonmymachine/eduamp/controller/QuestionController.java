@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping(
-    value = {"/gamemaps"},
+    value = {"/gameMaps"},
     produces = MediaType.APPLICATION_JSON_VALUE
 )
 @Validated

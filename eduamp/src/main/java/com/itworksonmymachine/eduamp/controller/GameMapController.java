@@ -39,7 +39,7 @@ public class GameMapController {
    * @param topicId  Topic id that GameMaps are referenced by
    * @return GameMaps belonging to a specific topic Id
    */
-  @RequestMapping(method = RequestMethod.GET, path = "/{topicId}/gamemaps")
+  @RequestMapping(method = RequestMethod.GET, path = "/{topicId}/gameMaps")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Page<GameMap> fetchAllGameMapByTopicId(Pageable pageable,
@@ -54,7 +54,7 @@ public class GameMapController {
    * @param gameMapId GameMap id that GameMap is referenced by
    * @return GameMap belonging to a specific topic Id and GameMap id
    */
-  @RequestMapping(method = RequestMethod.GET, path = "/{topicId}/gamemaps/{gameMapId}")
+  @RequestMapping(method = RequestMethod.GET, path = "/{topicId}/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public GameMap fetchGameMap(@PathVariable(value = "topicId") Integer topicId,
@@ -69,7 +69,7 @@ public class GameMapController {
    * @param gameMap GameMap to be created
    * @return Created GameMap
    */
-  @RequestMapping(method = RequestMethod.POST, path = "/{topicId}/gamemaps/create")
+  @RequestMapping(method = RequestMethod.POST, path = "/{topicId}/gameMaps/create")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public GameMap createGameMap(@PathVariable(value = "topicId") Integer topicId,
@@ -87,7 +87,7 @@ public class GameMapController {
    * @param principal Principal context containing information of the user submitting the request
    * @return Updated GameMap
    */
-  @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}/gamemaps/{gameMapId}")
+  @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public GameMap updateGameMap(@PathVariable(value = "topicId") Integer topicId,
@@ -106,7 +106,7 @@ public class GameMapController {
    * @param principal Principal context containing information of the user submitting the request
    * @return Flag indicating if request is successful
    */
-  @RequestMapping(method = RequestMethod.DELETE, path = "/{topicId}/gamemaps/{gameMapId}")
+  @RequestMapping(method = RequestMethod.DELETE, path = "/{topicId}/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public boolean deleteGameMap(@PathVariable(value = "topicId") Integer topicId,
