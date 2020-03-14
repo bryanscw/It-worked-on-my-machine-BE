@@ -28,9 +28,10 @@ public class LearningMaterial extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @JsonBackReference
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "gameMap_id", nullable = false)
+  @Getter
+  @Setter
   private GameMap gameMap;
 
   @Getter
