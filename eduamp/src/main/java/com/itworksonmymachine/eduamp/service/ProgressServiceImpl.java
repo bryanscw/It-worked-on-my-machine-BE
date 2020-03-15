@@ -2,12 +2,14 @@ package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.GameMap;
 import com.itworksonmymachine.eduamp.entity.Progress;
+import com.itworksonmymachine.eduamp.entity.QuestionProgress;
 import com.itworksonmymachine.eduamp.entity.User;
 import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.exception.ResourceAlreadyExistsException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.ProgressRepository;
+import com.itworksonmymachine.eduamp.repository.QuestionProgressRepository;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
 import java.security.Principal;
 import java.util.Collection;
@@ -26,13 +28,17 @@ public class ProgressServiceImpl implements ProgressService {
 
   private final ProgressRepository progressRepository;
 
+  private final QuestionProgressRepository questionProgressRepository;
+
   private final UserRepository userRepository;
 
   private final GameMapRepository gameMapRepository;
 
-  public ProgressServiceImpl(ProgressRepository progressRepository, UserRepository userRepository,
+  public ProgressServiceImpl(ProgressRepository progressRepository,
+      QuestionProgressRepository questionProgressRepository, UserRepository userRepository,
       GameMapRepository gameMapRepository) {
     this.progressRepository = progressRepository;
+    this.questionProgressRepository = questionProgressRepository;
     this.userRepository = userRepository;
     this.gameMapRepository = gameMapRepository;
   }
@@ -182,6 +188,16 @@ public class ProgressServiceImpl implements ProgressService {
 
     Optional<Progress> progressToFind = progressRepository
         .findProgressByUser_EmailAndMap_Id(userEmail, gameMapId);
+
+    // Only able to create QuestionProgress for questions available in the GameMap
+    for (QuestionProgress questionProgress : progress.getQuestionProgressList()) {
+      if (!gameMapToFind.getQuestions().contains(questionProgress.getQuestion())) {
+        String notFoundMsg = String
+            .format("Unable to create QuestionProgress for Question: [%s] in GameMap [%s]",
+                questionProgress.getQuestion().toString(), gameMapToFind.toString());
+        throw new ResourceNotFoundException(notFoundMsg);
+      }
+    }
 
     if (progressToFind.isEmpty()) {
       // Progress not found, should create

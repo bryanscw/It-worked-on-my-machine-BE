@@ -1,12 +1,10 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,11 +25,11 @@ public class QuestionProgress extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "progress_id", nullable = false)
+  @OneToOne
   @Getter
   @Setter
-  private Progress progress;
+  private Question question;
+
 
   @Getter
   @Setter
