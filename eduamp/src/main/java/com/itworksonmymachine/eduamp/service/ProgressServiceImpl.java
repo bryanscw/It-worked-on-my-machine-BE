@@ -91,6 +91,8 @@ public class ProgressServiceImpl implements ProgressService {
       return progressRepository.findProgressByUser_Email(userEmail, pageable);
     } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_TEACHER"))
         || authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+      // The first if condition can actually be combined with this conditional block
+      // For simplicity and ease of reading, it is separated
       return progressRepository.findProgressByUser_Email(userEmail, pageable);
     } else {
       throw new NotAuthorizedException(errorMsg);
@@ -134,17 +136,14 @@ public class ProgressServiceImpl implements ProgressService {
   }
 
   @Override
-  public Progress fetchProgressById(Integer progressId) {
+  public Progress createProgress(String userEmail, Integer gameMapId, Progress progress,
+      Authentication authentication) {
     return null;
   }
 
   @Override
-  public Progress createProgress(String userEmail, Integer gameMapId, Progress progress) {
-    return null;
-  }
-
-  @Override
-  public Progress updateProgress(String userEmail, Integer gameMapId, Progress progress) {
+  public Progress updateProgress(String userEmail, Integer gameMapId, Progress progress,
+      Authentication authentication) {
     return null;
   }
 

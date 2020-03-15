@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @Table(name = "learning_material")

@@ -11,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -46,10 +47,13 @@ public class ProgressController {
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Progress fetchProgressByUserEmailAndGameMapId(
       @PathVariable(value = "userEmail") String userEmail,
-      @PathVariable(value = "gameMapId") Integer gameMapId, Authentication authentication) {
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      Authentication authentication
+  ) {
     return progressService
         .fetchProgressByUserEmailAndGameMapId(userEmail, gameMapId, authentication);
   }
+
 
   /**
    * Fetch all Progress of Users of a certain GameMap.
@@ -63,8 +67,11 @@ public class ProgressController {
   @RequestMapping(method = RequestMethod.GET, path = "/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public Page<Progress> fetchProgressByGameMapId(Pageable pageable,
-      @PathVariable(value = "gameMapId") Integer gameMapId, Authentication authentication) {
+  public Page<Progress> fetchProgressByGameMapId(
+      Pageable pageable,
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      Authentication authentication
+  ) {
     return progressService.fetchAllProgressByGameMapId(gameMapId, authentication, pageable);
   }
 
@@ -80,9 +87,56 @@ public class ProgressController {
   @RequestMapping(method = RequestMethod.GET, path = "/users/{userEmail}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public Page<Progress> fetchProgressByUserEmail(Pageable pageable,
-      @PathVariable(value = "userEmail") String userEmail, Authentication authentication) {
+  public Page<Progress> fetchProgressByUserEmail(
+      Pageable pageable,
+      @PathVariable(value = "userEmail") String userEmail,
+      Authentication authentication
+  ) {
     return progressService.fetchAllProgressByUserEmail(userEmail, authentication, pageable);
+  }
+
+  /**
+   * Create a Progress of a User in a specific GameMap.
+   *
+   * @param userEmail      Email of User
+   * @param gameMapId      GameMap id
+   * @param progress       Progress to be created
+   * @param authentication Authentication context containing information of the user submitting the
+   *                       request
+   * @return Created Progress
+   */
+  @RequestMapping(method = RequestMethod.POST, path = "/users/{userEmail}/gameMaps/{gameMapId}")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+  public Progress createProgress(
+      @PathVariable(value = "userEmail") String userEmail,
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @RequestBody Progress progress,
+      Authentication authentication
+  ) {
+    return progressService.createProgress(userEmail, gameMapId, progress, authentication);
+  }
+
+  /**
+   * Update a Progress of a user in a specific GameMap.
+   *
+   * @param userEmail      Email of User
+   * @param gameMapId      GameMap id
+   * @param progress       Progress to be created
+   * @param authentication Authentication context containing information of the user submitting the
+   *                       request
+   * @return Updated Progress
+   */
+  @RequestMapping(method = RequestMethod.PUT, path = "/users/{userEmail}/gameMaps/{gameMapId}")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+  public Progress updateProgress(
+      @PathVariable(value = "userEmail") String userEmail,
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @RequestBody Progress progress,
+      Authentication authentication
+  ) {
+    return progressService.updateProgress(userEmail, gameMapId, progress, authentication);
   }
 
 }

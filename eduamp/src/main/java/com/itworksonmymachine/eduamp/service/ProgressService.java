@@ -16,11 +16,11 @@ public interface ProgressService {
   Progress fetchProgressByUserEmailAndGameMapId(String userEmail, Integer gameMapId,
       Authentication authentication);
 
-  Progress fetchProgressById(Integer progressId);
+  Progress createProgress(String userEmail, Integer gameMapId, Progress progress,
+      Authentication authentication);
 
-  Progress createProgress(String userEmail, Integer gameMapId, Progress progress);
-
-  Progress updateProgress(String userEmail, Integer gameMapId, Progress progress);
+  Progress updateProgress(String userEmail, Integer gameMapId, Progress progress,
+      Authentication authentication);
 
   // Progress cannot be deleted
 //  boolean deleteProgress(Integer gameMapId, Integer progressId, String userEmail);
