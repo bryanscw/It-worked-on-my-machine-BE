@@ -12,11 +12,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "question_progress")
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class QuestionProgress extends Auditable<String> {
 
   @Id

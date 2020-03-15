@@ -14,11 +14,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "progress")
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Progress extends Auditable<String> {
 
   @Id
@@ -43,7 +45,7 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
-  private double timeTaken;
+  private double timeTaken = -1;
 
   @Getter
   @Setter
