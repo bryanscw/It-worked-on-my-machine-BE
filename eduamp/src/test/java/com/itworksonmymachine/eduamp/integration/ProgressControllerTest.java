@@ -34,14 +34,4 @@ public class ProgressControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @Test
-  @Order(1)
-  @WithUserDetails("student1@test.com")
-  @Transactional
-  public void testMethod() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/progress/users/1/gameMaps/2")
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
-  }
-
 }
