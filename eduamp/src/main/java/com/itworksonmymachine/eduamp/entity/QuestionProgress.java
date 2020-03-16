@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -25,11 +27,16 @@ public class QuestionProgress extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @OneToOne
   @Getter
   @Setter
+  @OneToOne
   private Question question;
 
+  @Getter
+  @Setter
+  @ManyToOne
+  @JoinColumn(name = "progress_id", insertable = false, updatable = false)
+  private Progress progress;
 
   @Getter
   @Setter

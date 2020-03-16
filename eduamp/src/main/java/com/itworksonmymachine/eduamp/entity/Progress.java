@@ -1,6 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
 import com.itworksonmymachine.eduamp.model.Coordinates;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -54,6 +55,6 @@ public class Progress extends Auditable<String> {
   @Getter
   @Setter
   @OneToMany(mappedBy = "progress", cascade = CascadeType.ALL)
-  private List<QuestionProgress> questionProgressList;
+  private List<QuestionProgress> questionProgressList = new ArrayList<>();
 
 }
