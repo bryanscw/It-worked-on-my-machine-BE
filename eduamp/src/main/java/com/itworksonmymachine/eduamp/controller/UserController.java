@@ -77,14 +77,14 @@ public class UserController {
   /**
    * Update a User.
    *
-   * @param userEmail Topic id that topic is referenced by
+   * @param userEmail email that User is referenced by
    * @param user      User to be updated
    * @return Updated user
    */
   @RequestMapping(method = RequestMethod.PUT, path = "/{userEmail}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN"})
-  public User updateTopic(@PathVariable(value = "userEmail") String userEmail,
+  public User updateUser(@PathVariable(value = "userEmail") String userEmail,
       @RequestBody User user) {
     log.info("Updating user with email: [{}]", userEmail);
     user.setEmail(userEmail);
@@ -94,7 +94,6 @@ public class UserController {
   /**
    * Delete a User.
    * <p>
-   * Only the creator of the Topic is allowed to modify it.
    *
    * @param userEmail Email of user (Email is used as the primary key
    * @return Flag indicating if request is successful
@@ -102,7 +101,7 @@ public class UserController {
   @RequestMapping(method = RequestMethod.DELETE, path = "/{userEmail}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN"})
-  public boolean deleteTopic(@PathVariable(value = "userEmail") String userEmail) {
+  public boolean deleteUser(@PathVariable(value = "userEmail") String userEmail) {
     log.info("Deleting user with email: [{}]", userEmail);
     return userService.delete(userEmail);
   }

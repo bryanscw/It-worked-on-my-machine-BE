@@ -58,7 +58,8 @@ public class LearningMaterialController {
   @Secured({"ROLE_TEACHER"})
   public LearningMaterial fetchLearningMaterial(
       @PathVariable(value = "gameMapId") Integer gameMapId,
-      @PathVariable(value = "learningMaterialId") Integer learningMaterialId) {
+      @PathVariable(value = "learningMaterialId") Integer learningMaterialId
+  ) {
     return learningMaterialService.fetchLearningMaterialById(gameMapId, learningMaterialId);
   }
 
@@ -72,7 +73,10 @@ public class LearningMaterialController {
   @RequestMapping(method = RequestMethod.POST, path = "/{gameMapId}/learningMaterials/create")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public LearningMaterial createLearningMaterial(@PathVariable(value = "gameMapId") Integer gameMapId, @RequestBody LearningMaterial learningMaterial) {
+  public LearningMaterial createLearningMaterial(
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @RequestBody LearningMaterial learningMaterial
+  ) {
     return learningMaterialService.createLearningMaterial(gameMapId, learningMaterial);
   }
 
@@ -90,7 +94,9 @@ public class LearningMaterialController {
   public LearningMaterial updateLearningMaterial(
       @PathVariable(value = "gameMapId") Integer gameMapId,
       @PathVariable(value = "learningMaterialId") Integer learningMaterialId,
-      @RequestBody LearningMaterial learningMaterial, Principal principal) {
+      @RequestBody LearningMaterial learningMaterial,
+      Principal principal
+  ) {
     learningMaterial.setId(learningMaterialId);
     return learningMaterialService.updateLearningMaterial(gameMapId, learningMaterial, principal.getName());
   }
@@ -98,8 +104,11 @@ public class LearningMaterialController {
   @RequestMapping(method = RequestMethod.DELETE, path = "/gameMapId/learningMaterials/{learningMaterialId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public boolean deleteLearningMaterial(@PathVariable(value = "gameMapId") Integer gameMapId,
-      @PathVariable(value = "learningMaterialId") Integer learningMaterialId, Principal principal) {
+  public boolean deleteLearningMaterial(
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @PathVariable(value = "learningMaterialId") Integer learningMaterialId,
+      Principal principal
+  ) {
     return learningMaterialService
         .deleteLearningMaterial(gameMapId, learningMaterialId, principal.getName());
   }

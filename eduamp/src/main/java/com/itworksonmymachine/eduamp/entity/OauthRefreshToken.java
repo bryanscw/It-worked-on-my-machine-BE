@@ -10,11 +10,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "oauth_refresh_token")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class OauthRefreshToken {
 
   @Id

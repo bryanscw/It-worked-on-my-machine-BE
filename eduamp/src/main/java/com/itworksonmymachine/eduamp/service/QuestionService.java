@@ -14,6 +14,6 @@ public interface QuestionService {
 
   Question updateQuestion(Integer gameMapId, Question question, String userEmail);
 
-  boolean deleteQuestion(Integer gameMapId, Integer questionid, String userEmail);
+  boolean deleteQuestion(Integer gameMapId, Integer questionId, String userEmail);
 
 }

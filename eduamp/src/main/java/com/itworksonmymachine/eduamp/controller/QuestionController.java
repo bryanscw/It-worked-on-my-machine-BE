@@ -42,8 +42,10 @@ public class QuestionController {
   @RequestMapping(method = RequestMethod.GET, path = "/{gameMapId}/questions")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public Page<Question> fetchAllQuestionByGameMapId(Pageable pageable,
-      @PathVariable(value = "gameMapId") Integer gameMapId) {
+  public Page<Question> fetchAllQuestionByGameMapId(
+      Pageable pageable,
+      @PathVariable(value = "gameMapId") Integer gameMapId
+  ) {
     log.info("Fetching all Questions with gameMapId: [{}] and Pageable: [{}]", gameMapId,
         pageable.toString());
     return questionService.fetchAllQuestions(gameMapId, pageable);
@@ -60,8 +62,10 @@ public class QuestionController {
   @RequestMapping(method = RequestMethod.GET, path = "/gameMap/{gameMapId}/questions/{questionId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public Question fetchTopic(@PathVariable(value = "gameMapId") Integer gameMapId,
-      @PathVariable(value = "questionId") Integer questionId) {
+  public Question fetchTopic(
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @PathVariable(value = "questionId") Integer questionId
+  ) {
     log.info("Fetching Question with gameMapId: [{}] and questionId: [{}]", gameMapId, questionId);
     return questionService.fetchQuestionById(gameMapId, questionId);
   }
@@ -78,7 +82,8 @@ public class QuestionController {
   @Secured({"ROLE_TEACHER"})
   public Question createQuestion(
       @PathVariable(value = "gameMapId") Integer gameMapId,
-      @RequestBody Question question) {
+      @RequestBody Question question
+  ) {
     log.info("Creating question: [{}]", question.toString());
     return questionService.createQuestion(gameMapId, question);
   }
@@ -96,9 +101,11 @@ public class QuestionController {
   @RequestMapping(method = RequestMethod.PUT, path = "/{gameMapId}/questions/{questionId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public Question updateQuestion(@PathVariable(value = "gameMapId") Integer gameMapId,
+  public Question updateQuestion(
+      @PathVariable(value = "gameMapId") Integer gameMapId,
       @PathVariable(value = "questionId") Integer questionId,
-      @RequestBody Question question, Principal principal) {
+      @RequestBody Question question, Principal principal
+  ) {
     question.setId(questionId);
     log.info("Updating question with id: [{}]", questionId);
     return questionService.updateQuestion(gameMapId, question, principal.getName());
@@ -116,9 +123,13 @@ public class QuestionController {
   @RequestMapping(method = RequestMethod.DELETE, path = "/{gameMapId}/questions/{questionId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public boolean deleteGameMap(@PathVariable(value = "gameMapId") Integer gameMapId,
-      @PathVariable(value = "questionId") Integer questionId, Principal principal) {
+  public boolean deleteGameMap(
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @PathVariable(value = "questionId") Integer questionId,
+      Principal principal
+  ) {
     log.info("Deleting question with id: [{}]", questionId);
     return questionService.deleteQuestion(gameMapId, questionId, principal.getName());
   }
+
 }

@@ -86,8 +86,11 @@ public class TopicController {
   @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public Topic updateTopic(@PathVariable(value = "topicId") Integer topicId,
-      @RequestBody Topic topic, Principal principal) {
+  public Topic updateTopic(
+      @PathVariable(value = "topicId") Integer topicId,
+      @RequestBody Topic topic,
+      Principal principal
+  ) {
     log.info("Updating topic with id: [{}]", topicId);
     topic.setId(topicId);
     return topicService.updateTopic(topic, principal.getName());
@@ -105,8 +108,10 @@ public class TopicController {
   @RequestMapping(method = RequestMethod.PATCH, path = "/{topicId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public Topic patchTopic(@PathVariable(value = "topicId") Integer topicId,
-      @RequestBody Topic topic, Principal principal) {
+  public Topic patchTopic(
+      @PathVariable(value = "topicId") Integer topicId,
+      @RequestBody Topic topic, Principal principal
+  ) {
     log.info("Patching topic with id: [{}]", topicId);
     topic.setId(topicId);
     return topicService.updateTopic(topic, principal.getName());
@@ -123,8 +128,10 @@ public class TopicController {
   @RequestMapping(method = RequestMethod.DELETE, path = "/{topicId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public boolean deleteTopic(@PathVariable(value = "topicId") Integer topicId,
-      Principal principal) {
+  public boolean deleteTopic(
+      @PathVariable(value = "topicId") Integer topicId,
+      Principal principal
+  ) {
     log.info("Deleting topic with id: [{}]", topicId);
     return topicService.deleteTopic(topicId, principal.getName());
   }

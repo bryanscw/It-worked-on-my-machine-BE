@@ -1,6 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @Table(name = "learning_material")
@@ -44,6 +44,7 @@ public class LearningMaterial extends Auditable<String> {
 
   @Getter
   @Setter
+  @Column(columnDefinition = "TEXT")
   private String description;
 
 }

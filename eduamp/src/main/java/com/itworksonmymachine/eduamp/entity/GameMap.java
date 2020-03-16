@@ -2,6 +2,7 @@ package com.itworksonmymachine.eduamp.entity;
 
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,15 @@ public class GameMap extends Auditable<String> {
   @Setter
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
+
+  @Getter
+  @Setter
+  private String title;
+
+  @Getter
+  @Setter
+  @Column(columnDefinition = "TEXT")
+  private String description;
 
   @Getter
   @Setter

@@ -2,7 +2,6 @@ package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.GameMap;
 import com.itworksonmymachine.eduamp.entity.Topic;
-import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.TopicRepository;
