@@ -1,6 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,6 +44,7 @@ public class LearningMaterial extends Auditable<String> {
 
   @Getter
   @Setter
+  @Column(columnDefinition = "TEXT")
   private String description;
 
 }
