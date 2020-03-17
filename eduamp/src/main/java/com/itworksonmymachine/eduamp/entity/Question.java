@@ -1,5 +1,6 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.itworksonmymachine.eduamp.model.Coordinates;
 import java.util.Map;
 import javax.persistence.CascadeType;
@@ -34,6 +35,7 @@ public class Question extends Auditable<String> {
   @JoinColumn(name = "game_map_id", nullable = false)
   @Getter
   @Setter
+  @JsonBackReference
   private GameMap gameMap;
 
   @Getter

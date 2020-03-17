@@ -1,5 +1,6 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,10 +29,11 @@ public class LearningMaterial extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "gameMap_id", nullable = false)
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "game_map_id", nullable = false)
   @Getter
   @Setter
+  @JsonBackReference
   private GameMap gameMap;
 
   @Getter

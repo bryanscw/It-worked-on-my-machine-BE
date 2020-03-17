@@ -1,5 +1,6 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "game_map")
@@ -47,7 +50,16 @@ public class GameMap extends Auditable<String> {
   @Getter
   @Setter
   @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JsonManagedReference
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<Question> questions;
+
+  @Getter
+  @Setter
+  @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JsonManagedReference
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  private Set<LearningMaterial> learningMaterials;
 
   @Getter
   @Setter
@@ -61,3 +73,4 @@ public class GameMap extends Auditable<String> {
   private boolean isPlayable;
 
 }
+
