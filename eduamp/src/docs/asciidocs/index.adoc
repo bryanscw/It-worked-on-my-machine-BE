@@ -594,26 +594,6 @@ include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/request
 .Response sample
 include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/response-body.adoc[]
 
-=== Reject delete game map by question if question does not exist
-
-.Request sample with curl
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotExists/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotExists/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotExists/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotExists/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotExists/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotExists/response-body.adoc[]
-
 === Reject deleting of game map if user is not authorized
 
 .Request sample with curl
@@ -838,8 +818,6 @@ include::{snippets}/should_rejectFetchLearningMaterials_ifNotAuthorized/response
 
 === Reject fetch learning material if user is not authorized
 
-=== Reject fetch learning material if user is not authorized
-
 .Request sample with curl
 include::{snippets}/should_rejectFetchLearningMaterial_ifNotAuthorized/curl-request.adoc[]
 
@@ -861,22 +839,22 @@ include::{snippets}/should_rejectFetchLearningMaterial_ifNotAuthorized/response-
 === Reject updating of learning material if user is not authorized
 
 .Request sample with curl
-include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/curl-request.adoc[]
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/curl-request.adoc[]
 
 .Request sample with http
-include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/http-request.adoc[]
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/http-request.adoc[]
 
 .Request sample with httpie
-include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/httpie-request.adoc[]
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/httpie-request.adoc[]
 
 .HTTP response
-include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/http-response.adoc[]
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/http-response.adoc[]
 
 .Request sample
-include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/request-body.adoc[]
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/request-body.adoc[]
 
 .Response sample
-include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/response-body.adoc[]
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/response-body.adoc[]
 
 == Question
 
