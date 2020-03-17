@@ -154,7 +154,6 @@ public class LearningMaterialControllerTest {
   @Transactional
   public void should_allowFetchLearningMaterial_ifAuthorized() throws Exception {
 
-    learningMaterialRepository.findAll();
     mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/learningMaterials/%s",
         getPersistentGameMap().getId(), getPersistentLearningMaterialId()))
         .contentType(MediaType.APPLICATION_JSON))
@@ -187,11 +186,12 @@ public class LearningMaterialControllerTest {
   @Transactional
   public void should_allowFetchLearningMaterials_ifAuthorized() throws Exception {
     
-    System.out.println(learningMaterialRepository.findAll());
-    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/learningMaterials",
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/learningMaterials/",
         getPersistentGameMap().getId()))
         .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.title", is(learningMaterialRepository.findAll())))
+        .andExpect(jsonPath("$.content[0].title", is(this.learningMaterial.getTitle())))
+        .andExpect(jsonPath("$.content[0].link", is(this.learningMaterial.getLink())))
+        .andExpect(jsonPath("$.content[0].description", is(this.learningMaterial.getDescription())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
@@ -202,7 +202,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectFetchLearningMaterials_ifNotAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/learningMaterials",
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/learningMaterials/",
         getPersistentGameMap().getId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
@@ -302,6 +302,7 @@ public class LearningMaterialControllerTest {
   }
 
 }
+
 
 
 

@@ -124,6 +124,7 @@ public class GameMapControllerTest {
   @Test
   @Order(3)
   @WithUserDetails("user1@test.com")
+  @Transactional
   public void should_rejectFetchGameMaps_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders
         .get(String.format("/topics/%s/gameMaps", getPersistentTopic().getId()))
@@ -137,6 +138,7 @@ public class GameMapControllerTest {
   @Test
   @Order(4)
   @WithUserDetails("teacher1@test.com")
+  @Transactional
   public void should_allowFetchGameMaps_ifAuthorized() throws Exception {
     // There will only be 1 topic in the database
     mockMvc.perform(MockMvcRequestBuilders
@@ -153,6 +155,7 @@ public class GameMapControllerTest {
   @Test
   @Order(5)
   @WithUserDetails("user1@test.com")
+  @Transactional
   public void should_rejectFetchGameMap_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders
         .get(String
@@ -163,10 +166,55 @@ public class GameMapControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
-            
-        // Delete topic
-        // END OF TEST, delete topic
-        topicRepository.deleteById(getPersistentTopic().getId());
+  }
+
+  @Test
+  @Order(6)
+  @WithUserDetails("student1@test.com")
+  @Transactional
+  public void should_rejectDeleteGameMap_ifNotAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.delete(String
+        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+            getPersistentGameMapId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(7)
+  @WithUserDetails("teacher1@test.com")
+  @Transactional
+  public void should_allowDeleteGameMap_ifAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.delete(String
+            .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+                    getPersistentGameMapId()))
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andDo(document("{methodName}",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(8)
+  @WithUserDetails("teacher1@test.com")
+  @Transactional
+  public void should_rejectDeleteGameMap_ifNotExists() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.delete(String
+            .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+                    getPersistentGameMapId()-1))
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound())
+            .andDo(document("{methodName}",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint())));
+
+    // Delete topic
+    // END OF TEST, delete topic
+    topicRepository.deleteById(getPersistentTopic().getId());
   }
 
 //  @Test
@@ -186,3 +234,4 @@ public class GameMapControllerTest {
 //  }
 
 }
+
