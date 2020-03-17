@@ -163,25 +163,26 @@ public class GameMapControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+            
+        // Delete topic
+        // END OF TEST, delete topic
+        topicRepository.deleteById(getPersistentTopic().getId());
   }
 
-  @Test
-  @Order(12)
-  @WithUserDetails("teacher1@test.com")
-  public void should_allowDeleteGameMap_ifAuthorizedAndOwner() throws Exception {
-    // Delete GameMap
-    mockMvc.perform(MockMvcRequestBuilders.delete(String
-        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
-            getPersistentGameMapId()))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
+//  @Test
+//  @Order(12)
+//  @WithUserDetails("teacher1@test.com")
+//  public void should_allowDeleteGameMap_ifAuthorizedAndOwner() throws Exception {
+//    // Delete GameMap
+//    mockMvc.perform(MockMvcRequestBuilders.delete(String
+//        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+//            getPersistentGameMapId()))
+//        .contentType(MediaType.APPLICATION_JSON))
+//        .andExpect(status().isOk())
+//        .andDo(document("{methodName}",
+//            preprocessRequest(prettyPrint()),
+//            preprocessResponse(prettyPrint())));
 
-    // Delete topic
-    // END OF TEST, delete topic
-    topicRepository.deleteById(getPersistentTopic().getId());
-  }
+//  }
 
 }

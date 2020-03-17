@@ -302,17 +302,17 @@ public class TopicControllerTest {
 //            preprocessResponse(prettyPrint())));
 //  }
 
-  @Test
-  @Order(15)
-  @WithUserDetails("teacher1@test.com")
-  public void should_allowDeleteTopic_ifAuthorizedAndOwner() throws Exception {
-    // Delete topic
-    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
-  }
+//  @Test
+//  @Order(15)
+//  @WithUserDetails("teacher1@test.com")
+//  public void should_allowDeleteTopic_ifAuthorizedAndOwner() throws Exception {
+//    // Delete topic
+//    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
+//        .contentType(MediaType.APPLICATION_JSON))
+//        .andExpect(status().isOk())
+//        .andDo(document("{methodName}",
+//            preprocessRequest(prettyPrint()),
+//            preprocessResponse(prettyPrint())));
+//  }
 
 }
