@@ -1,0 +1,29 @@
+= Getting started with Eduamp API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Table of Content
+:toclevels: 4
+
+This is the documentation for eduamp API to allow fetching of questions by game map id if user is authorized.
+
+=== Fetch questions by game map id if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/response-body.adoc[]

@@ -39,10 +39,13 @@ public class LearningMaterialController {
    * @param gameMapId GameMap id that LearningMaterial is referenced by
    * @return LearningMaterials belonging to a specific levelId
    */
-  @RequestMapping(method = RequestMethod.GET, path = "/{gameMapId}/learningMaterials/}")
+  @RequestMapping(method = RequestMethod.GET, path = "/{gameMapId}/learningMaterials/")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public Page<LearningMaterial> fetchAllLearningMaterials(Pageable pageable, Integer gameMapId) {
+  public Page<LearningMaterial> fetchAllLearningMaterials(
+      Pageable pageable,
+      @PathVariable(value = "gameMapId"
+      ) Integer gameMapId) {
     return learningMaterialService.fetchAllLearningMaterials(gameMapId, pageable);
   }
 
@@ -66,7 +69,7 @@ public class LearningMaterialController {
   /**
    * Create a LearningMaterial.
    *
-   * @param gameMapId GameMap id that the question
+   * @param gameMapId        GameMap id that the question
    * @param learningMaterial LearningMaterial to be created
    * @return Created learningMaterial
    */
@@ -98,10 +101,11 @@ public class LearningMaterialController {
       Principal principal
   ) {
     learningMaterial.setId(learningMaterialId);
-    return learningMaterialService.updateLearningMaterial(gameMapId, learningMaterial, principal.getName());
+    return learningMaterialService
+        .updateLearningMaterial(gameMapId, learningMaterial, principal.getName());
   }
 
-  @RequestMapping(method = RequestMethod.DELETE, path = "/gameMapId/learningMaterials/{learningMaterialId}")
+  @RequestMapping(method = RequestMethod.DELETE, path = "/{gameMapId}/learningMaterials/{learningMaterialId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public boolean deleteLearningMaterial(

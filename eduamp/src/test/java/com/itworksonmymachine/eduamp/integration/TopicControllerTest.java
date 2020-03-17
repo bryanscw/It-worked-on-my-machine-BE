@@ -191,7 +191,7 @@ public class TopicControllerTest {
 //  }
 
   @Test
-  @Order(9)
+  @Order(8)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowUpdateTopic_ifAuthorized() throws Exception {
@@ -213,7 +213,7 @@ public class TopicControllerTest {
   }
 
   @Test
-  @Order(10)
+  @Order(9)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectPatchTopic_ifNotAuthorized() throws Exception {
@@ -249,7 +249,7 @@ public class TopicControllerTest {
 //  }
 
   @Test
-  @Order(12)
+  @Order(10)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowPatchTopic_ifAuthorized() throws Exception {
@@ -271,19 +271,53 @@ public class TopicControllerTest {
   }
 
   @Test
-  @Order(13)
+  @Order(11)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectDeleteTopic_ifNotAuthorized() throws Exception {
     // Delete topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
     mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(topicJson))
-        .andExpect(status().isForbidden())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(topicJson))
+            .andExpect(status().isForbidden())
+            .andDo(document("{methodName}",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(12)
+  @WithUserDetails("teacher1@test.com")
+  @Transactional
+  public void should_allowDeleteTopic_ifAuthorized() throws Exception {
+    // Delete topic
+    String topicJson = new ObjectMapper().writeValueAsString(this.topic);
+    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(topicJson))
+            .andExpect(status().isOk())
+            .andDo(document("{methodName}",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(13)
+  @WithUserDetails("teacher1@test.com")
+  @Transactional
+  public void should_rejectDeleteTopic_ifNotExists() throws Exception {
+    // Delete topic
+    String topicJson = new ObjectMapper().writeValueAsString(this.topic);
+    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/topics/%s", getPersistentTopicId()-1))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(topicJson))
+            .andExpect(status().isNotFound())
+            .andDo(document("{methodName}",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint())));
+
+    topicRepository.deleteById(getPersistentTopicId());
   }
 
 //  @Test
@@ -302,17 +336,18 @@ public class TopicControllerTest {
 //            preprocessResponse(prettyPrint())));
 //  }
 
-  @Test
-  @Order(15)
-  @WithUserDetails("teacher1@test.com")
-  public void should_allowDeleteTopic_ifAuthorizedAndOwner() throws Exception {
-    // Delete topic
-    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
-  }
+//  @Test
+//  @Order(15)
+//  @WithUserDetails("teacher1@test.com")
+//  public void should_allowDeleteTopic_ifAuthorizedAndOwner() throws Exception {
+//    // Delete topic
+//    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
+//        .contentType(MediaType.APPLICATION_JSON))
+//        .andExpect(status().isOk())
+//        .andDo(document("{methodName}",
+//            preprocessRequest(prettyPrint()),
+//            preprocessResponse(prettyPrint())));
+//  }
 
 }
+

@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to reject for deletion of game map if game map does not exist.
+
+=== Reject deletion of game map if game map does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/response-body.adoc[]

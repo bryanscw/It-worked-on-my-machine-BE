@@ -47,6 +47,9 @@ include::{snippets}/should_allow_ifValidCredentials/http-response.adoc[]
 .Request sample
 include::{snippets}/should_allow_ifValidCredentials/request-body.adoc[]
 
+.Response sample
+include::{snippets}/should_allow_ifValidCredentials/response-body.adoc[]
+
 === Validify user
 
 .Request sample with curl
@@ -186,8 +189,6 @@ include::{snippets}/should_rejectUser_ifNotAuthorized/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_rejectUser_ifNotAuthorized/response-body.adoc[]
-.Response sample
-include::{snippets}/should_allow_ifValidCredentials/response-body.adoc[]
 
 === Invalid Session
 
@@ -230,8 +231,6 @@ include::{snippets}/should_allowCreateTopic_ifAuthorized/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_allowCreateTopic_ifAuthorized/response-body.adoc[]
-.Response sample
-include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/response-body.adoc[]
 
 === Allow fetch if authorized
 
@@ -293,6 +292,26 @@ include::{snippets}/should_allowUpdateTopic_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowUpdateTopic_ifAuthorized/response-body.adoc[]
 
+=== Allow delete if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteTopic_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteTopic_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteTopic_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteTopic_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteTopic_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteTopic_ifAuthorized/response-body.adoc[]
+
 === Reject create if not authorized
 
 .Request sample with curl
@@ -310,6 +329,9 @@ include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/http-response.adoc[
 .Request sample
 include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/request-body.adoc[]
 
+.Response sample
+include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/response-body.adoc[]
+
 === Reject delete if not authorized
 
 .Request sample with curl
@@ -326,6 +348,9 @@ include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/http-response.adoc[
 
 .Request sample
 include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/response-body.adoc[]
 
 === Reject fetch topic if not authorized
 
@@ -347,9 +372,6 @@ include::{snippets}/should_rejectFetchTopic_ifNotAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_rejectFetchTopic_ifNotAuthorized/response-body.adoc[]
 
-.Response sample
-include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/response-body.adoc[]
-
 === Reject fetch topics if not authorized
 
 .Request sample with curl
@@ -366,6 +388,9 @@ include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/http-response.adoc[
 
 .Request sample
 include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchTopics_ifNotAuthorized/response-body.adoc[]
 
 === Reject update topic if not authorized
 
@@ -386,6 +411,46 @@ include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_rejectUpdateTopic_ifNotAuthorized/response-body.adoc[]
+
+=== Reject patch topic if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectPatchTopic_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectPatchTopic_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectPatchTopic_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectPatchTopic_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectPatchTopic_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectPatchTopic_ifNotAuthorized/response-body.adoc[]
+
+=== Reject delete topics if topic does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteTopic_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteTopic_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteTopic_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteTopic_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteTopic_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteTopic_ifNotExists/response-body.adoc[]
 
 == Game Map
 
@@ -429,6 +494,46 @@ include::{snippets}/should_allowFetchGameMaps_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowFetchGameMaps_ifAuthorized/response-body.adoc[]
 
+=== Delete game map by question
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/response-body.adoc[]
+
+=== Allow deletion of game map if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteGameMap_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteGameMap_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteGameMap_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteGameMap_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteGameMap_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteGameMap_ifAuthorized/response-body.adoc[]
+
 === Reject fetching of game map if user is not authorized
 
 .Request sample with curl
@@ -469,4 +574,446 @@ include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/request-body.adoc
 .Response sample
 include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/response-body.adoc[]
 
+=== Reject delete game map by question if not authorized
 
+.Request sample with curl
+include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/response-body.adoc[]
+
+=== Reject deleting of game map if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteGameMap_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteGameMap_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteGameMap_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteGameMap_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteGameMap_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteGameMap_ifNotAuthorized/response-body.adoc[]
+
+=== Reject deletion of game map if game map does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteGameMap_ifNotExists/response-body.adoc[]
+
+== Learning Material
+
+=== Create Learning Material if Authorized
+
+.Request sample with curl
+include::{snippets}/should_allowCreateLearningMaterial_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowCreateLearningMaterial_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowCreateLearningMaterial_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowCreateLearningMaterial_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowCreateLearningMaterial_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowCreateLearningMaterial_ifAuthorized/response-body.adoc[]
+
+=== Delete learning material if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteLearningMaterial_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteLearningMaterial_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteLearningMaterial_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteLearningMaterial_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteLearningMaterial_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteLearningMaterial_ifAuthorized/response-body.adoc[]
+
+=== Fetch learning material if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchLearningMaterial_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchLearningMaterial_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchLearningMaterial_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchLearningMaterial_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchLearningMaterial_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchLearningMaterial_ifAuthorized/response-body.adoc[]
+
+=== Fetch learning materials if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchLearningMaterials_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchLearningMaterials_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchLearningMaterials_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchLearningMaterials_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchLearningMaterials_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchLearningMaterials_ifAuthorized/response-body.adoc[]
+
+=== Allow update of learning material if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowUpdateLearningMaterial_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowUpdateLearningMaterial_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowUpdateLearningMaterial_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowUpdateLearningMaterial_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowUpdateLearningMaterial_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowUpdateLearningMaterial_ifAuthorized/response-body.adoc[]
+
+=== Reject create learning material if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectCreateLearningMaterial_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectCreateLearningMaterial_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectCreateLearningMaterial_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectCreateLearningMaterial_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectCreateLearningMaterial_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectCreateLearningMaterial_ifNotAuthorized/response-body.adoc[]
+
+=== Reject delete learning material if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotAuthorized/response-body.adoc[]
+
+=== Reject delete learning material if it does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteLearningMaterial_ifNotExists/response-body.adoc[]
+
+=== Reject fetching of learning materials if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchLearningMaterials_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchLearningMaterials_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchLearningMaterials_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchLearningMaterials_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchLearningMaterials_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchLearningMaterials_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetch learning material if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchLearningMaterial_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchLearningMaterial_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchLearningMaterial_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchLearningMaterial_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchLearningMaterial_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchLearningMaterial_ifNotAuthorized/response-body.adoc[]
+
+=== Reject updating of learning material if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateLearningMaterial_ifNotAuthorized/response-body.adoc[]
+
+== Question
+
+=== Create question if Authorized
+
+.Request sample with curl
+include::{snippets}/should_allowCreateQuestion_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowCreateQuestion_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowCreateQuestion_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowCreateQuestion_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowCreateQuestion_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowCreateQuestion_ifAuthorized/response-body.adoc[]
+
+=== Fetch question if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchQuestion_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchQuestion_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchQuestion_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchQuestion_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchQuestion_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchQuestion_ifAuthorized/response-body.adoc[]
+
+=== Fetch questions by game map id if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/response-body.adoc[]
+
+=== Update question if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowUpdateQuestion_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowUpdateQuestion_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowUpdateQuestion_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowUpdateQuestion_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowUpdateQuestion_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowUpdateQuestion_ifAuthorized/response-body.adoc[]
+
+=== Reject creation of question if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectCreateQuestion_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectCreateQuestion_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectCreateQuestion_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectCreateQuestion_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectCreateQuestion_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectCreateQuestion_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetch question if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchQuestion_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchQuestion_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchQuestion_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchQuestion_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchQuestion_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchQuestion_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetch questions by game map id if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchQuestionsByGameMapId_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchQuestionsByGameMapId_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchQuestionsByGameMapId_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchQuestionsByGameMapId_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchQuestionsByGameMapId_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchQuestionsByGameMapId_ifNotAuthorized/response-body.adoc[]
+
+=== Reject updating of question if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/response-body.adoc[]
