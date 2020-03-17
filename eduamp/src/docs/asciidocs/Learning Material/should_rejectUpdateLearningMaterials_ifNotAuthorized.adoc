@@ -1,0 +1,29 @@
+= Getting started with Eduamp API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Table of Content
+:toclevels: 4
+
+This is the documentation for eduamp API to reject updating of learning material if user is not authorized.
+
+=== Reject updating of learning material if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateLearningMaterials_ifNotAuthorized/response-body.adoc[]
