@@ -61,7 +61,8 @@ public class ProgressServiceImpl implements ProgressService {
       Authentication authentication, Pageable pageable) {
     String errorMsg = String
         .format("Not authorized to view Progress with gameMapId: [%s]", gameMapId);
-    String principalName = ((Principal) authentication.getPrincipal()).getName();
+    String principalName = ((org.springframework.security.core.userdetails.User) authentication
+        .getPrincipal()).getUsername();
     Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
     if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
@@ -69,6 +70,12 @@ public class ProgressServiceImpl implements ProgressService {
           .findProgressByUser_EmailAndMap_Id(principalName, gameMapId, pageable);
     } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_TEACHER"))
         || authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+      // Check if gameMap exists
+      gameMapRepository.findById(gameMapId).orElseThrow(() -> {
+        String gameMapNotFoundMsg = String.format("GameMap with gameMapId: [%s] not found", gameMapId);
+        log.error(gameMapNotFoundMsg);
+        return new ResourceNotFoundException(gameMapNotFoundMsg);
+      });
       return progressRepository.findProgressByMap_Id(gameMapId, pageable);
     } else {
       throw new NotAuthorizedException(errorMsg);
@@ -94,7 +101,8 @@ public class ProgressServiceImpl implements ProgressService {
 
     String errorMsg = String
         .format("Not authorized to view Progress for userEmail: [%s]", userEmail);
-    String principalName = ((Principal) authentication.getPrincipal()).getName();
+    String principalName = ((org.springframework.security.core.userdetails.User) authentication
+        .getPrincipal()).getUsername();
     Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
     if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT")) && userEmail
@@ -130,7 +138,8 @@ public class ProgressServiceImpl implements ProgressService {
     String errorMsg = String
         .format("Not authorized to view Progress of userEmail: [%s] with gameMapId: [%s]",
             userEmail, gameMapId);
-    String principalName = ((Principal) authentication.getPrincipal()).getName();
+    String principalName = ((org.springframework.security.core.userdetails.User) authentication
+        .getPrincipal()).getUsername();
     Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
     Progress progress = progressRepository
@@ -165,7 +174,8 @@ public class ProgressServiceImpl implements ProgressService {
   @Override
   public Progress createProgress(String userEmail, Integer gameMapId, Progress progress,
       Authentication authentication) {
-    String principalName = ((Principal) authentication.getPrincipal()).getName();
+    String principalName = ((org.springframework.security.core.userdetails.User) authentication
+        .getPrincipal()).getUsername();
     // Ensure that user is only creating a  Progress for themselves
     if (!userEmail.equals(principalName)) {
       String notAuthMsg = String
@@ -229,7 +239,8 @@ public class ProgressServiceImpl implements ProgressService {
   @Override
   public Progress updateProgress(String userEmail, Integer gameMapId, Progress progress,
       Authentication authentication) {
-    String principalName = ((Principal) authentication.getPrincipal()).getName();
+    String principalName = ((org.springframework.security.core.userdetails.User) authentication
+        .getPrincipal()).getUsername();
     // Ensure that user is only modifying the Progress for themselves
     if (!userEmail.equals(principalName)) {
       String notAuthMsg = String

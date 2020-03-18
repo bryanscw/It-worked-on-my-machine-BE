@@ -111,6 +111,35 @@ public class UserControllerTest {
 
   @Order(4)
   @Test
+  @WithUserDetails("create-student@test.com")
+  @Transactional
+  public void should_allowFetchUser_ifAuthorized() throws Exception {
+    mockMvc.perform(post("/users/me")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.email", is(getPersistentUser().getEmail())))
+        .andExpect(jsonPath("$.name", is(getPersistentUser().getName())))
+        .andExpect(jsonPath("$.role", is(getPersistentUser().getRole())))
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Order(5)
+  @Test
+  @WithUserDetails("user1@test.com")
+  @Transactional
+  public void should_rejectFetchUser_ifNotAuthorized() throws Exception {
+    mockMvc.perform(post("/users/me")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Order(6)
+  @Test
   @WithUserDetails("admin1@test.com")
   @Transactional
   public void should_allowFetchUsers_ifAuthorized() throws Exception {
@@ -118,15 +147,15 @@ public class UserControllerTest {
         MockMvcRequestBuilders.get("/users/")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.content[0].email", is(this.user.getEmail())))
-        .andExpect(jsonPath("$.content[0].name", is(this.user.getName())))
-        .andExpect(jsonPath("$.content[0].role", is(this.user.getRole())))
+        .andExpect(jsonPath("$.content[0].email", is(getPersistentUser().getEmail())))
+        .andExpect(jsonPath("$.content[0].name", is(getPersistentUser().getName())))
+        .andExpect(jsonPath("$.content[0].role", is(getPersistentUser().getRole())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(5)
+  @Order(7)
   @Test
   @WithUserDetails("teacher1@test.com")
   @Transactional
@@ -140,7 +169,7 @@ public class UserControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(6)
+  @Order(8)
   @Test
   @WithUserDetails("teacher1@test.com")
   @Transactional
@@ -158,7 +187,7 @@ public class UserControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(7)
+  @Order(9)
   @Test
   @WithUserDetails("admin1@test.com")
   @Transactional
@@ -176,7 +205,7 @@ public class UserControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(8)
+  @Order(10)
   @Test
   @WithUserDetails("admin1@test.com")
   @Transactional
@@ -190,15 +219,15 @@ public class UserControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(userJson))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.email", is(this.user.getEmail())))
-        .andExpect(jsonPath("$.name", is(this.user.getName())))
-        .andExpect(jsonPath("$.role", is(this.user.getRole())))
+        .andExpect(jsonPath("$.email", is(getPersistentUser().getEmail())))
+        .andExpect(jsonPath("$.name", is(getPersistentUser().getName())))
+        .andExpect(jsonPath("$.role", is(getPersistentUser().getRole())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(9)
+  @Order(11)
   @Test
   @WithUserDetails("teacher1@test.com")
   @Transactional
@@ -212,7 +241,7 @@ public class UserControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(10)
+  @Order(12)
   @Test
   @WithUserDetails("admin1@test.com")
   public void should_allowDeleteUser_ifAuthorized() throws Exception {
@@ -225,7 +254,7 @@ public class UserControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(11)
+  @Order(13)
   @Test
   @WithUserDetails("admin1@test.com")
   public void should_rejectDeleteUser_ifNotExists() throws Exception {

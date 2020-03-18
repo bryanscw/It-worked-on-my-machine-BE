@@ -98,8 +98,9 @@ public class ProgressControllerTest {
 
     this.progress = new Progress();
     this.progress.setPosition(coordinates);
+    this.progress.setTimeTaken(0);
   }
-  
+
   @Test
   @Order(1)
   @WithUserDetails("teacher1@test.com")
@@ -127,7 +128,7 @@ public class ProgressControllerTest {
 
     String gameMapJson = new ObjectMapper().writeValueAsString(gameMap);
     mockMvc.perform(
-        MockMvcRequestBuilders
+          MockMvcRequestBuilders
             .post(String.format("/topics/%s/gameMaps/create", getPersistentTopic().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(gameMapJson))
@@ -135,19 +136,25 @@ public class ProgressControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+
+    User user = new User();
+    user.setEmail("admin1@test.com");
+    user.setName("admin");
+    user.setRole("ROLE_ADMIN");
+    user.setPass("pass");
+    userRepository.save(user);
   }
 
   @Order(2)
   @Test
-  @WithUserDetails("student1@test.com")
-  @Transactional
+  @WithUserDetails("admin1@test.com")
   public void should_allowCreateProgress_ifAuthorized() throws Exception {
 
     String progressJson = new ObjectMapper().writeValueAsString(this.progress);
     mockMvc.perform(
         MockMvcRequestBuilders
             .post(String.format("/progress/users/%s/gameMaps/%s",
-                "student1@test.com", getPersistentGameMap().getId()))
+                "admin1@test.com", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(progressJson))
         .andExpect(status().isOk())
@@ -177,17 +184,23 @@ public class ProgressControllerTest {
 
   @Order(4)
   @Test
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("admin1@test.com")
   @Transactional
   public void should_allowFetchProgressByUserEmail_ifAuthorized() throws Exception {
     mockMvc.perform(
         MockMvcRequestBuilders
-            .get(String.format("/progress/users/%s", "student1@test.com"))
+            .get(String.format("/progress/users/%s", "admin1@test.com"))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.position[\"x\"]", is(this.progress.getPosition().getX())))
-        .andExpect(jsonPath("$.position[\"y\"]", is(this.progress.getPosition().getY())))
-        .andExpect(jsonPath("$.user", is(getPersistentProgress().getUser())))
+        .andExpect(jsonPath("$.content[0].position[\"x\"]", is(this.progress.getPosition().getX())))
+        .andExpect(jsonPath("$.content[0].position[\"y\"]", is(this.progress.getPosition().getY())))
+        .andExpect(jsonPath("$.content[0].user.email", is(getPersistentProgress().getUser().getEmail())))
+        .andExpect(jsonPath("$.content[0].user.role", is(getPersistentProgress().getUser().getRole())))
+        .andExpect(jsonPath("$.content[0].user.name", is(getPersistentProgress().getUser().getName())))
+        .andExpect(jsonPath("$.content[0].map.title", is(getPersistentProgress().getMap().getTitle())))
+        .andExpect(jsonPath("$.content[0].map.description", is(getPersistentProgress().getMap().getDescription())))
+        .andExpect(jsonPath("$.content[0].map.mapDescriptor", is(getPersistentProgress().getMap().getMapDescriptor())))
+        .andExpect(jsonPath("$.content[0].timeTaken", is(getPersistentProgress().getTimeTaken())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
@@ -210,7 +223,7 @@ public class ProgressControllerTest {
 
   @Order(6)
   @Test
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("admin1@test.com")
   @Transactional
   public void should_allowFetchProgressByGameMapId_ifAuthorized() throws Exception {
     mockMvc.perform(
@@ -218,9 +231,15 @@ public class ProgressControllerTest {
             .get(String.format("/progress/gameMaps/%s", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.position[\"x\"]", is(this.progress.getPosition().getX())))
-        .andExpect(jsonPath("$.position[\"y\"]", is(this.progress.getPosition().getY())))
-        .andExpect(jsonPath("$.user", is(getPersistentProgress().getUser())))
+        .andExpect(jsonPath("$.content[0].position[\"x\"]", is(this.progress.getPosition().getX())))
+        .andExpect(jsonPath("$.content[0].position[\"y\"]", is(this.progress.getPosition().getY())))
+        .andExpect(jsonPath("$.content[0].user.email", is(getPersistentProgress().getUser().getEmail())))
+        .andExpect(jsonPath("$.content[0].user.role", is(getPersistentProgress().getUser().getRole())))
+        .andExpect(jsonPath("$.content[0].user.name", is(getPersistentProgress().getUser().getName())))
+        .andExpect(jsonPath("$.content[0].map.title", is(getPersistentProgress().getMap().getTitle())))
+        .andExpect(jsonPath("$.content[0].map.description", is(getPersistentProgress().getMap().getDescription())))
+        .andExpect(jsonPath("$.content[0].map.mapDescriptor", is(getPersistentProgress().getMap().getMapDescriptor())))
+        .andExpect(jsonPath("$.content[0].timeTaken", is(getPersistentProgress().getTimeTaken())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
@@ -228,7 +247,7 @@ public class ProgressControllerTest {
 
   @Order(7)
   @Test
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("admin1@test.com")
   @Transactional
   public void should_rejectFetchProgressByGameMapId_ifNotExists() throws Exception {
     mockMvc.perform(
@@ -258,18 +277,24 @@ public class ProgressControllerTest {
 
   @Order(9)
   @Test
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("admin1@test.com")
   @Transactional
   public void should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized() throws Exception {
     mockMvc.perform(
         MockMvcRequestBuilders
             .get(String.format("/progress/users/%s/gameMaps/%s",
-                "student1@test.com", getPersistentGameMap().getId()))
+                "admin1@test.com", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.position[\"x\"]", is(this.progress.getPosition().getX())))
         .andExpect(jsonPath("$.position[\"y\"]", is(this.progress.getPosition().getY())))
-        .andExpect(jsonPath("$.user", is(getPersistentProgress().getUser())))
+        .andExpect(jsonPath("$.user.email", is(getPersistentProgress().getUser().getEmail())))
+        .andExpect(jsonPath("$.user.role", is(getPersistentProgress().getUser().getRole())))
+        .andExpect(jsonPath("$.user.name", is(getPersistentProgress().getUser().getName())))
+        .andExpect(jsonPath("$.map.title", is(getPersistentProgress().getMap().getTitle())))
+        .andExpect(jsonPath("$.map.description", is(getPersistentProgress().getMap().getDescription())))
+        .andExpect(jsonPath("$.map.mapDescriptor", is(getPersistentProgress().getMap().getMapDescriptor())))
+        .andExpect(jsonPath("$.timeTaken", is(getPersistentProgress().getTimeTaken())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
@@ -293,13 +318,13 @@ public class ProgressControllerTest {
 
   @Order(11)
   @Test
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("admin1@test.com")
   @Transactional
   public void should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists() throws Exception {
     mockMvc.perform(
         MockMvcRequestBuilders
             .get(String.format("/progress/users/%s/gameMaps/%s",
-                "student1@test.com", getPersistentGameMap().getId()-1))
+                "admin1@test.com", getPersistentGameMap().getId()-1))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andDo(document("{methodName}",
@@ -309,13 +334,13 @@ public class ProgressControllerTest {
 
   @Order(12)
   @Test
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("admin1@test.com")
   @Transactional
   public void should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists() throws Exception {
     mockMvc.perform(
         MockMvcRequestBuilders
             .get(String.format("/progress/users/%s/gameMaps/%s",
-                "student0@test.com", getPersistentGameMap().getId()-1))
+                "admin0@test.com", getPersistentGameMap().getId()-1))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andDo(document("{methodName}",
@@ -325,20 +350,20 @@ public class ProgressControllerTest {
 
   @Order(13)
   @Test
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("admin1@test.com")
   @Transactional
   public void should_allowUpdateProgress_ifAuthorized() throws Exception {
 
-    this.progress.setComplete(true);
+    this.progress.setTimeTaken(10.0);
 
     String progressJson = new ObjectMapper().writeValueAsString(this.progress);
     mockMvc.perform(
         MockMvcRequestBuilders
             .put(String.format("/progress/users/%s/gameMaps/%s",
-                "student1@test.com", getPersistentGameMap().getId()))
+                "admin1@test.com", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(progressJson))
-        .andExpect(status().isNotFound())
+        .andExpect(status().isOk())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
@@ -350,7 +375,7 @@ public class ProgressControllerTest {
   @Transactional
   public void should_rejectUpdateProgress_ifNotAuthorized() throws Exception {
 
-    this.progress.setComplete(true);
+    this.progress.setTimeTaken(10.0);
 
     String progressJson = new ObjectMapper().writeValueAsString(this.progress);
     mockMvc.perform(
@@ -365,7 +390,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
 
     progressRepository.deleteById(getPersistentProgress().getId());
-    userRepository.deleteUserByEmail(getPersistentUser().getEmail());
+    userRepository.deleteUserByEmail(this.user.getEmail());
     gameMapRepository.deleteById(getPersistentGameMap().getId());
     topicRepository.deleteById(getPersistentTopic().getId());
   }
