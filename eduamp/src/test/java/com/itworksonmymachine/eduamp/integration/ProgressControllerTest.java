@@ -120,12 +120,7 @@ public class ProgressControllerTest {
     String userJson = new ObjectMapper().writeValueAsString(this.user);
     mockMvc.perform(post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
-        .content(userJson))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.email", is(this.user.getEmail())))
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
+        .content(userJson));
   }
 
   @Test
@@ -141,11 +136,7 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders.post("/topics/create")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(topicJson))
-        .andExpect(status().isOk())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
+            .content(topicJson));
 
     GameMap gameMap = new GameMap();
     gameMap.setTitle("Game map title");
@@ -158,11 +149,7 @@ public class ProgressControllerTest {
         MockMvcRequestBuilders
             .post(String.format("/topics/%s/gameMaps/create", getPersistentTopic().getId()))
             .contentType(MediaType.APPLICATION_JSON)
-            .content(gameMapJson))
-        .andExpect(status().isOk())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
+            .content(gameMapJson));
   }
 
   @Order(3)
@@ -520,8 +507,24 @@ public class ProgressControllerTest {
   }
 
   @Order(16)
+  @WithUserDetails("teacher1@test.com")
   @Test
-  public void cleanUp() throws Exception{
+  public void teacherCleanUp() throws Exception {
+
+    progressRepository.deleteById(getPersistentProgress().getId());
+
+    mockMvc.perform(MockMvcRequestBuilders.delete(String
+        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+            getPersistentGameMap().getId()))
+        .contentType(MediaType.APPLICATION_JSON));
+
+    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopic().getId())
+        .contentType(MediaType.APPLICATION_JSON));
+  }
+
+  @Order(17)
+  @Test
+  public void userCleanUp() throws Exception{
 
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -530,7 +533,6 @@ public class ProgressControllerTest {
         .param("username", this.user.getEmail())
         .param("password", this.user.getPass())
         .param("grant_type", "password"))
-        .andExpect(status().isOk())
         .andReturn();
 
     String accessToken = JsonPath
@@ -539,24 +541,11 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders.delete(String.format("/users/%s", this.user.getEmail()))
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + accessToken))
-        .andExpect(status().isOk())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
+            .header("Authorization", "Bearer " + accessToken));
 
     mockMvc.perform(delete("/oauth/revoke")
         .accept(MediaType.APPLICATION_JSON)
-        .header("Authorization", "Bearer " + accessToken))
-        .andExpect(status().isOk())
-        .andDo(document("{methodName}",
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint())));
-
-
-    progressRepository.deleteById(getPersistentProgress().getId());
-    gameMapRepository.deleteById(getPersistentGameMap().getId());
-    topicRepository.deleteById(getPersistentTopic().getId());
+        .header("Authorization", "Bearer " + accessToken));
   }
 }
 

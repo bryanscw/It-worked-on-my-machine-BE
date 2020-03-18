@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "progress")
@@ -37,7 +40,8 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToOne
+  @OneToOne(fetch= FetchType.EAGER)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private GameMap map;
 
   @Getter
