@@ -8,6 +8,30 @@
 
 This is the documentation for eduamp APIs.
 
+== Admin
+
+=== Get list of tokens
+
+.Request sample with curl
+include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/response-body.adoc[]
+
+
+
 == User
 
 === Create user if authorized
@@ -495,22 +519,22 @@ include::{snippets}/should_allowUpdateTopic_ifAuthorized/response-body.adoc[]
 === Patch topics if authorized
 
 .Request sample with curl
-include::{snippets}/should_allowpatchTopic_ifAuthorized/curl-request.adoc[]
+include::{snippets}/should_allowPatchTopic_ifAuthorized/curl-request.adoc[]
 
 .Request sample with http
-include::{snippets}/should_allowpatchTopic_ifAuthorized/http-request.adoc[]
+include::{snippets}/should_allowPatchTopic_ifAuthorized/http-request.adoc[]
 
 .Request sample with httpie
-include::{snippets}/should_allowpatchTopic_ifAuthorized/httpie-request.adoc[]
+include::{snippets}/should_allowPatchTopic_ifAuthorized/httpie-request.adoc[]
 
 .HTTP response
-include::{snippets}/should_allowpatchTopic_ifAuthorized/http-response.adoc[]
+include::{snippets}/should_allowPatchTopic_ifAuthorized/http-response.adoc[]
 
 .Request sample
-include::{snippets}/should_allowpatchTopic_ifAuthorized/request-body.adoc[]
+include::{snippets}/should_allowPatchTopic_ifAuthorized/request-body.adoc[]
 
 .Response sample
-include::{snippets}/should_allowpatchTopic_ifAuthorized/response-body.adoc[]
+include::{snippets}/should_allowPatchTopic_ifAuthorized/response-body.adoc[]
 
 === Allow delete if authorized
 
