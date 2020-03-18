@@ -101,7 +101,7 @@ public class UserController {
   @RequestMapping(method = RequestMethod.DELETE, path = "/{userEmail}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN"})
-  public int deleteUser(@PathVariable(value = "userEmail") String userEmail) {
+  public boolean deleteUser(@PathVariable(value = "userEmail") String userEmail) {
     log.info("Deleting user with email: [{}]", userEmail);
     return userService.delete(userEmail);
   }
