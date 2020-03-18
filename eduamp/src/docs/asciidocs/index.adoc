@@ -8,7 +8,7 @@
 
 This is the documentation for eduamp APIs.
 
-== Account
+== User
 
 === Create user if authorized
 
@@ -89,6 +89,86 @@ include::{snippets}/should_logout_ifValidSession/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_logout_ifValidSession/response-body.adoc[]
+
+=== Allow delete user if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteUser_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteUser_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteUser_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteUser_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteUser_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteUser_ifAuthorized/response-body.adoc[]
+
+=== Fetch user if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchUser_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchUser_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchUser_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchUser_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchUser_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchUser_ifAuthorized/response-body.adoc[]
+
+=== Allow fetch users if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchUsers_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchUsers_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchUsers_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchUsers_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchUsers_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchUsers_ifAuthorized/response-body.adoc[]
+
+=== Allow update user if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowUpdateUser_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowUpdateUser_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowUpdateUser_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowUpdateUser_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowUpdateUser_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowUpdateUser_ifAuthorized/response-body.adoc[]
 
 === Reject creation of user if admin is not authorized
 
@@ -210,6 +290,126 @@ include::{snippets}/should_throwError_ifInvalidSession/request-body.adoc[]
 .Response sample
 include::{snippets}/should_throwError_ifInvalidSession/response-body.adoc[]
 
+=== Reject delete user if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteUser_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteUser_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteUser_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteUser_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteUser_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteUser_ifNotAuthorized/response-body.adoc[]
+
+=== Reject delete user if user does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteUser_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteUser_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteUser_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteUser_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteUser_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteUser_ifNotExists/response-body.adoc[]
+
+=== Reject fetch user if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchUser_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchUser_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchUser_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchUser_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchUser_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchUser_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetching user if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchUsers_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchUsers_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchUsers_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchUsers_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchUsers_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchUsers_ifNotAuthorized/response-body.adoc[]
+
+=== Reject update user if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectUpdateUser_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateUser_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateUser_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateUser_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateUser_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateUser_ifNotAuthorized/response-body.adoc[]
+
+=== Reject update user if user does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectUpdateUser_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateUser_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateUser_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateUser_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateUser_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateUser_ifNotExists/response-body.adoc[]
+
 == Topic
 
 === Allow create if authorized
@@ -291,6 +491,26 @@ include::{snippets}/should_allowUpdateTopic_ifAuthorized/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_allowUpdateTopic_ifAuthorized/response-body.adoc[]
+
+=== Patch topics if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowpatchTopic_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowpatchTopic_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowpatchTopic_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowpatchTopic_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowpatchTopic_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowpatchTopic_ifAuthorized/response-body.adoc[]
 
 === Allow delete if authorized
 
@@ -1017,3 +1237,264 @@ include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/request-body.ado
 
 .Response sample
 include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/response-body.adoc[]
+
+== Progress
+
+=== Allow create progress if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowCreateProgress_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowCreateProgress_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowCreateProgress_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowCreateProgress_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowCreateProgress_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowCreateProgress_ifAuthorized/response-body.adoc[]
+
+=== Allow fetch progress by game map id if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchProgressByGameMapId_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchProgressByGameMapId_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchProgressByGameMapId_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchProgressByGameMapId_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchProgressByGameMapId_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchProgressByGameMapId_ifAuthorized/response-body.adoc[]
+
+=== Allow fetch progress by user email and game map id if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized/response-body.adoc[]
+
+=== Fetch progress by user email if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchProgressByUserEmail_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchProgressByUserEmail_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchProgressByUserEmail_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchProgressByUserEmail_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchProgressByUserEmail_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchProgressByUserEmail_ifAuthorized/response-body.adoc[]
+
+=== Allow update of progress if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowUpdateProgress_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowUpdateProgress_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowUpdateProgress_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowUpdateProgress_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowUpdateProgress_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowUpdateProgress_ifAuthorized/response-body.adoc[]
+
+=== Reject create progress if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectCreateProgress_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectCreateProgress_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectCreateProgress_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectCreateProgress_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectCreateProgress_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectCreateProgress_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetch progress by game map id if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetch progress by game map id if progress does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/response-body.adoc[]
+
+=== Reject fetch progress by user email and game map id if not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifNotAuthorized/response-body.adoc[]
+
+=== Reject fetch progress by user email and game map if game map does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists/response-body.adoc[]
+
+=== Reject fetch progress by user email and game map if user email does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/response-body.adoc[]
+
+=== Reject fetch progress by user email if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchProgressByUserEmail_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchProgressByUserEmail_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchProgressByUserEmail_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchProgressByUserEmail_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchProgressByUserEmail_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchProgressByUserEmail_ifNotAuthorized/response-body.adoc[]
+
+=== Reject update progress if user is not authorized
+.Request sample with curl
+include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/response-body.adoc[]
