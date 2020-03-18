@@ -109,7 +109,7 @@ public class OAuthTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk());
-    
+
     MvcResult initialMvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
@@ -131,6 +131,7 @@ public class OAuthTest {
             .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .header(HttpHeaders.AUTHORIZATION,
                 "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes())))
+        .andExpect(status().isOk())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())))
