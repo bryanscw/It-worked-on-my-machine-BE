@@ -41,7 +41,7 @@ public class UserController {
   @RequestMapping(method = RequestMethod.POST, path = "/me")
   @Secured({})
   @ResponseStatus(HttpStatus.OK)
-  public User createUser(Principal principal) {
+  public User getUser(Principal principal) {
     log.info("Getting details for user [{}]", principal.getName());
     return userService.get(principal.getName());
   }
@@ -101,7 +101,7 @@ public class UserController {
   @RequestMapping(method = RequestMethod.DELETE, path = "/{userEmail}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN"})
-  public boolean deleteUser(@PathVariable(value = "userEmail") String userEmail) {
+  public int deleteUser(@PathVariable(value = "userEmail") String userEmail) {
     log.info("Deleting user with email: [{}]", userEmail);
     return userService.delete(userEmail);
   }

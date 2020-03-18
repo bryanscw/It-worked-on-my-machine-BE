@@ -5,6 +5,7 @@ import com.itworksonmymachine.eduamp.exception.ResourceAlreadyExistsException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
 import java.util.regex.Pattern;
+import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,8 +67,16 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean delete(String email) {
-    return userRepository.deleteUserByEmail(email);
+  @Transactional
+  public int delete(String email) {
+    int entitiesDel = userRepository.deleteUserByEmail(email);
+    if (entitiesDel > 0) {
+      return entitiesDel;
+    } else {
+      String errorMsg = String.format("User with userEmail: [%s] not found", email);
+      log.error(errorMsg);
+      throw new ResourceNotFoundException(errorMsg);
+    }
   }
 
   @Override
@@ -99,3 +108,4 @@ public class UserServiceImpl implements UserService {
   }
 
 }
+

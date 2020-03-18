@@ -10,7 +10,7 @@ public interface UserService {
 
   public User updateUser(User user);
 
-  public boolean delete(String email);
+  public int delete(String email);
 
   public User get(String email);
 

@@ -16,8 +16,10 @@ import com.itworksonmymachine.eduamp.entity.User;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -36,6 +38,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 )
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@TestMethodOrder(OrderAnnotation.class)
 public class UserControllerTest {
 
   @Autowired
@@ -212,7 +215,6 @@ public class UserControllerTest {
   @Order(10)
   @Test
   @WithUserDetails("admin1@test.com")
-  @Transactional
   public void should_allowDeleteUser_ifAuthorized() throws Exception {
     mockMvc.perform(
         MockMvcRequestBuilders.delete(String.format("/users/%s", this.user.getEmail()))
@@ -221,18 +223,16 @@ public class UserControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
-    userRepository.deleteUserByEmail(getPersistentUser().getEmail());
   }
 
   @Order(11)
   @Test
   @WithUserDetails("admin1@test.com")
-  @Transactional
   public void should_rejectDeleteUser_ifNotExists() throws Exception {
     mockMvc.perform(
         MockMvcRequestBuilders.delete(String.format("/users/%s", this.user.getEmail()))
             .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isForbidden())
+        .andExpect(status().isNotFound())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
