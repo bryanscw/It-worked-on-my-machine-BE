@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to fetch user if user is authorized.
+
+=== Fetch user if authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchUser_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchUser_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchUser_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchUser_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchUser_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchUser_ifAuthorized/response-body.adoc[]

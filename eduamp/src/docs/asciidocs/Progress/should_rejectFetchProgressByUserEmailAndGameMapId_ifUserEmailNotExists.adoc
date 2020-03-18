@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to reject fetching of progress by user email and game map id if user email does not exist.
+
+=== Reject fetch progress by user email and game map if user email does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/response-body.adoc[]

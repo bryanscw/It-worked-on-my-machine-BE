@@ -65,6 +65,7 @@ public class GameMap extends Auditable<String> {
   @Setter
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "topic_id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
   // https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis
   private Topic topic;
 
@@ -73,4 +74,5 @@ public class GameMap extends Auditable<String> {
   private boolean isPlayable;
 
 }
+
 

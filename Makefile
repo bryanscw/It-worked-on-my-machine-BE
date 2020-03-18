@@ -1,7 +1,7 @@
 PROJECT_ROOT 	:= $(shell git rev-parse --show-toplevel)
 
 test:
-	mvn test
+	docker run --name eduamp-mysql -e MYSQL_ROOT_PASSWORD=12345 -e MYSQL_USER=user -e MYSQL_PASSWORD=my5ql -p 3306:3306 -d mysql:latest && mvn test && docker rm -rf $(docker ps -aq)
 
 test-integration:
 	$(MAKE) -C testing/integration test-integration TYPE=$(TYPE) ID=$(ID)
@@ -15,14 +15,8 @@ build-docker:
 clean-docker:
 	cd ./infra/deploy && docker-compose down
 	
-deploy-full:
+deploy:
 	cd ./infra/deploy && docker-compose up -d
-	
-deploy-app:
-	cd ./infra/deploy && docker-compose up -d app
-	
-deploy-db:
-	cd ./infra/deploy && docker-compose up -d db
 
 # For cleaning of java docs
 clean-html:

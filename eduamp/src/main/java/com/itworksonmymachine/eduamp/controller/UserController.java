@@ -41,7 +41,7 @@ public class UserController {
   @RequestMapping(method = RequestMethod.POST, path = "/me")
   @Secured({})
   @ResponseStatus(HttpStatus.OK)
-  public User createUser(Principal principal) {
+  public User getUser(Principal principal) {
     log.info("Getting details for user [{}]", principal.getName());
     return userService.get(principal.getName());
   }

@@ -67,7 +67,10 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean delete(String email) {
-    return userRepository.deleteUserByEmail(email);
+    userRepository.findUserByEmail(email).orElseThrow(() -> new ResourceNotFoundException(
+        String.format("User with email [%s] not found", email)));
+    userRepository.deleteById(email);
+    return true;
   }
 
   @Override
@@ -99,3 +102,4 @@ public class UserServiceImpl implements UserService {
   }
 
 }
+

@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to reject fetching of progress if progress does not exist.
+
+=== Reject fetch progress by game map id if progress does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/response-body.adoc[]

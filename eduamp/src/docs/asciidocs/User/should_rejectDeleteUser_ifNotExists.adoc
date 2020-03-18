@@ -1,0 +1,29 @@
+= Getting started with Eduamp API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Table of Content
+:toclevels: 4
+
+This is the documentation for eduamp API to reject delete user if user does not exist.
+
+=== Reject delete user if user does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteUser_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteUser_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteUser_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteUser_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteUser_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteUser_ifNotExists/response-body.adoc[]
