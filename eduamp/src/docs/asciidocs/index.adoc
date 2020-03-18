@@ -10,27 +10,45 @@ This is the documentation for eduamp APIs.
 
 == Admin
 
-=== Get list of tokens
+=== Allow request to get list of tokens if authorized
 
 .Request sample with curl
-include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/curl-request.adoc[]
+include::{snippets}/should_allowfetchListOfTokens_ifAuthorized/curl-request.adoc[]
 
 .Request sample with http
-include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/http-request.adoc[]
+include::{snippets}/should_allowfetchListOfTokens_ifAuthorized/http-request.adoc[]
 
 .Request sample with httpie
-include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/httpie-request.adoc[]
+include::{snippets}/should_allowfetchListOfTokens_ifAuthorized/httpie-request.adoc[]
 
 .HTTP response
-include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/http-response.adoc[]
+include::{snippets}/should_allowfetchListOfTokens_ifAuthorized/http-response.adoc[]
 
 .Request sample
-include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/request-body.adoc[]
+include::{snippets}/should_allowfetchListOfTokens_ifAuthorized/request-body.adoc[]
 
 .Response sample
-include::{snippets}/should_onlyHaveOneTokenRow_forOneUser/response-body.adoc[]
+include::{snippets}/should_allowfetchListOfTokens_ifAuthorized/response-body.adoc[]
 
+=== Reject request to get list of tokens if not authorized
 
+.Request sample with curl
+include::{snippets}/should_rejectRequest_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectRequest_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectRequest_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectRequest_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectRequest_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectRequest_ifNotAuthorized/response-body.adoc[]
 
 == User
 
@@ -1467,22 +1485,22 @@ include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapN
 === Reject fetch progress by user email and game map if user email does not exist
 
 .Request sample with curl
-include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/curl-request.adoc[]
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/curl-request.adoc[]
 
 .Request sample with http
-include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/http-request.adoc[]
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/http-request.adoc[]
 
 .Request sample with httpie
-include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/httpie-request.adoc[]
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/httpie-request.adoc[]
 
 .HTTP response
-include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/http-response.adoc[]
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/http-response.adoc[]
 
 .Request sample
-include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/request-body.adoc[]
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/request-body.adoc[]
 
 .Response sample
-include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMap_ifUserEmailNotExists/response-body.adoc[]
+include::{snippets}/should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists/response-body.adoc[]
 
 === Reject fetch progress by user email if user is not authorized
 

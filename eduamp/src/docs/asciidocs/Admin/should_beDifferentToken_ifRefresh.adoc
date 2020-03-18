@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to get refreshed token.
+
+=== Reject request to get refreshed token
+
+.Request sample with curl
+include::{snippets}/should_beDifferentToken_ifRefresh/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_beDifferentToken_ifRefresh/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_beDifferentToken_ifRefresh/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_beDifferentToken_ifRefresh/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_beDifferentToken_ifRefresh/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_beDifferentToken_ifRefresh/response-body.adoc[]

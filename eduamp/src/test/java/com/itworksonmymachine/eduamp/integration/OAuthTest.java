@@ -1,6 +1,8 @@
 package com.itworksonmymachine.eduamp.integration;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -16,6 +18,7 @@ import com.itworksonmymachine.eduamp.config.TestConfig;
 import com.jayway.jsonpath.JsonPath;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +101,51 @@ public class OAuthTest {
   @Test
   @WithUserDetails("admin1@test.com")
   @Transactional
+  public void should_beDifferentToken_ifRefresh() throws Exception {
+
+    // Create user
+    String userJson = new ObjectMapper().writeValueAsString(this.user);
+    this.mockMvc.perform(post("/users/create")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(userJson))
+        .andExpect(status().isOk());
+
+    MvcResult initialMvcResult = mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", this.user.getEmail())
+        .param("password", this.user.getPass())
+        .param("grant_type", "password"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    String initialAuthToken = JsonPath
+        .read(initialMvcResult.getResponse().getContentAsString(), "$.access_token");
+
+    String refreshToken = JsonPath
+        .read(initialMvcResult.getResponse().getContentAsString(), "$.refresh_token");
+
+    MvcResult finalMvcResult = mockMvc.perform(
+        post(String.format("/oauth/token?grant_type=refresh_token&refresh_token=%s", refreshToken))
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+            .header(HttpHeaders.AUTHORIZATION,
+                "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes())))
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())))
+        .andReturn();
+
+    String refreshedAuthToken = JsonPath
+        .read(finalMvcResult.getResponse().getContentAsString(), "$.access_token");
+
+    assertThat(initialAuthToken, is(not(refreshedAuthToken)));
+  }
+
+  @Test
+  @WithUserDetails("admin1@test.com")
+  @Transactional
   public void should_logout_ifValidSession() throws Exception {
     // Create user
     String userJson = new ObjectMapper().writeValueAsString(this.user);
@@ -144,3 +192,4 @@ public class OAuthTest {
   }
 
 }
+

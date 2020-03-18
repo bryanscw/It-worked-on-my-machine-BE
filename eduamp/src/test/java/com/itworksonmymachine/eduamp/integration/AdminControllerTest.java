@@ -82,45 +82,35 @@ public class AdminControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk());
-  }
 
-  @Order(2)
-  @Test
-  public void should_beDifferentToken_ifRefresh() throws Exception {
-    MvcResult initialMvcResult = mockMvc.perform(post("/oauth/token")
+    // Perform login
+    this.mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
         .param("username", this.user.getEmail())
         .param("password", this.user.getPass())
-        .param("grant_type", "password"))
-        .andReturn();
+        .param("grant_type", "password"));
+  }
 
-    String initialAuthToken = JsonPath
-        .read(initialMvcResult.getResponse().getContentAsString(), "$.access_token");
-
-    String refreshToken = JsonPath
-        .read(initialMvcResult.getResponse().getContentAsString(), "$.refresh_token");
-
-    MvcResult finalMvcResult = mockMvc.perform(
-        post(String.format("/oauth/token?grant_type=refresh_token&refresh_token=%s", refreshToken))
-        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-        .header(HttpHeaders.AUTHORIZATION,
-            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes())))
-        .andReturn();
-
-    String refreshedAuthToken = JsonPath
-        .read(finalMvcResult.getResponse().getContentAsString(), "$.access_token");
-
-    assertThat(initialAuthToken, is(not(refreshedAuthToken)));
+  @Order(2)
+  @Test
+  @WithUserDetails("teacher1@test.com")
+  public void should_rejectRequest_ifNotAuthorized() throws Exception {
+    // Perform login
+    this.mockMvc.perform(MockMvcRequestBuilders.get("/admin/token/list")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Order(3)
   @Test
   @WithUserDetails("admin1@test.com")
-  public void should_onlyHaveOneTokenRow_forOneUser() throws Exception {
-
-    // Perform login
+  public void should_allowfetchListOfTokens_ifAuthorized() throws Exception {
+    
     this.mockMvc.perform(MockMvcRequestBuilders.get("/admin/token/list")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
         .andExpect(status().isOk())
