@@ -11,23 +11,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.itworksonmymachine.eduamp.config.TestConfig;
 import com.itworksonmymachine.eduamp.entity.GameMap;
 import com.itworksonmymachine.eduamp.entity.LearningMaterial;
-import com.itworksonmymachine.eduamp.entity.Question;
 import com.itworksonmymachine.eduamp.entity.Topic;
-import com.itworksonmymachine.eduamp.model.Coordinates;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.LearningMaterialRepository;
 import com.itworksonmymachine.eduamp.repository.TopicRepository;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +29,9 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @Slf4j
@@ -72,21 +64,22 @@ public class LearningMaterialControllerTest {
     return allGameMaps.iterator().next();
   }
 
-  private Topic getPersistentTopic(){
+  private Topic getPersistentTopic() {
     Iterable<Topic> allTopics = topicRepository.findAll();
     return allTopics.iterator().next();
   }
 
-  private int getPersistentLearningMaterialId(){
+  private int getPersistentLearningMaterialId() {
     Iterable<LearningMaterial> allLearningMaterials = learningMaterialRepository.findAll();
     return allLearningMaterials.iterator().next().getId();
   }
 
   @BeforeEach
-  private void setUp(){
+  private void setUp() {
     this.learningMaterial = new LearningMaterial();
     this.learningMaterial.setTitle("[Topic Title]: Multiplication");
-    this.learningMaterial.setDescription("[Topic Description]: This topic is about simple multiplication");
+    this.learningMaterial
+        .setDescription("[Topic Description]: This topic is about simple multiplication");
     this.learningMaterial.setLink("http://test.com");
   }
 
@@ -125,7 +118,8 @@ public class LearningMaterialControllerTest {
     // Finally, insert Learning Material into created Game Map
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
     mockMvc.perform(
-        MockMvcRequestBuilders.post(String.format("/gameMaps/%s/learningMaterials/create", getPersistentGameMap().getId()))
+        MockMvcRequestBuilders.post(
+            String.format("/gameMaps/%s/learningMaterials/create", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(learningMaterialJson))
         .andExpect(status().isOk());
@@ -139,7 +133,8 @@ public class LearningMaterialControllerTest {
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
     mockMvc.perform(
-        MockMvcRequestBuilders.post(String.format("/gameMaps/%s/learningMaterials/create", getPersistentGameMap().getId()))
+        MockMvcRequestBuilders.post(
+            String.format("/gameMaps/%s/learningMaterials/create", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(learningMaterialJson))
         .andExpect(status().isForbidden())
@@ -185,7 +180,7 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_allowFetchLearningMaterials_ifAuthorized() throws Exception {
-    
+
     mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/learningMaterials/",
         getPersistentGameMap().getId()))
         .contentType(MediaType.APPLICATION_JSON))
@@ -256,7 +251,7 @@ public class LearningMaterialControllerTest {
   @Order(9)
   @WithUserDetails("student1@test.com")
   @Transactional
-  public void should_rejectDeleteLearningMaterial_ifNotAuthorized() throws Exception{
+  public void should_rejectDeleteLearningMaterial_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/learningMaterials/%s",
         getPersistentGameMap().getId(),
         getPersistentLearningMaterialId()))
@@ -271,25 +266,32 @@ public class LearningMaterialControllerTest {
   @Order(10)
   @WithUserDetails("teacher1@test.com")
   @Transactional
-  public void should_allowDeleteLearningMaterial_ifAuthorized() throws Exception{
+  public void should_allowDeleteLearningMaterial_ifAuthorized() throws Exception {
+    int persistentLearningMaterialId = getPersistentLearningMaterialId();
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/learningMaterials/%s",
         getPersistentGameMap().getId(),
-        getPersistentLearningMaterialId()))
+        persistentLearningMaterialId))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+
+    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/learningMaterials/%s",
+        getPersistentGameMap().getId(),
+        persistentLearningMaterialId))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
   }
 
   @Test
   @Order(11)
   @WithUserDetails("teacher1@test.com")
   @Transactional
-  public void should_rejectDeleteLearningMaterial_ifNotExists() throws Exception{
+  public void should_rejectDeleteLearningMaterial_ifNotExists() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/learningMaterials/%s",
         getPersistentGameMap().getId(),
-        getPersistentLearningMaterialId()-1))
+        getPersistentLearningMaterialId() - 1))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andDo(document("{methodName}",

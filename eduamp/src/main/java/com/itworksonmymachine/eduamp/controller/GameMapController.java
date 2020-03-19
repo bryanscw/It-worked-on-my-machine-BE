@@ -87,7 +87,7 @@ public class GameMapController {
    * @param principal Principal context containing information of the user submitting the request
    * @return Updated GameMap
    */
-  @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}/gameMaps/{gameMapId}")
+  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{topicId}/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public GameMap updateGameMap(@PathVariable(value = "topicId") Integer topicId,

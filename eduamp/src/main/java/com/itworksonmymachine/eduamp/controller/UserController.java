@@ -81,7 +81,7 @@ public class UserController {
    * @param user      User to be updated
    * @return Updated user
    */
-  @RequestMapping(method = RequestMethod.PUT, path = "/{userEmail}")
+  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{userEmail}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN"})
   public User updateUser(@PathVariable(value = "userEmail") String userEmail,

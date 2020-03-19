@@ -83,7 +83,7 @@ public class TopicController {
    * @param principal Principal context containing information of the user submitting the request
    * @return Updated topic
    */
-  @RequestMapping(method = RequestMethod.PUT, path = "/{topicId}")
+  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{topicId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public Topic updateTopic(
@@ -92,27 +92,6 @@ public class TopicController {
       Principal principal
   ) {
     log.info("Updating topic with id: [{}]", topicId);
-    topic.setId(topicId);
-    return topicService.updateTopic(topic, principal.getName());
-  }
-
-  /**
-   * Patch a Topic.
-   * <p>
-   *
-   * @param topicId   Topic id that topic is referenced by
-   * @param topic     Topic to be updated
-   * @param principal Principal context containing information of the user submitting the request
-   * @return Updated topic
-   */
-  @RequestMapping(method = RequestMethod.PATCH, path = "/{topicId}")
-  @ResponseStatus(HttpStatus.OK)
-  @Secured({"ROLE_TEACHER"})
-  public Topic patchTopic(
-      @PathVariable(value = "topicId") Integer topicId,
-      @RequestBody Topic topic, Principal principal
-  ) {
-    log.info("Patching topic with id: [{}]", topicId);
     topic.setId(topicId);
     return topicService.updateTopic(topic, principal.getName());
   }

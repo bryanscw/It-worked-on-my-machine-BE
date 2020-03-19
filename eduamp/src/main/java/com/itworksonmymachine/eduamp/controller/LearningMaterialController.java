@@ -91,7 +91,7 @@ public class LearningMaterialController {
    *                         request
    * @return Updated learningMaterial
    */
-  @RequestMapping(method = RequestMethod.PUT, path = "/{gameMapId}/learningMaterials/{learningMaterialId}")
+  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{gameMapId}/learningMaterials/{learningMaterialId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public LearningMaterial updateLearningMaterial(

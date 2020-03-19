@@ -127,7 +127,8 @@ public class ProgressController {
    *                       request
    * @return Updated Progress
    */
-  @RequestMapping(method = RequestMethod.PUT, path = "/users/{userEmail}/gameMaps/{gameMapId}")
+  @RequestMapping(method = {RequestMethod.PUT,
+      RequestMethod.PATCH}, path = "/users/{userEmail}/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Progress updateProgress(
