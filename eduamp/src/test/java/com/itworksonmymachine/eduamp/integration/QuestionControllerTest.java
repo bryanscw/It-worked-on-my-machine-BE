@@ -300,7 +300,7 @@ public class QuestionControllerTest {
   @Test
   @Order(10)
   @WithUserDetails("teacher1@test.com")
-  public void should_allowDeleteGameMapByQuestion_ifAuthorized() throws Exception{
+  public void should_allowDeleteQuestionByGameMap_ifAuthorized() throws Exception{
     int questionId = getPersistentQuestionId();
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(),
@@ -321,7 +321,7 @@ public class QuestionControllerTest {
   @Test
   @Order(11)
   @WithUserDetails("teacher1@test.com")
-  public void should_rejectDeleteGameMapByQuestion_ifNotExist() throws Exception{
+  public void should_rejectDeleteQuestionByGameMap_ifNotExist() throws Exception{
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(),
         this.question.getId()))
@@ -336,6 +336,7 @@ public class QuestionControllerTest {
     topicRepository.deleteById(getPersistentTopic().getId());
   }
 }
+
 
 
 
