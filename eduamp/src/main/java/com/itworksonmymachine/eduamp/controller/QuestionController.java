@@ -123,7 +123,7 @@ public class QuestionController {
   @RequestMapping(method = RequestMethod.DELETE, path = "/{gameMapId}/questions/{questionId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public boolean deleteGameMap(
+  public boolean deleteQuestion(
       @PathVariable(value = "gameMapId") Integer gameMapId,
       @PathVariable(value = "questionId") Integer questionId,
       Principal principal
