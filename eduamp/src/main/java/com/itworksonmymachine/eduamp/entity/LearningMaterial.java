@@ -26,7 +26,7 @@ public class LearningMaterial extends Auditable<String> {
   @Id
   @Getter
   @Setter
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
