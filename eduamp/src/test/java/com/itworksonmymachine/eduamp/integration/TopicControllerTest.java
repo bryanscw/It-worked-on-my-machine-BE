@@ -300,6 +300,11 @@ public class TopicControllerTest {
             .andDo(document("{methodName}",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint())));
+
+    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(topicJson))
+        .andExpect(status().isNotFound());
   }
 
   @Test
@@ -350,4 +355,5 @@ public class TopicControllerTest {
 //  }
 
 }
+
 

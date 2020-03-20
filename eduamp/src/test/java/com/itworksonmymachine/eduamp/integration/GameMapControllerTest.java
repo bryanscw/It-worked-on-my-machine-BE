@@ -196,6 +196,12 @@ public class GameMapControllerTest {
             .andDo(document("{methodName}",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint())));
+
+    mockMvc.perform(MockMvcRequestBuilders.delete(String
+        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+            getPersistentGameMapId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
   }
 
   @Test
@@ -234,4 +240,5 @@ public class GameMapControllerTest {
 //  }
 
 }
+
 

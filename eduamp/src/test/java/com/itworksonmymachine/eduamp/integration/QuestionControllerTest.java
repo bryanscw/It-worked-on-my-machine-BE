@@ -309,6 +309,12 @@ public class QuestionControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+
+    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
+        getPersistentGameMap().getId(),
+        getPersistentQuestionId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
   }
 
   @Test
@@ -329,6 +335,7 @@ public class QuestionControllerTest {
     topicRepository.deleteById(getPersistentTopic().getId());
   }
 }
+
 
 
 
