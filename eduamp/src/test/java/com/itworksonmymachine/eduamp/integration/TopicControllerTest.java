@@ -292,18 +292,16 @@ public class TopicControllerTest {
   @Transactional
   public void should_allowDeleteTopic_ifAuthorized() throws Exception {
     // Delete topic
-    String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(topicJson))
+    int topicId = getPersistentTopicId();
+    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + topicId)
+            .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andDo(document("{methodName}",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint())));
 
-    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(topicJson))
+    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + topicId)
+        .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
   }
 
@@ -321,8 +319,6 @@ public class TopicControllerTest {
             .andDo(document("{methodName}",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint())));
-
-    topicRepository.deleteById(getPersistentTopicId());
   }
 
 //  @Test

@@ -301,9 +301,10 @@ public class QuestionControllerTest {
   @Order(10)
   @WithUserDetails("teacher1@test.com")
   public void should_allowDeleteGameMapByQuestion_ifAuthorized() throws Exception{
+    int questionId = getPersistentQuestionId();
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(),
-        getPersistentQuestionId()))
+        questionId))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{methodName}",
@@ -312,7 +313,7 @@ public class QuestionControllerTest {
 
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(),
-        getPersistentQuestionId()))
+        questionId))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
   }
