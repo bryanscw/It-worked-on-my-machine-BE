@@ -29,7 +29,7 @@ public class LearningMaterial extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
   @JoinColumn(name = "game_map_id", nullable = false)
   @Getter
   @Setter
