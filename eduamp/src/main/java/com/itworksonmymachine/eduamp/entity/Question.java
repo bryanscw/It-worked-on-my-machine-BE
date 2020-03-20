@@ -17,6 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "question")
@@ -36,6 +38,7 @@ public class Question extends Auditable<String> {
   @Getter
   @Setter
   @JsonBackReference
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private GameMap gameMap;
 
   @Getter
