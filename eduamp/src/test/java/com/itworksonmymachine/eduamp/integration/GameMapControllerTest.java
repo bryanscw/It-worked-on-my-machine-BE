@@ -73,6 +73,8 @@ public class GameMapControllerTest {
   @BeforeEach
   private void setup() {
     this.gameMap = new GameMap();
+    this.gameMap.setTitle("This is a title");
+    this.gameMap.setDescription("This is a description");
     this.gameMap.setMapDescriptor("This is a map descriptor");
     this.gameMap.setPlayable(false);
   }
@@ -80,7 +82,7 @@ public class GameMapControllerTest {
   @Test
   @Order(1)
   @WithUserDetails("teacher1@test.com")
-  public void should_allowCreateGameMap_ifAuthorized() throws Exception {
+  public void createContext() throws Exception {
     Topic topic = new Topic();
     topic.setTitle("[Topic Title]: Multiplication");
     topic.setDescription("[Topic Description]: This topic is about simple multiplication");
@@ -92,6 +94,15 @@ public class GameMapControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(topicJson))
         .andExpect(status().isOk()).andReturn();
+  }
+
+  @Test
+  @Order(2)
+  @WithUserDetails("teacher1@test.com")
+  public void should_allowCreateGameMap_ifAuthorized() throws Exception {
+    // Required during test as ObjectMapper cannot have a non-null Topic.
+    // In actual production, Topic can be null
+    this.gameMap.setTopic(getPersistentTopic());
 
     String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
@@ -106,7 +117,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(2)
+  @Order(3)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectCreateGameMap_ifNotAuthorized() throws Exception {
@@ -122,7 +133,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(3)
+  @Order(4)
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectFetchGameMaps_ifNotAuthorized() throws Exception {
@@ -136,7 +147,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(4)
+  @Order(5)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowFetchGameMaps_ifAuthorized() throws Exception {
@@ -153,7 +164,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(5)
+  @Order(6)
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectFetchGameMap_ifNotAuthorized() throws Exception {
@@ -169,7 +180,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(6)
+  @Order(7)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectDeleteGameMap_ifNotAuthorized() throws Exception {
@@ -184,7 +195,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(7)
+  @Order(8)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowDeleteGameMap_ifAuthorized() throws Exception {
@@ -206,7 +217,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(8)
+  @Order(9)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_rejectDeleteGameMap_ifNotExists() throws Exception {
@@ -218,7 +229,11 @@ public class GameMapControllerTest {
             .andDo(document("{methodName}",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint())));
+  }
 
+  @Test
+  @Order(9999)
+  public void cleanupContext() throws Exception {
     // Delete topic
     // END OF TEST, delete topic
     topicRepository.deleteById(getPersistentTopic().getId());
