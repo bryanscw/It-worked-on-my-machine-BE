@@ -59,7 +59,7 @@ public class QuestionController {
    * @return question Question with the requested belonging to GameMapId and referenced by the
    * questionId
    */
-  @RequestMapping(method = RequestMethod.GET, path = "/gameMap/{gameMapId}/questions/{questionId}")
+  @RequestMapping(method = RequestMethod.GET, path = "/{gameMapId}/questions/{questionId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Question fetchTopic(

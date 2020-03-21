@@ -10,12 +10,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.itworksonmymachine.eduamp.config.TestConfig;
 import com.itworksonmymachine.eduamp.entity.GameMap;
-import com.itworksonmymachine.eduamp.entity.LearningMaterial;
 import com.itworksonmymachine.eduamp.entity.Question;
 import com.itworksonmymachine.eduamp.entity.Topic;
 import com.itworksonmymachine.eduamp.model.Coordinates;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
-import com.itworksonmymachine.eduamp.repository.LearningMaterialRepository;
 import com.itworksonmymachine.eduamp.repository.QuestionRepository;
 import com.itworksonmymachine.eduamp.repository.TopicRepository;
 import java.util.HashMap;
@@ -23,10 +21,10 @@ import java.util.Map;
 import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +32,9 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @Slf4j
@@ -95,7 +91,7 @@ public class QuestionControllerTest {
     coordinates.setY(1);
 
     // Initialise Question Map for Question
-    Map<Integer, String> questionMap = new HashMap<Integer, String>();
+    Map<Integer, String> questionMap = new HashMap<>();
     questionMap.put(1, "Option 1");
     questionMap.put(2, "Option 2");
     questionMap.put(3, "Option 3");
@@ -167,7 +163,7 @@ public class QuestionControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_allowFetchQuestion_ifAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/gameMap/%s/questions/%s",
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(), getPersistentQuestionId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -189,7 +185,7 @@ public class QuestionControllerTest {
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectFetchQuestion_ifNotAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/gameMap/%s/questions/%s",
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(), getPersistentQuestionId()))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())

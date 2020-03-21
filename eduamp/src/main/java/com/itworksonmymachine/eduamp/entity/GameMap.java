@@ -74,6 +74,3 @@ public class GameMap extends Auditable<String> {
   private boolean isPlayable;
 
 }
-
-
-
