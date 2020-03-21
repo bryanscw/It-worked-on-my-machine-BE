@@ -74,4 +74,9 @@ public class GameMap extends Auditable<String> {
   @Setter
   private boolean isPlayable;
 
+  // Getter method to retrieve the topic_id
+  public int getTopic_id(){
+    return topic.getId();
+  }
+
 }

@@ -63,5 +63,10 @@ public class Question extends Auditable<String> {
   @Setter
   private Coordinates coordinates;
 
+  // Getter method to retrieve the gameMap_id
+  public int getGameMap_id(){
+    return gameMap.getId();
+  }
+
 }
 
