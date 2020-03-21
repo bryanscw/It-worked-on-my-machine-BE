@@ -199,7 +199,7 @@ public class QuestionControllerTest {
 
   @Test
   @Order(4)
-  @WithUserDetails("student1@test.com")
+  @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowFetchQuestionAndShowAnswer_ifAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/questions/%s",
