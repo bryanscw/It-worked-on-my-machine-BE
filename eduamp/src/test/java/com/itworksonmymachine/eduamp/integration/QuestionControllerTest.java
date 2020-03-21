@@ -8,6 +8,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itworksonmymachine.eduamp.config.TestConfig;
 import com.itworksonmymachine.eduamp.entity.GameMap;
 import com.itworksonmymachine.eduamp.entity.Question;
@@ -20,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
