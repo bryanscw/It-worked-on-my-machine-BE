@@ -179,7 +179,29 @@ public class QuestionControllerTest {
   @Order(3)
   @WithUserDetails("student1@test.com")
   @Transactional
-  public void should_allowFetchQuestion_ifAuthorized() throws Exception {
+  public void should_allowFetchQuestionButNotShowAnswer_ifAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/questions/%s",
+        getPersistentGameMap().getId(), getPersistentQuestionId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.questionText", is(this.question.getQuestionText())))
+        .andExpect(jsonPath("$.options[\"1\"]", is(this.question.getOptions().get(1))))
+        .andExpect(jsonPath("$.options[\"2\"]", is(this.question.getOptions().get(2))))
+        .andExpect(jsonPath("$.options[\"3\"]", is(this.question.getOptions().get(3))))
+        .andExpect(jsonPath("$.options[\"4\"]", is(this.question.getOptions().get(4))))
+        .andExpect(jsonPath("$.answer", is(-1)))
+        .andExpect(jsonPath("$.coordinates[\"x\"]", is(this.question.getCoordinates().getX())))
+        .andExpect(jsonPath("$.coordinates[\"y\"]", is(this.question.getCoordinates().getY())))
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(4)
+  @WithUserDetails("student1@test.com")
+  @Transactional
+  public void should_allowFetchQuestionAndShowAnswer_ifAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(), getPersistentQuestionId()))
         .contentType(MediaType.APPLICATION_JSON))
@@ -198,7 +220,7 @@ public class QuestionControllerTest {
   }
 
   @Test
-  @Order(4)
+  @Order(5)
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectFetchQuestion_ifNotAuthorized() throws Exception {
@@ -212,10 +234,34 @@ public class QuestionControllerTest {
   }
 
   @Test
-  @Order(5)
+  @Order(6)
   @WithUserDetails("student1@test.com")
   @Transactional
-  public void should_allowFetchQuestionsByGameMapId_ifAuthorized() throws Exception {
+  public void should_allowFetchQuestionsByGameMapIdButNotShowAnswer_ifAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/questions",
+        getPersistentGameMap().getId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content[0].questionText", is(this.question.getQuestionText())))
+        .andExpect(jsonPath("$.content[0].answer", is(-1)))
+        .andExpect(
+            jsonPath("$.content[0].coordinates[\"x\"]", is(this.question.getCoordinates().getX())))
+        .andExpect(
+            jsonPath("$.content[0].coordinates[\"y\"]", is(this.question.getCoordinates().getY())))
+        .andExpect(jsonPath("$.content[0].options[\"1\"]", is(this.question.getOptions().get(1))))
+        .andExpect(jsonPath("$.content[0].options[\"2\"]", is(this.question.getOptions().get(2))))
+        .andExpect(jsonPath("$.content[0].options[\"3\"]", is(this.question.getOptions().get(3))))
+        .andExpect(jsonPath("$.content[0].options[\"4\"]", is(this.question.getOptions().get(4))))
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(7)
+  @WithUserDetails("teacher1@test.com")
+  @Transactional
+  public void should_allowFetchQuestionsByGameMapIdAndShowAnswer_ifAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get(String.format("/gameMaps/%s/questions",
         getPersistentGameMap().getId()))
         .contentType(MediaType.APPLICATION_JSON))
@@ -236,7 +282,7 @@ public class QuestionControllerTest {
   }
 
   @Test
-  @Order(6)
+  @Order(8)
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectFetchQuestionsByGameMapId_ifNotAuthorized() throws Exception {
@@ -250,7 +296,7 @@ public class QuestionControllerTest {
   }
 
   @Test
-  @Order(7)
+  @Order(9)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectUpdateQuestion_ifNotAuthorized() throws Exception {
@@ -273,7 +319,7 @@ public class QuestionControllerTest {
   }
 
   @Test
-  @Order(8)
+  @Order(10)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowUpdateQuestion_ifAuthorized() throws Exception {
@@ -304,7 +350,7 @@ public class QuestionControllerTest {
   }
 
   @Test
-  @Order(9)
+  @Order(11)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectDeleteGameMapByQuestion_ifNotAuthorized() throws Exception {
@@ -320,7 +366,7 @@ public class QuestionControllerTest {
   }
 
   @Test
-  @Order(10)
+  @Order(12)
   @WithUserDetails("teacher1@test.com")
   public void should_allowDeleteQuestionByGameMap_ifAuthorized() throws Exception {
     int questionId = getPersistentQuestionId();
@@ -341,7 +387,7 @@ public class QuestionControllerTest {
   }
 
   @Test
-  @Order(11)
+  @Order(13)
   @WithUserDetails("teacher1@test.com")
   public void should_rejectDeleteQuestionByGameMap_ifNotExist() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
