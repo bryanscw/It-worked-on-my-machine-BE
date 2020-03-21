@@ -41,7 +41,6 @@ public class Progress extends Auditable<String> {
   @Getter
   @Setter
   @OneToOne(fetch= FetchType.EAGER)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   private GameMap map;
 
   @Getter
@@ -58,7 +57,7 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "progress", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "progress", cascade = {CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
   private List<QuestionProgress> questionProgressList = new ArrayList<>();
 
 }
