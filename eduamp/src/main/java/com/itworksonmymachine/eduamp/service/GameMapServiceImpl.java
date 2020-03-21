@@ -74,17 +74,25 @@ public class GameMapServiceImpl implements GameMapService {
 //      throw new NotAuthorizedException();
 //    }
 
+    if (gameMap.getTitle() != null) {
+      gameMapToFind.setTitle(gameMap.getTitle());
+    }
+
+    if (gameMap.getDescription() != null) {
+      gameMapToFind.setDescription(gameMap.getDescription());
+    }
+
     if (gameMap.getMapDescriptor() != null) {
       gameMapToFind.setMapDescriptor(gameMap.getMapDescriptor());
     }
 
-    if (gameMap.getQuestions() != null || !gameMap.getQuestions().isEmpty()) {
+    if (gameMap.getQuestions() != null) {
       gameMapToFind.setQuestions(gameMap.getQuestions());
     }
 
     gameMapToFind.setPlayable(gameMap.isPlayable());
 
-    return gameMapRepository.save(gameMap);
+    return gameMapRepository.save(gameMapToFind);
   }
 
   @Override

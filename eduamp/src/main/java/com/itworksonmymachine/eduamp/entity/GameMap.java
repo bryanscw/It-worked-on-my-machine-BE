@@ -49,14 +49,16 @@ public class GameMap extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
+      CascadeType.REFRESH})
   @JsonManagedReference
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<Question> questions;
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
+      CascadeType.REFRESH})
   @JsonManagedReference
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<LearningMaterial> learningMaterials;
