@@ -5,9 +5,13 @@ import com.itworksonmymachine.eduamp.entity.Question;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.QuestionRepository;
+import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -25,12 +29,22 @@ public class QuestionServiceImpl implements QuestionService {
   }
 
   @Override
-  public Page<Question> fetchAllQuestions(Integer gameMapId, Pageable pageable) {
-    return questionRepository.findQuestionsByGameMap_Id(gameMapId, pageable);
+  public Page<Question> fetchAllQuestions(Integer gameMapId, Pageable pageable,
+      Authentication authentication) {
+    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    Page<Question> questions = questionRepository.findQuestionsByGameMap_Id(gameMapId, pageable);
+
+    // Remove answer if request is from a user
+    if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
+      questions.stream().forEach(question -> {question.setAnswer(-1);});
+    }
+
+    return questions;
   }
 
   @Override
-  public Question fetchQuestionById(Integer gameMapId, Integer questionId) {
+  public Question fetchQuestionById(Integer gameMapId, Integer questionId,
+      Authentication authentication) {
     Question questionToFind = questionRepository.findById(questionId).orElseThrow(() -> {
       String errorMsg = String.format("Question with questionId: [%s] not found", questionId);
       log.error(errorMsg);
@@ -46,6 +60,12 @@ public class QuestionServiceImpl implements QuestionService {
       throw new ResourceNotFoundException(errorMsg);
     }
 
+    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+    // Remove answer if request is from a user
+    if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
+      questionToFind.setAnswer(-1);
+    }
     return questionToFind;
   }
 
@@ -111,7 +131,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     if (questionToFind.getGameMap().getId() != gameMapId) {
       String errorMsg = String
-          .format("Question with gameMapId: [%s] and questionId: [%s] not found", gameMapId, questionId);
+          .format("Question with gameMapId: [%s] and questionId: [%s] not found", gameMapId,
+              questionId);
       log.error(errorMsg);
       throw new ResourceNotFoundException(errorMsg);
     }

@@ -69,4 +69,3 @@ public class Question extends Auditable<String> {
   }
 
 }
-
