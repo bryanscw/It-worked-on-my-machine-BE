@@ -1,5 +1,6 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -50,24 +51,22 @@ public class GameMap extends Auditable<String> {
   @Getter
   @Setter
   @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
-      CascadeType.REFRESH})
+      CascadeType.REFRESH, CascadeType.REMOVE} )
   @JsonManagedReference
-  @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<Question> questions;
 
   @Getter
   @Setter
   @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
-      CascadeType.REFRESH})
+      CascadeType.REFRESH, CascadeType.REMOVE})
   @JsonManagedReference
-  @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<LearningMaterial> learningMaterials;
 
   @Getter
   @Setter
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "topic_id")
-  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonBackReference
   // https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis
   private Topic topic;
 
