@@ -270,6 +270,11 @@ public class UserControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/users/%s", this.user.getEmail()))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
   }
 
   @Order(13)
@@ -286,4 +291,5 @@ public class UserControllerTest {
   }
 
 }
+
 

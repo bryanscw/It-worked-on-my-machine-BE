@@ -56,3 +56,4 @@ public class Question extends Auditable<String> {
   private Coordinates coordinates;
 
 }
+
