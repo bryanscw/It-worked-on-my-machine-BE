@@ -105,11 +105,6 @@ public class LearningMaterialControllerTest {
     gameMap.setMapDescriptor("This is a map descriptor");
     gameMap.setPlayable(false);
 
-    // Required during test as ObjectMapper cannot have a non-null Topic.
-    // In actual production, Topic can be null
-    topic = getPersistentTopic();
-    gameMap.setTopic(topic);
-
     // Create Game Map
     String gameMapJson = new ObjectMapper().writeValueAsString(gameMap);
     mockMvc.perform(
@@ -139,10 +134,6 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectCreateLearningMaterial_ifNotAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    GameMap gameMap = getPersistentGameMap();
-    this.learningMaterial.setGameMap(gameMap);
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
     mockMvc.perform(
