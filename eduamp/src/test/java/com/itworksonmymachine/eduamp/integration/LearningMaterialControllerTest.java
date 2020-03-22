@@ -124,10 +124,6 @@ public class LearningMaterialControllerTest {
   @Order(1)
   @WithUserDetails("teacher1@test.com")
   public void should_allowCreateLearningMaterial_ifAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    GameMap gameMap = getPersistentGameMap();
-    this.learningMaterial.setGameMap(gameMap);
 
     String learningMaterialJson = new ObjectMapper().writeValueAsString(this.learningMaterial);
     mockMvc.perform(
@@ -226,10 +222,6 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectUpdateLearningMaterial_ifNotAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    GameMap gameMap = getPersistentGameMap();
-    this.learningMaterial.setGameMap(gameMap);
 
     this.learningMaterial.setTitle("New title");
 
@@ -250,10 +242,6 @@ public class LearningMaterialControllerTest {
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowUpdateLearningMaterial_ifAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    GameMap gameMap = getPersistentGameMap();
-    this.learningMaterial.setGameMap(gameMap);
 
     this.learningMaterial.setTitle("New title");
 
