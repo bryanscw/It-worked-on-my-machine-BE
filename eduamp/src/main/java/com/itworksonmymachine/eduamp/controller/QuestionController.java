@@ -64,7 +64,7 @@ public class QuestionController {
   @RequestMapping(method = RequestMethod.GET, path = "/{gameMapId}/questions/{questionId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public Question fetchTopic(
+  public Question fetchQuestion(
       @PathVariable(value = "gameMapId") Integer gameMapId,
       @PathVariable(value = "questionId") Integer questionId,
       Authentication authentication
