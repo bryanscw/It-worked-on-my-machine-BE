@@ -2,19 +2,24 @@ package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.GameMap;
 import com.itworksonmymachine.eduamp.entity.Progress;
+import com.itworksonmymachine.eduamp.entity.Question;
 import com.itworksonmymachine.eduamp.entity.QuestionProgress;
 import com.itworksonmymachine.eduamp.entity.User;
 import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.exception.ResourceAlreadyExistsException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
 import com.itworksonmymachine.eduamp.model.dto.LeaderboardResultDTO;
+import com.itworksonmymachine.eduamp.model.dto.QuestionAttemptDTO;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.ProgressRepository;
+import com.itworksonmymachine.eduamp.repository.QuestionProgressRepository;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -35,14 +40,19 @@ public class ProgressServiceImpl implements ProgressService {
 
   private final GameMapRepository gameMapRepository;
 
+  private final QuestionProgressRepository questionProgressRepository;
+
   public ProgressServiceImpl(
       ProgressRepository progressRepository,
       UserRepository userRepository,
-      GameMapRepository gameMapRepository
+      GameMapRepository gameMapRepository,
+      QuestionProgressRepository questionProgressRepository
+
   ) {
     this.progressRepository = progressRepository;
     this.userRepository = userRepository;
     this.gameMapRepository = gameMapRepository;
+    this.questionProgressRepository = questionProgressRepository;
   }
 
   /**
@@ -96,7 +106,6 @@ public class ProgressServiceImpl implements ProgressService {
    */
   @Override
   public ArrayList<LeaderboardResultDTO> fetchLeaderboardByGameMapId(Integer gameMapId) {
-
     // Sanity check to see GameMap exists
     gameMapRepository.findById(gameMapId).orElseThrow(() -> {
       String gameMapNotFoundMsg = String
@@ -105,13 +114,12 @@ public class ProgressServiceImpl implements ProgressService {
       return new ResourceNotFoundException(gameMapNotFoundMsg);
     });
 
-    ArrayList<LeaderboardResultDTO> leaderboardResultDTOArrayList = new ArrayList<>();
-
     List<Progress> progressList = progressRepository.findProgressByMap_Id(gameMapId);
     // Filter for progress of users who have completed the GameMap
     progressList = progressList.stream().filter(Progress::isComplete).collect(Collectors.toList());
 
     // Create LeaderBoardResultDTO objects and add them into leaderboardResultDTOArraylist
+    ArrayList<LeaderboardResultDTO> leaderboardResultDTOArrayList = new ArrayList<>();
     progressList.forEach(p -> leaderboardResultDTOArrayList
         .add(new LeaderboardResultDTO(p.getUser().getName(), p.getTimeTaken())));
 
@@ -119,6 +127,54 @@ public class ProgressServiceImpl implements ProgressService {
     leaderboardResultDTOArrayList.sort(Comparator.comparing(LeaderboardResultDTO::getTiming));
 
     return leaderboardResultDTOArrayList;
+  }
+
+  /**
+   * Fetch the attempt count of all students that attempted of a certain GameMap.
+   *
+   * @param gameMapId GameMap id
+   * @return QuestionAttemptDTO containing the attempt count of the specific GameMap
+   */
+  @Override
+  public ArrayList<QuestionAttemptDTO> fetchAttemptCountByGameMapId(Integer gameMapId) {
+    // Sanity check to see GameMap exists
+    gameMapRepository.findById(gameMapId).orElseThrow(() -> {
+      String gameMapNotFoundMsg = String
+          .format("GameMap with gameMapId: [%s] not found", gameMapId);
+      log.error(gameMapNotFoundMsg);
+      return new ResourceNotFoundException(gameMapNotFoundMsg);
+    });
+
+    List<Progress> progressList = progressRepository.findProgressByMap_Id(gameMapId);
+    // Filter for progress of users who have completed the GameMap
+    progressList = progressList.stream().filter(Progress::isComplete).collect(Collectors.toList());
+
+    if (progressList.size() == 0) {
+      // No students have completed quiz, return an empty ArrayList
+      return new ArrayList<>();
+    }
+
+    // Create questionMap mapping questionId to ArrayList index to help build questionAttemptDTOArrayList
+    int idx = 0;
+    Map<Integer, Integer> questionMap = new HashMap<>();
+    ArrayList<QuestionAttemptDTO> questionAttemptDTOArrayList = new ArrayList<>();
+    for (QuestionProgress questionProgress : progressList.get(0).getQuestionProgressList()) {
+      Question question = questionProgress.getQuestion();
+      questionMap.put(question.getId(), idx);
+      questionAttemptDTOArrayList.add(new QuestionAttemptDTO(question, new ArrayList<>()));
+      idx++;
+    }
+
+    // Build report
+    for (Progress progress : progressList) {
+      for (QuestionProgress questionProgress : progress.getQuestionProgressList()) {
+        int arrayListIdx = questionMap.get(questionProgress.getQuestion().getId());
+        questionAttemptDTOArrayList.get(arrayListIdx)
+            .addAttempt(progress.getUser(), questionProgress.getAttemptCount());
+      }
+    }
+
+    return questionAttemptDTOArrayList;
   }
 
 
