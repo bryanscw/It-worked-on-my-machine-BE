@@ -1,7 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,13 +34,14 @@ public class QuestionProgress extends Auditable<String> {
   @Getter
   @Setter
   @OneToOne
+  @JsonIdentityReference(alwaysAsId = true)
   private Question question;
 
   @Getter
   @Setter
   @ManyToOne
   @JoinColumn(name = "progress_id", insertable = false, updatable = false)
-  @JsonBackReference
+  @JsonIdentityReference(alwaysAsId = true)
   private Progress progress;
 
   @Getter

@@ -1,7 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.itworksonmymachine.eduamp.model.Coordinates;
 import java.util.Map;
@@ -42,6 +42,7 @@ public class Question extends Auditable<String> {
   @Setter
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "game_map_id", nullable = false)
+  @JsonIdentityReference(alwaysAsId = true)
   private GameMap gameMap;
 
   @Getter

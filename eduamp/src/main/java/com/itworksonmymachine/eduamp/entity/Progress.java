@@ -2,7 +2,6 @@ package com.itworksonmymachine.eduamp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.itworksonmymachine.eduamp.model.Coordinates;
 import java.util.ArrayList;
@@ -44,6 +43,7 @@ public class Progress extends Auditable<String> {
   @Getter
   @Setter
   @OneToOne(fetch= FetchType.EAGER)
+  @JsonIdentityReference(alwaysAsId = true)
   private GameMap map;
 
   @Getter
@@ -61,7 +61,7 @@ public class Progress extends Auditable<String> {
   @Getter
   @Setter
   @OneToMany(mappedBy = "progress", cascade = {CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
-  @JsonManagedReference
+  @JsonIdentityReference(alwaysAsId = true)
   private List<QuestionProgress> questionProgressList = new ArrayList<>();
 
 }

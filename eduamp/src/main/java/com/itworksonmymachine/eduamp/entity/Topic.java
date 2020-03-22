@@ -1,7 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -46,6 +46,7 @@ public class Topic extends Auditable<String> {
   @Setter
   @OneToMany(mappedBy = "topic", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.REMOVE})
+  @JsonIdentityReference(alwaysAsId = true)
   private Set<GameMap> gameMaps;
 
 }
