@@ -1,6 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Set;
@@ -53,12 +54,14 @@ public class GameMap extends Auditable<String> {
   @Setter
   @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.REMOVE} )
+  @JsonIdentityReference(alwaysAsId = true)
   private Set<Question> questions;
 
   @Getter
   @Setter
   @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.REMOVE})
+  @JsonIdentityReference(alwaysAsId = true)
   private Set<LearningMaterial> learningMaterials;
 
   @Getter

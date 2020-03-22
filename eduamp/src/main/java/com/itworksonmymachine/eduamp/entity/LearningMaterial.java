@@ -1,6 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,10 +32,11 @@ public class LearningMaterial extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-  @JoinColumn(name = "game_map_id", nullable = false)
   @Getter
   @Setter
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "game_map_id", nullable = false)
+  @JsonIdentityReference(alwaysAsId = true)
   private GameMap gameMap;
 
   @Getter

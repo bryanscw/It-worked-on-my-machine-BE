@@ -44,6 +44,7 @@ public class Progress extends Auditable<String> {
   @Getter
   @Setter
   @OneToOne(fetch= FetchType.EAGER)
+  @JsonIdentityReference(alwaysAsId = true)
   private GameMap map;
 
   @Getter
