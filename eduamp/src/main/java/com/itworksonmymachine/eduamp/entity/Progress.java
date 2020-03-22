@@ -62,7 +62,7 @@ public class Progress extends Auditable<String> {
   @Getter
   @Setter
   @OneToMany(mappedBy = "progress", cascade = {CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
-  @JsonManagedReference
+  @JsonIdentityReference(alwaysAsId = true)
   private List<QuestionProgress> questionProgressList = new ArrayList<>();
 
 }

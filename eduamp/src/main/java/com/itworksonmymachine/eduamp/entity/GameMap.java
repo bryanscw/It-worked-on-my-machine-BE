@@ -67,8 +67,9 @@ public class GameMap extends Auditable<String> {
   @Getter
   @Setter
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-  @JoinColumn(name = "topic_id")
   // https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis
+  @JoinColumn(name = "topic_id")
+  @JsonIdentityReference(alwaysAsId = true)
   private Topic topic;
 
   @Getter
