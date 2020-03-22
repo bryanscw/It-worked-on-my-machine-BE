@@ -9,14 +9,17 @@ test:
 build-java:
 	mvn clean verify
 	
-sql:
-	./infra/docker/build_eduamp_backend.sh
+run-mysql:
+	docker run --name eduamp-mysql -e MYSQL_ROOT_PASSWORD=12345 -e MYSQL_USER=user -e MYSQL_PASSWORD=my5ql -p 3306:3306 -d mysql:latest
+	
+stop-mysql:
+	docker stop eduamp-mysql && docker rm eduamp-mysql
 
 image:
 	./infra/docker/build_eduamp_backend.sh
 	
 javadocs:
-	sudo mvn clean javadoc:javadoc && rm -rf target/ && rm -rf eduamp/target/javadoc-bundle-options
+	sudo mvn javadoc:javadoc && rm -rf target/ && rm -rf eduamp/target/javadoc-bundle-options
 	
 clean-docker:
 	cd ./infra/deploy && docker-compose down
