@@ -11,7 +11,6 @@ import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.ProgressRepository;
 import com.itworksonmymachine.eduamp.repository.QuestionProgressRepository;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
-import java.security.Principal;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;

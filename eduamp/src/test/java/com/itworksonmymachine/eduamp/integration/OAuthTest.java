@@ -18,7 +18,6 @@ import com.itworksonmymachine.eduamp.config.TestConfig;
 import com.jayway.jsonpath.JsonPath;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

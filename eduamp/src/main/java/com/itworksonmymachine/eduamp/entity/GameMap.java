@@ -19,8 +19,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "game_map")
@@ -73,5 +71,10 @@ public class GameMap extends Auditable<String> {
   @Getter
   @Setter
   private boolean isPlayable;
+
+  // Getter method to retrieve the topic_id
+  public int getTopic_id(){
+    return topic.getId();
+  }
 
 }

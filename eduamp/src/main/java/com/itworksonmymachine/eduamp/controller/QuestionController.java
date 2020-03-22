@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,11 +45,12 @@ public class QuestionController {
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Page<Question> fetchAllQuestionByGameMapId(
       Pageable pageable,
-      @PathVariable(value = "gameMapId") Integer gameMapId
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      Authentication authentication
   ) {
     log.info("Fetching all Questions with gameMapId: [{}] and Pageable: [{}]", gameMapId,
         pageable.toString());
-    return questionService.fetchAllQuestions(gameMapId, pageable);
+    return questionService.fetchAllQuestions(gameMapId, pageable, authentication);
   }
 
   /**
@@ -64,10 +66,11 @@ public class QuestionController {
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Question fetchTopic(
       @PathVariable(value = "gameMapId") Integer gameMapId,
-      @PathVariable(value = "questionId") Integer questionId
+      @PathVariable(value = "questionId") Integer questionId,
+      Authentication authentication
   ) {
     log.info("Fetching Question with gameMapId: [{}] and questionId: [{}]", gameMapId, questionId);
-    return questionService.fetchQuestionById(gameMapId, questionId);
+    return questionService.fetchQuestionById(gameMapId, questionId, authentication);
   }
 
   /**

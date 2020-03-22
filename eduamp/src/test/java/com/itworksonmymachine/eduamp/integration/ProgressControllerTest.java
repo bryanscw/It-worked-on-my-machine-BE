@@ -23,7 +23,6 @@ import com.itworksonmymachine.eduamp.repository.ProgressRepository;
 import com.itworksonmymachine.eduamp.repository.TopicRepository;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
 import com.jayway.jsonpath.JsonPath;
-import javax.swing.text.StyledEditorKit.ItalicAction;
 import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -112,11 +111,10 @@ public class ProgressControllerTest {
     this.progress.setTimeTaken(0);
   }
 
-  @Order(1)
   @Test
+  @Order(-2)
   @WithUserDetails("admin1@test.com")
-  public void createUser() throws Exception {
-
+  public void createContext1() throws Exception {
     String userJson = new ObjectMapper().writeValueAsString(this.user);
     mockMvc.perform(post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
@@ -124,9 +122,9 @@ public class ProgressControllerTest {
   }
 
   @Test
-  @Order(2)
+  @Order(-1)
   @WithUserDetails("teacher1@test.com")
-  public void createGameMap() throws Exception {
+  public void createContext2() throws Exception {
     Topic topic = new Topic();
     topic.setTitle("[Topic Title]: Multiplication");
     topic.setDescription("[Topic Description]: This topic is about simple multiplication");
@@ -144,18 +142,23 @@ public class ProgressControllerTest {
     gameMap.setMapDescriptor("Test map description");
     gameMap.setPlayable(true);
 
+    // Required during test as ObjectMapper cannot have a non-null Topic.
+    // In actual production, Topic can be null
+    topic = getPersistentTopic();
+    gameMap.setTopic(topic);
+
     String gameMapJson = new ObjectMapper().writeValueAsString(gameMap);
     mockMvc.perform(
         MockMvcRequestBuilders
             .post(String.format("/topics/%s/gameMaps/create", getPersistentTopic().getId()))
             .contentType(MediaType.APPLICATION_JSON)
-            .content(gameMapJson));
+            .content(gameMapJson))
+        .andExpect(status().isOk());
   }
 
-  @Order(3)
+  @Order(1)
   @Test
   public void should_allowCreateProgress_ifAuthorized() throws Exception {
-
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
@@ -183,7 +186,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(4)
+  @Order(2)
   @Test
   @WithUserDetails("user1@test.com")
   @Transactional
@@ -202,7 +205,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(5)
+  @Order(3)
   @Test
   @Transactional
   public void should_allowFetchProgressByUserEmail_ifAuthorized() throws Exception {
@@ -240,7 +243,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(6)
+  @Order(4)
   @Test
   @WithUserDetails("user1@test.com")
   @Transactional
@@ -255,7 +258,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(7)
+  @Order(5)
   @Test
   @Transactional
   public void should_allowFetchProgressByGameMapId_ifAuthorized() throws Exception {
@@ -322,7 +325,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(9)
+  @Order(6)
   @Test
   @WithUserDetails("user1@test.com")
   @Transactional
@@ -337,7 +340,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(10)
+  @Order(7)
   @Test
   @Transactional
   public void should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized() throws Exception {
@@ -376,7 +379,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(11)
+  @Order(8)
   @Test
   @WithUserDetails("user1@test.com")
   @Transactional
@@ -392,7 +395,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(12)
+  @Order(9)
   @Test
   @Transactional
   public void should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists() throws Exception {
@@ -422,7 +425,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(13)
+  @Order(10)
   @Test
   @Transactional
   public void should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists() throws Exception {
@@ -452,7 +455,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(14)
+  @Order(11)
   @Test
   @WithUserDetails("user1@test.com")
   public void should_rejectUpdateProgress_ifNotAuthorized() throws Exception {
@@ -472,7 +475,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(15)
+  @Order(12)
   @Test
   @Transactional
   public void should_allowUpdateProgress_ifAuthorized() throws Exception {
@@ -506,10 +509,10 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-  @Order(16)
+  @Order(9998)
   @WithUserDetails("teacher1@test.com")
   @Test
-  public void teacherCleanUp() throws Exception {
+  public void cleanupContext1() throws Exception {
 
     progressRepository.deleteById(getPersistentProgress().getId());
 
@@ -522,9 +525,9 @@ public class ProgressControllerTest {
         .contentType(MediaType.APPLICATION_JSON));
   }
 
-  @Order(17)
+  @Order(9999)
   @Test
-  public void userCleanUp() throws Exception{
+  public void cleanupContext2() throws Exception{
 
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)

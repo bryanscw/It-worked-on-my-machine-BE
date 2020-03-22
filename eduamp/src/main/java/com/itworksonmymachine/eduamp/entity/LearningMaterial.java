@@ -49,4 +49,9 @@ public class LearningMaterial extends Auditable<String> {
   @Column(columnDefinition = "TEXT")
   private String description;
 
+  // Getter method to retrieve the gameMap_id
+  public int getGameMap_id(){
+    return gameMap.getId();
+  }
+
 }
