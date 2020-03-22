@@ -1,6 +1,7 @@
 package com.itworksonmymachine.eduamp.repository;
 
 import com.itworksonmymachine.eduamp.entity.Progress;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ public interface ProgressRepository extends PagingAndSortingRepository<Progress,
       Pageable pageable);
 
   Page<Progress> findProgressByMap_Id(Integer gameMapId, Pageable pageable);
+
+  List<Progress> findProgressByMap_Id(Integer gameMapId);
 
   Page<Progress> findProgressByUser_Email(String userEmail, Pageable pageable);
 

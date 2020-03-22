@@ -1,7 +1,10 @@
 package com.itworksonmymachine.eduamp.controller;
 
 import com.itworksonmymachine.eduamp.entity.Progress;
+import com.itworksonmymachine.eduamp.model.dto.LeaderboardResultDTO;
+import com.itworksonmymachine.eduamp.model.dto.QuestionAttemptDTO;
 import com.itworksonmymachine.eduamp.service.ProgressService;
+import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +53,8 @@ public class ProgressController {
       @PathVariable(value = "gameMapId") Integer gameMapId,
       Authentication authentication
   ) {
+    log.info("Fetching progress for User with email: [{}] and GameMap with gameMapId: [{}]",
+        userEmail, gameMapId);
     return progressService
         .fetchProgressByUserEmailAndGameMapId(userEmail, gameMapId, authentication);
   }
@@ -72,7 +77,40 @@ public class ProgressController {
       @PathVariable(value = "gameMapId") Integer gameMapId,
       Authentication authentication
   ) {
+    log.info("Fetching progress for GameMap with gameMapId: [{}]", gameMapId);
     return progressService.fetchAllProgressByGameMapId(gameMapId, authentication, pageable);
+  }
+
+  /**
+   * Fetch and rank players of a certain GameMap by their performance.
+   *
+   * @param gameMapId GameMap id
+   * @return LeaderBoardDTO containing the players and their time taken of the specific GameMap
+   */
+  @RequestMapping(method = RequestMethod.GET, path = "/gameMaps/{gameMapId}/leaderboard")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+  public ArrayList<LeaderboardResultDTO> getLeaderboard(
+      @PathVariable(value = "gameMapId") Integer gameMapId
+  ) {
+    log.info("Fetching leaderboard for GameMap with gameMapId: [{}]", gameMapId);
+    return progressService.fetchLeaderboardByGameMapId(gameMapId);
+  }
+
+  /**
+   * Fetch the attempt count of all students that attempted of a certain GameMap.
+   *
+   * @param gameMapId GameMap id
+   * @return QuestionAttemptDTO containing the attempt count of the specific GameMap
+   */
+  @RequestMapping(method = RequestMethod.GET, path = "/gameMaps/{gameMapId}/report")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_TEACHER"})
+  public ArrayList<QuestionAttemptDTO> getAttemptCountByGameMapId(
+      @PathVariable(value = "gameMapId") Integer gameMapId
+  ) {
+    log.info("Fetching report for GameMap with gameMapId: [{}]", gameMapId);
+    return progressService.fetchAttemptCountByGameMapId(gameMapId);
   }
 
   /**
@@ -92,6 +130,7 @@ public class ProgressController {
       @PathVariable(value = "userEmail") String userEmail,
       Authentication authentication
   ) {
+    log.info("Fetching progress of user with email: [{}]", userEmail);
     return progressService.fetchAllProgressByUserEmail(userEmail, authentication, pageable);
   }
 
@@ -114,6 +153,8 @@ public class ProgressController {
       @RequestBody Progress progress,
       Authentication authentication
   ) {
+    log.info("Creating progress for User with email: [{}] and GameMap with gameMapId: [{}]",
+        userEmail, gameMapId);
     return progressService.createProgress(userEmail, gameMapId, progress, authentication);
   }
 
@@ -137,6 +178,8 @@ public class ProgressController {
       @RequestBody Progress progress,
       Authentication authentication
   ) {
+    log.info("Updating progress for User with email: [{}] and GameMap with gameMapId: [{}]",
+        userEmail, gameMapId);
     return progressService.updateProgress(userEmail, gameMapId, progress, authentication);
   }
 

@@ -42,6 +42,7 @@ public class LearningMaterial extends Auditable<String> {
 
   @Getter
   @Setter
+  @Column(columnDefinition = "TEXT")
   private String link;
 
   @Getter

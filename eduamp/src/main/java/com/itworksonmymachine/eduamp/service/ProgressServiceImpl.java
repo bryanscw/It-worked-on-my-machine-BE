@@ -2,17 +2,26 @@ package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.GameMap;
 import com.itworksonmymachine.eduamp.entity.Progress;
+import com.itworksonmymachine.eduamp.entity.Question;
 import com.itworksonmymachine.eduamp.entity.QuestionProgress;
 import com.itworksonmymachine.eduamp.entity.User;
 import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.exception.ResourceAlreadyExistsException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
+import com.itworksonmymachine.eduamp.model.dto.LeaderboardResultDTO;
+import com.itworksonmymachine.eduamp.model.dto.QuestionAttemptDTO;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.ProgressRepository;
 import com.itworksonmymachine.eduamp.repository.QuestionProgressRepository;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,17 +36,18 @@ public class ProgressServiceImpl implements ProgressService {
 
   private final ProgressRepository progressRepository;
 
-  private final QuestionProgressRepository questionProgressRepository;
-
   private final UserRepository userRepository;
 
   private final GameMapRepository gameMapRepository;
 
-  public ProgressServiceImpl(ProgressRepository progressRepository,
-      QuestionProgressRepository questionProgressRepository, UserRepository userRepository,
-      GameMapRepository gameMapRepository) {
+  public ProgressServiceImpl(
+      ProgressRepository progressRepository,
+      UserRepository userRepository,
+      GameMapRepository gameMapRepository,
+      QuestionProgressRepository questionProgressRepository
+
+  ) {
     this.progressRepository = progressRepository;
-    this.questionProgressRepository = questionProgressRepository;
     this.userRepository = userRepository;
     this.gameMapRepository = gameMapRepository;
   }
@@ -56,8 +66,11 @@ public class ProgressServiceImpl implements ProgressService {
    * @return Progress of a certain GameMap referenced by gameMapId
    */
   @Override
-  public Page<Progress> fetchAllProgressByGameMapId(Integer gameMapId,
-      Authentication authentication, Pageable pageable) {
+  public Page<Progress> fetchAllProgressByGameMapId(
+      Integer gameMapId,
+      Authentication authentication,
+      Pageable pageable
+  ) {
     String errorMsg = String
         .format("Not authorized to view Progress with gameMapId: [%s]", gameMapId);
     String principalName = ((org.springframework.security.core.userdetails.User) authentication
@@ -69,9 +82,10 @@ public class ProgressServiceImpl implements ProgressService {
           .findProgressByUser_EmailAndMap_Id(principalName, gameMapId, pageable);
     } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_TEACHER"))
         || authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-      // Check if gameMap exists
+      // Sanity check to see GameMap exists
       gameMapRepository.findById(gameMapId).orElseThrow(() -> {
-        String gameMapNotFoundMsg = String.format("GameMap with gameMapId: [%s] not found", gameMapId);
+        String gameMapNotFoundMsg = String
+            .format("GameMap with gameMapId: [%s] not found", gameMapId);
         log.error(gameMapNotFoundMsg);
         return new ResourceNotFoundException(gameMapNotFoundMsg);
       });
@@ -80,6 +94,85 @@ public class ProgressServiceImpl implements ProgressService {
       throw new NotAuthorizedException(errorMsg);
     }
   }
+
+  /**
+   * Fetch and rank players of a certain GameMap by their performance.
+   *
+   * @param gameMapId GameMap id
+   * @return LeaderBoardDTO containing the players and their time taken of the specific GameMap
+   */
+  @Override
+  public ArrayList<LeaderboardResultDTO> fetchLeaderboardByGameMapId(Integer gameMapId) {
+    // Sanity check to check if GameMap exists
+    gameMapRepository.findById(gameMapId).orElseThrow(() -> {
+      String gameMapNotFoundMsg = String
+          .format("GameMap with gameMapId: [%s] not found", gameMapId);
+      log.error(gameMapNotFoundMsg);
+      return new ResourceNotFoundException(gameMapNotFoundMsg);
+    });
+
+    List<Progress> progressList = progressRepository.findProgressByMap_Id(gameMapId);
+    // Filter for progress of users who have completed the GameMap
+    progressList = progressList.stream().filter(Progress::isComplete).collect(Collectors.toList());
+
+    // Create LeaderBoardResultDTO objects and add them into leaderboardResultDTOArraylist
+    ArrayList<LeaderboardResultDTO> leaderboardResultDTOArrayList = new ArrayList<>();
+    progressList.forEach(p -> leaderboardResultDTOArrayList
+        .add(new LeaderboardResultDTO(p.getUser().getName(), p.getTimeTaken())));
+
+    // Sort the ArrayList in default Ascending order
+    leaderboardResultDTOArrayList.sort(Comparator.comparing(LeaderboardResultDTO::getTiming));
+
+    return leaderboardResultDTOArrayList;
+  }
+
+  /**
+   * Fetch the attempt count of all students that attempted of a certain GameMap.
+   *
+   * @param gameMapId GameMap id
+   * @return QuestionAttemptDTO containing the attempt count of the specific GameMap
+   */
+  @Override
+  public ArrayList<QuestionAttemptDTO> fetchAttemptCountByGameMapId(Integer gameMapId) {
+    // Sanity check to check if GameMap exists
+    GameMap gameMap = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
+      String gameMapNotFoundMsg = String
+          .format("GameMap with gameMapId: [%s] not found", gameMapId);
+      log.error(gameMapNotFoundMsg);
+      return new ResourceNotFoundException(gameMapNotFoundMsg);
+    });
+
+    List<Progress> progressList = progressRepository.findProgressByMap_Id(gameMapId);
+    // Filter for progress of users who have completed the GameMap
+    progressList = progressList.stream().filter(Progress::isComplete).collect(Collectors.toList());
+
+    if (progressList.size() == 0) {
+      // No students have completed quiz, return an empty ArrayList
+      return new ArrayList<>();
+    }
+
+    // Create questionMap mapping questionId to ArrayList index to help build questionAttemptDTOArrayList
+    int idx = 0;
+    Map<Integer, Integer> questionMap = new HashMap<>();
+    ArrayList<QuestionAttemptDTO> questionAttemptDTOArrayList = new ArrayList<>();
+    for (Question question: gameMap.getQuestions()) {
+      questionMap.put(question.getId(), idx);
+      questionAttemptDTOArrayList.add(new QuestionAttemptDTO(question, new ArrayList<>()));
+      idx++;
+    }
+
+    // Build report
+    for (Progress progress : progressList) {
+      for (QuestionProgress questionProgress : progress.getQuestionProgressList()) {
+        int arrayListIdx = questionMap.get(questionProgress.getQuestion().getId());
+        questionAttemptDTOArrayList.get(arrayListIdx)
+            .addAttempt(progress.getUser(), questionProgress.getAttemptCount());
+      }
+    }
+
+    return questionAttemptDTOArrayList;
+  }
+
 
   /**
    * Fetch all Progress of a certain user.
