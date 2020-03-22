@@ -2,6 +2,7 @@ package com.itworksonmymachine.eduamp.service;
 
 import com.itworksonmymachine.eduamp.entity.Progress;
 import com.itworksonmymachine.eduamp.model.dto.LeaderboardResultDTO;
+import com.itworksonmymachine.eduamp.model.dto.QuestionAttemptDTO;
 import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,8 @@ public interface ProgressService {
       Pageable pageable);
 
   ArrayList<LeaderboardResultDTO> fetchLeaderboardByGameMapId(Integer gameMapId);
+
+  ArrayList<QuestionAttemptDTO> fetchAttemptCountByGameMapId(Integer gameMapId);
 
   Page<Progress> fetchAllProgressByUserEmail(String userEmail, Authentication authentication,
       Pageable pageable);

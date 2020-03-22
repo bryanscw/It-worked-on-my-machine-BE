@@ -13,10 +13,10 @@ import com.itworksonmymachine.eduamp.repository.ProgressRepository;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -89,10 +89,10 @@ public class ProgressServiceImpl implements ProgressService {
   }
 
   /**
-   * Fetch the top 10 players of a certain GameMap.
+   * Fetch and rank players of a certain GameMap by their performance.
    *
    * @param gameMapId GameMap id
-   * @return LeaderBoardDTO containing the top 10 players of the specific GameMap
+   * @return LeaderBoardDTO containing the players and their time taken of the specific GameMap
    */
   @Override
   public ArrayList<LeaderboardResultDTO> fetchLeaderboardByGameMapId(Integer gameMapId) {
@@ -106,7 +106,12 @@ public class ProgressServiceImpl implements ProgressService {
     });
 
     ArrayList<LeaderboardResultDTO> leaderboardResultDTOArrayList = new ArrayList<>();
+
     List<Progress> progressList = progressRepository.findProgressByMap_Id(gameMapId);
+    // Filter for progress of users who have completed the GameMap
+    progressList = progressList.stream().filter(Progress::isComplete).collect(Collectors.toList());
+
+    // Create LeaderBoardResultDTO objects and add them into leaderboardResultDTOArraylist
     progressList.forEach(p -> leaderboardResultDTOArrayList
         .add(new LeaderboardResultDTO(p.getUser().getName(), p.getTimeTaken())));
 
