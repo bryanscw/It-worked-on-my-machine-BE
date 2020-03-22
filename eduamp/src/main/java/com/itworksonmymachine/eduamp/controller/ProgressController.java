@@ -159,6 +159,33 @@ public class ProgressController {
   }
 
   /**
+   * Process user answer submission
+   *
+   * @param userEmail      Email of User
+   * @param gameMapId      GameMap id
+   * @param questionId     Question id
+   * @param authentication Authentication context containing information of the user submitting the
+   *                       request
+   * @return Created Progress
+   */
+  @RequestMapping(method = RequestMethod.POST, path = "/users/{userEmail}/gameMaps/{gameMapId}/questions/{questionId}/submit")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_STUDENT"})
+  public boolean submitAnswer(
+      @PathVariable(value = "userEmail") String userEmail,
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @PathVariable(value = "questionId") Integer questionId,
+      @RequestBody Integer answer,
+      Authentication authentication
+  ) {
+    log.info(
+        "Checking answer: [{}] submitted by User with email: [{}] and GameMap with gameMapId: [{}] for question with questionId: [{}]",
+        answer, userEmail, gameMapId, questionId);
+    return progressService.checkAnswer(userEmail, gameMapId, questionId, answer, authentication);
+  }
+
+
+  /**
    * Update a Progress of a user in a specific GameMap.
    *
    * @param userEmail      Email of User

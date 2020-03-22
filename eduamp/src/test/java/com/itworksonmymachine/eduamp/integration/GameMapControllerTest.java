@@ -201,13 +201,13 @@ public class GameMapControllerTest {
   public void should_allowDeleteGameMap_ifAuthorized() throws Exception {
     int gameMapId = getPersistentGameMapId();
     mockMvc.perform(MockMvcRequestBuilders.delete(String
-            .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
-                    gameMapId))
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andDo(document("{methodName}",
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint())));
+        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+            gameMapId))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
 
     mockMvc.perform(MockMvcRequestBuilders.delete(String
         .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
@@ -222,13 +222,13 @@ public class GameMapControllerTest {
   @Transactional
   public void should_rejectDeleteGameMap_ifNotExists() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.delete(String
-            .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
-                    getPersistentGameMapId()-1))
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound())
-            .andDo(document("{methodName}",
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint())));
+        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+            getPersistentGameMapId()-1))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test

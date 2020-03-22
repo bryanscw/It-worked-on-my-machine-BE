@@ -1,7 +1,8 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,6 +26,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class GameMap extends Auditable<String> {
 
   @Id
@@ -51,31 +53,23 @@ public class GameMap extends Auditable<String> {
   @Setter
   @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.REMOVE} )
-  @JsonManagedReference
   private Set<Question> questions;
 
   @Getter
   @Setter
   @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.REMOVE})
-  @JsonManagedReference
   private Set<LearningMaterial> learningMaterials;
 
   @Getter
   @Setter
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "topic_id")
-  @JsonBackReference
   // https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis
   private Topic topic;
 
   @Getter
   @Setter
   private boolean isPlayable;
-
-  // Getter method to retrieve the topic_id
-  public int getTopic_id(){
-    return topic.getId();
-  }
 
 }

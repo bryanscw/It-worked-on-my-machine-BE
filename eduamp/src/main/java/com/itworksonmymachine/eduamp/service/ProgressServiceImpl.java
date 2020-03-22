@@ -13,6 +13,7 @@ import com.itworksonmymachine.eduamp.model.dto.QuestionAttemptDTO;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.ProgressRepository;
 import com.itworksonmymachine.eduamp.repository.QuestionProgressRepository;
+import com.itworksonmymachine.eduamp.repository.QuestionRepository;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,16 +41,23 @@ public class ProgressServiceImpl implements ProgressService {
 
   private final GameMapRepository gameMapRepository;
 
+  private final QuestionRepository questionRepository;
+
+  private final QuestionProgressRepository questionProgressRepository;
+
   public ProgressServiceImpl(
       ProgressRepository progressRepository,
       UserRepository userRepository,
       GameMapRepository gameMapRepository,
+      QuestionRepository questionRepository,
       QuestionProgressRepository questionProgressRepository
 
   ) {
     this.progressRepository = progressRepository;
     this.userRepository = userRepository;
     this.gameMapRepository = gameMapRepository;
+    this.questionRepository = questionRepository;
+    this.questionProgressRepository = questionProgressRepository;
   }
 
   /**
@@ -155,7 +163,7 @@ public class ProgressServiceImpl implements ProgressService {
     int idx = 0;
     Map<Integer, Integer> questionMap = new HashMap<>();
     ArrayList<QuestionAttemptDTO> questionAttemptDTOArrayList = new ArrayList<>();
-    for (Question question: gameMap.getQuestions()) {
+    for (Question question : gameMap.getQuestions()) {
       questionMap.put(question.getId(), idx);
       questionAttemptDTOArrayList.add(new QuestionAttemptDTO(question, new ArrayList<>()));
       idx++;
@@ -305,7 +313,17 @@ public class ProgressServiceImpl implements ProgressService {
       // Progress not found, should create
       progress.setUser(userToFind);
       progress.setMap(gameMapToFind);
-      return progressRepository.save(progress);
+
+      Progress savedProgress = progressRepository.save(progress);
+
+      // Initialise QuestionProgressList
+      List<QuestionProgress> questionProgressList = new ArrayList<>();
+      for (Question question : gameMapToFind.getQuestions()) {
+        questionProgressList.add(new QuestionProgress(0, question, savedProgress, 0, false));
+      }
+      progress.setQuestionProgressList(questionProgressList);
+
+      return progressRepository.save(savedProgress);
     } else {
       // Progress found, throw ResourceAlreadyExistsException
       String alreadyExistMsg = String
@@ -388,4 +406,80 @@ public class ProgressServiceImpl implements ProgressService {
     return progressRepository.save(progress);
   }
 
+  /**
+   * Process user answer submission
+   *
+   * @param userEmail      Email of User
+   * @param gameMapId      GameMap id
+   * @param questionId     Question id
+   * @param authentication Authentication context containing information of the user submitting the
+   *                       request
+   * @return Created Progress
+   */
+  @Override
+  public boolean checkAnswer(
+      String userEmail,
+      Integer gameMapId,
+      Integer questionId,
+      Integer answer,
+      Authentication authentication
+  ) {
+    String principalName = ((org.springframework.security.core.userdetails.User) authentication
+        .getPrincipal()).getUsername();
+
+    // User is only allowed to submit answers for themselves
+    if (!userEmail.equals(principalName)) {
+      String errorMsg = String.format(
+          "User with userEmail: [%s] is not allowed to submit answers for user with userEmail: [%s]",
+          principalName, userEmail);
+      throw new NotAuthorizedException(errorMsg);
+    }
+
+//    // Sanity check to check if GameMap exists
+//    GameMap gameMap = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
+//      String gameMapNotFoundMsg = String
+//          .format("GameMap with gameMapId: [%s] not found", gameMapId);
+//      log.error(gameMapNotFoundMsg);
+//      return new ResourceNotFoundException(gameMapNotFoundMsg);
+//    });
+//
+//    // Sanity check to check if Question exists
+//    Question question = questionRepository.findById(questionId).orElseThrow(() -> {
+//      String questionNotFoundMsg = String
+//          .format("Question with questionId: [%s] not found", questionId);
+//      log.error(questionNotFoundMsg);
+//      return new ResourceNotFoundException(questionNotFoundMsg);
+//    });
+//
+//    if (question.getGameMap_id() != gameMapId) {
+//      String errorMsg = String
+//          .format("Question with questionId: [%s] and gameMapId: [%s] not found", questionId,
+//              gameMapId);
+//      throw new ResourceNotFoundException(errorMsg);
+//    }
+
+    Progress progress = progressRepository.findProgressByUser_EmailAndMap_Id(userEmail, gameMapId)
+        .orElseThrow(() -> {
+          String progressErrorMsg = String
+              .format("Progress for User with userEmail: [%s] and gameMapId: [%s] not found",
+                  userEmail, gameMapId);
+          log.error(progressErrorMsg);
+          throw new ResourceNotFoundException(progressErrorMsg);
+        });
+
+    // Increase attemptCount of QuestionProgress
+    QuestionProgress questionProgress = questionProgressRepository
+        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId())
+        .orElseThrow(() -> {
+          String questionProgressErrorMsg = String
+              .format("QuestionProgress with questionId: [%s] and progressId: [%s] not found",
+                  questionId, progress.getId());
+          log.error(questionProgressErrorMsg);
+          throw new ResourceNotFoundException(questionProgressErrorMsg);
+        });
+
+    questionProgress.setAttemptCount(questionProgress.getAttemptCount() + 1);
+
+    return questionProgress.getQuestion().getAnswer() == answer;
+  }
 }
