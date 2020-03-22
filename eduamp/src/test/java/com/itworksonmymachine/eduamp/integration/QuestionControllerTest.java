@@ -153,9 +153,6 @@ public class QuestionControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectCreateQuestion_ifNotAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    this.question.setGameMap(getPersistentGameMap());
 
     String questionJson = new ObjectMapper().writeValueAsString(this.question);
     mockMvc.perform(
