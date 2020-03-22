@@ -40,8 +40,6 @@ public class ProgressServiceImpl implements ProgressService {
 
   private final GameMapRepository gameMapRepository;
 
-  private final QuestionProgressRepository questionProgressRepository;
-
   public ProgressServiceImpl(
       ProgressRepository progressRepository,
       UserRepository userRepository,
@@ -52,7 +50,6 @@ public class ProgressServiceImpl implements ProgressService {
     this.progressRepository = progressRepository;
     this.userRepository = userRepository;
     this.gameMapRepository = gameMapRepository;
-    this.questionProgressRepository = questionProgressRepository;
   }
 
   /**
