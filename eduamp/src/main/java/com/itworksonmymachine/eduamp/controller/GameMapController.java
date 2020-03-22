@@ -42,8 +42,10 @@ public class GameMapController {
   @RequestMapping(method = RequestMethod.GET, path = "/{topicId}/gameMaps")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public Page<GameMap> fetchAllGameMapByTopicId(Pageable pageable,
-      @PathVariable(value = "topicId") Integer topicId) {
+  public Page<GameMap> fetchAllGameMapByTopicId(
+      Pageable pageable,
+      @PathVariable(value = "topicId") Integer topicId
+  ) {
     return gameMapService.fetchAllGameMaps(topicId, pageable);
   }
 
@@ -57,8 +59,10 @@ public class GameMapController {
   @RequestMapping(method = RequestMethod.GET, path = "/{topicId}/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
-  public GameMap fetchGameMap(@PathVariable(value = "topicId") Integer topicId,
-      @PathVariable(value = "gameMapId") Integer gameMapId) {
+  public GameMap fetchGameMap(
+      @PathVariable(value = "topicId") Integer topicId,
+      @PathVariable(value = "gameMapId") Integer gameMapId
+  ) {
     return gameMapService.fetchGameMapById(topicId, gameMapId);
   }
 
@@ -72,8 +76,10 @@ public class GameMapController {
   @RequestMapping(method = RequestMethod.POST, path = "/{topicId}/gameMaps/create")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public GameMap createGameMap(@PathVariable(value = "topicId") Integer topicId,
-      @RequestBody GameMap gameMap) {
+  public GameMap createGameMap(
+      @PathVariable(value = "topicId") Integer topicId,
+      @RequestBody GameMap gameMap
+  ) {
     return gameMapService.createGameMap(topicId, gameMap);
   }
 
@@ -87,12 +93,15 @@ public class GameMapController {
    * @param principal Principal context containing information of the user submitting the request
    * @return Updated GameMap
    */
-  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{topicId}/gameMaps/{gameMapId}")
+  @RequestMapping(method = {RequestMethod.PUT,
+      RequestMethod.PATCH}, path = "/{topicId}/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
-  public GameMap updateGameMap(@PathVariable(value = "topicId") Integer topicId,
+  public GameMap updateGameMap(
+      @PathVariable(value = "topicId") Integer topicId,
       @PathVariable(value = "gameMapId") Integer gameMapId,
-      @RequestBody GameMap gameMap, Principal principal) {
+      @RequestBody GameMap gameMap, Principal principal
+  ) {
     gameMap.setId(gameMapId);
     return gameMapService.updateGameMap(topicId, gameMap, principal.getName());
   }

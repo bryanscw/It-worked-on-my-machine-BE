@@ -7,11 +7,15 @@ import com.itworksonmymachine.eduamp.entity.User;
 import com.itworksonmymachine.eduamp.exception.NotAuthorizedException;
 import com.itworksonmymachine.eduamp.exception.ResourceAlreadyExistsException;
 import com.itworksonmymachine.eduamp.exception.ResourceNotFoundException;
+import com.itworksonmymachine.eduamp.model.dto.LeaderboardResultDTO;
 import com.itworksonmymachine.eduamp.repository.GameMapRepository;
 import com.itworksonmymachine.eduamp.repository.ProgressRepository;
-import com.itworksonmymachine.eduamp.repository.QuestionProgressRepository;
 import com.itworksonmymachine.eduamp.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,17 +31,16 @@ public class ProgressServiceImpl implements ProgressService {
 
   private final ProgressRepository progressRepository;
 
-  private final QuestionProgressRepository questionProgressRepository;
-
   private final UserRepository userRepository;
 
   private final GameMapRepository gameMapRepository;
 
-  public ProgressServiceImpl(ProgressRepository progressRepository,
-      QuestionProgressRepository questionProgressRepository, UserRepository userRepository,
-      GameMapRepository gameMapRepository) {
+  public ProgressServiceImpl(
+      ProgressRepository progressRepository,
+      UserRepository userRepository,
+      GameMapRepository gameMapRepository
+  ) {
     this.progressRepository = progressRepository;
-    this.questionProgressRepository = questionProgressRepository;
     this.userRepository = userRepository;
     this.gameMapRepository = gameMapRepository;
   }
@@ -56,8 +59,11 @@ public class ProgressServiceImpl implements ProgressService {
    * @return Progress of a certain GameMap referenced by gameMapId
    */
   @Override
-  public Page<Progress> fetchAllProgressByGameMapId(Integer gameMapId,
-      Authentication authentication, Pageable pageable) {
+  public Page<Progress> fetchAllProgressByGameMapId(
+      Integer gameMapId,
+      Authentication authentication,
+      Pageable pageable
+  ) {
     String errorMsg = String
         .format("Not authorized to view Progress with gameMapId: [%s]", gameMapId);
     String principalName = ((org.springframework.security.core.userdetails.User) authentication
@@ -69,9 +75,10 @@ public class ProgressServiceImpl implements ProgressService {
           .findProgressByUser_EmailAndMap_Id(principalName, gameMapId, pageable);
     } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_TEACHER"))
         || authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-      // Check if gameMap exists
+      // Sanity check to see GameMap exists
       gameMapRepository.findById(gameMapId).orElseThrow(() -> {
-        String gameMapNotFoundMsg = String.format("GameMap with gameMapId: [%s] not found", gameMapId);
+        String gameMapNotFoundMsg = String
+            .format("GameMap with gameMapId: [%s] not found", gameMapId);
         log.error(gameMapNotFoundMsg);
         return new ResourceNotFoundException(gameMapNotFoundMsg);
       });
@@ -80,6 +87,35 @@ public class ProgressServiceImpl implements ProgressService {
       throw new NotAuthorizedException(errorMsg);
     }
   }
+
+  /**
+   * Fetch the top 10 players of a certain GameMap.
+   *
+   * @param gameMapId GameMap id
+   * @return LeaderBoardDTO containing the top 10 players of the specific GameMap
+   */
+  @Override
+  public ArrayList<LeaderboardResultDTO> fetchLeaderboardByGameMapId(Integer gameMapId) {
+
+    // Sanity check to see GameMap exists
+    gameMapRepository.findById(gameMapId).orElseThrow(() -> {
+      String gameMapNotFoundMsg = String
+          .format("GameMap with gameMapId: [%s] not found", gameMapId);
+      log.error(gameMapNotFoundMsg);
+      return new ResourceNotFoundException(gameMapNotFoundMsg);
+    });
+
+    ArrayList<LeaderboardResultDTO> leaderboardResultDTOArrayList = new ArrayList<>();
+    List<Progress> progressList = progressRepository.findProgressByMap_Id(gameMapId);
+    progressList.forEach(p -> leaderboardResultDTOArrayList
+        .add(new LeaderboardResultDTO(p.getUser().getName(), p.getTimeTaken())));
+
+    // Sort the ArrayList in default Ascending order
+    leaderboardResultDTOArrayList.sort(Comparator.comparing(LeaderboardResultDTO::getTiming));
+
+    return leaderboardResultDTOArrayList;
+  }
+
 
   /**
    * Fetch all Progress of a certain user.

@@ -1,7 +1,9 @@
 package com.itworksonmymachine.eduamp.controller;
 
 import com.itworksonmymachine.eduamp.entity.Progress;
+import com.itworksonmymachine.eduamp.model.dto.LeaderboardResultDTO;
 import com.itworksonmymachine.eduamp.service.ProgressService;
+import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -73,6 +75,21 @@ public class ProgressController {
       Authentication authentication
   ) {
     return progressService.fetchAllProgressByGameMapId(gameMapId, authentication, pageable);
+  }
+
+  /**
+   * Fetch the top 10 players of a certain GameMap.
+   *
+   * @param gameMapId GameMap id
+   * @return LeaderBoardDTO containing the top 10 players of the specific GameMap
+   */
+  @RequestMapping(method = RequestMethod.GET, path = "/gameMaps/{gameMapId}/leaderboard")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+  public ArrayList<LeaderboardResultDTO> getLeaderboard(
+      @PathVariable(value = "gameMapId") Integer gameMapId
+  ) {
+    return progressService.fetchLeaderboardByGameMapId(gameMapId);
   }
 
   /**
