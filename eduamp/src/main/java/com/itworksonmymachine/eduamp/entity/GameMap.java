@@ -44,6 +44,7 @@ public class GameMap extends Auditable<String> {
 
   @Getter
   @Setter
+  @Column(columnDefinition = "TEXT")
   private String mapDescriptor;
 
   @Getter
