@@ -65,3 +65,4 @@ public class Progress extends Auditable<String> {
   private List<QuestionProgress> questionProgressList = new ArrayList<>();
 
 }
+
