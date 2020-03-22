@@ -1,6 +1,8 @@
 package com.itworksonmymachine.eduamp.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.itworksonmymachine.eduamp.model.Coordinates;
 import java.util.Map;
 import javax.persistence.CascadeType;
@@ -27,6 +29,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Question extends Auditable<String> {
 
   @Id
@@ -35,11 +38,10 @@ public class Question extends Auditable<String> {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-  @JoinColumn(name = "game_map_id", nullable = false)
   @Getter
   @Setter
-  @JsonBackReference
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "game_map_id", nullable = false)
   private GameMap gameMap;
 
   @Getter
@@ -62,10 +64,5 @@ public class Question extends Auditable<String> {
   @Getter
   @Setter
   private Coordinates coordinates;
-
-  // Getter method to retrieve the gameMap_id
-  public int getGameMap_id(){
-    return gameMap.getId();
-  }
 
 }

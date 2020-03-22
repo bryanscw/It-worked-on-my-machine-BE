@@ -1,6 +1,7 @@
 package com.itworksonmymachine.eduamp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class LearningMaterial extends Auditable<String> {
 
   @Id
@@ -33,7 +35,6 @@ public class LearningMaterial extends Auditable<String> {
   @JoinColumn(name = "game_map_id", nullable = false)
   @Getter
   @Setter
-  @JsonBackReference
   private GameMap gameMap;
 
   @Getter
@@ -49,10 +50,5 @@ public class LearningMaterial extends Auditable<String> {
   @Setter
   @Column(columnDefinition = "TEXT")
   private String description;
-
-  // Getter method to retrieve the gameMap_id
-  public int getGameMap_id(){
-    return gameMap.getId();
-  }
 
 }

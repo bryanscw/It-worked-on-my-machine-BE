@@ -278,12 +278,12 @@ public class TopicControllerTest {
     // Delete topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
     mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(topicJson))
-            .andExpect(status().isForbidden())
-            .andDo(document("{methodName}",
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint())));
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(topicJson))
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -294,11 +294,11 @@ public class TopicControllerTest {
     // Delete topic
     int topicId = getPersistentTopicId();
     mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + topicId)
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andDo(document("{methodName}",
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint())));
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
 
     mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + topicId)
         .contentType(MediaType.APPLICATION_JSON))
@@ -313,12 +313,12 @@ public class TopicControllerTest {
     // Delete topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/topics/%s", getPersistentTopicId()-1))
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(topicJson))
-            .andExpect(status().isNotFound())
-            .andDo(document("{methodName}",
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint())));
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(topicJson))
+        .andExpect(status().isNotFound())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
 //  @Test

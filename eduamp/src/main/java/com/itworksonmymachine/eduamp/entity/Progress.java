@@ -1,5 +1,9 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.itworksonmymachine.eduamp.model.Coordinates;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +27,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Progress extends Auditable<String> {
 
   @Id
@@ -56,6 +61,7 @@ public class Progress extends Auditable<String> {
   @Getter
   @Setter
   @OneToMany(mappedBy = "progress", cascade = {CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
+  @JsonManagedReference
   private List<QuestionProgress> questionProgressList = new ArrayList<>();
 
 }

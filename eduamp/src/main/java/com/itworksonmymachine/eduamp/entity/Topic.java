@@ -1,6 +1,8 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +24,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Topic extends Auditable<String> {
 
   @Id
@@ -43,7 +46,6 @@ public class Topic extends Auditable<String> {
   @Setter
   @OneToMany(mappedBy = "topic", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.REMOVE})
-  @JsonManagedReference
-  private Set<GameMap> gameMap;
+  private Set<GameMap> gameMaps;
 
 }

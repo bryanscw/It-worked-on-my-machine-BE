@@ -1,5 +1,8 @@
 package com.itworksonmymachine.eduamp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +22,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class QuestionProgress extends Auditable<String> {
 
   @Id
@@ -36,11 +40,12 @@ public class QuestionProgress extends Auditable<String> {
   @Setter
   @ManyToOne
   @JoinColumn(name = "progress_id", insertable = false, updatable = false)
+  @JsonBackReference
   private Progress progress;
 
   @Getter
   @Setter
-  private int attemptCount;
+  private int attemptCount = 0;
 
   @Getter
   @Setter

@@ -29,6 +29,9 @@ public interface ProgressService {
   Progress updateProgress(String userEmail, Integer gameMapId, Progress progress,
       Authentication authentication);
 
+  boolean checkAnswer(String userEmail, Integer gameMapId, Integer questionId, Integer answer,
+      Authentication authentication);
+
   // Progress cannot be deleted
 //  boolean deleteProgress(Integer gameMapId, Integer progressId, String userEmail);
 
