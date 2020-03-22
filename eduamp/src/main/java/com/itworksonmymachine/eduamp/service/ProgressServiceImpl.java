@@ -106,7 +106,7 @@ public class ProgressServiceImpl implements ProgressService {
    */
   @Override
   public ArrayList<LeaderboardResultDTO> fetchLeaderboardByGameMapId(Integer gameMapId) {
-    // Sanity check to see GameMap exists
+    // Sanity check to check if GameMap exists
     gameMapRepository.findById(gameMapId).orElseThrow(() -> {
       String gameMapNotFoundMsg = String
           .format("GameMap with gameMapId: [%s] not found", gameMapId);
@@ -137,8 +137,8 @@ public class ProgressServiceImpl implements ProgressService {
    */
   @Override
   public ArrayList<QuestionAttemptDTO> fetchAttemptCountByGameMapId(Integer gameMapId) {
-    // Sanity check to see GameMap exists
-    gameMapRepository.findById(gameMapId).orElseThrow(() -> {
+    // Sanity check to check if GameMap exists
+    GameMap gameMap = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
       String gameMapNotFoundMsg = String
           .format("GameMap with gameMapId: [%s] not found", gameMapId);
       log.error(gameMapNotFoundMsg);
@@ -158,8 +158,7 @@ public class ProgressServiceImpl implements ProgressService {
     int idx = 0;
     Map<Integer, Integer> questionMap = new HashMap<>();
     ArrayList<QuestionAttemptDTO> questionAttemptDTOArrayList = new ArrayList<>();
-    for (QuestionProgress questionProgress : progressList.get(0).getQuestionProgressList()) {
-      Question question = questionProgress.getQuestion();
+    for (Question question: gameMap.getQuestions()) {
       questionMap.put(question.getId(), idx);
       questionAttemptDTOArrayList.add(new QuestionAttemptDTO(question, new ArrayList<>()));
       idx++;
