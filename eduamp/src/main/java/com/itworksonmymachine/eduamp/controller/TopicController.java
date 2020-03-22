@@ -56,7 +56,7 @@ public class TopicController {
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public Topic fetchTopic(@PathVariable(value = "topicId") Integer topicId) {
-    log.info("Fetching topic with id: [{}]", topicId);
+    log.info("Fetching topic with topicId: [{}]", topicId);
     return topicService.fetchTopic(topicId);
   }
 
