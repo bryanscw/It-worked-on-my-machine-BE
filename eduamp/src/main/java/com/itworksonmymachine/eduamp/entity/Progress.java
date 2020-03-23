@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -42,7 +44,8 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToOne(fetch= FetchType.EAGER)
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "game_map_id", nullable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private GameMap map;
 
@@ -60,7 +63,7 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "progress", cascade = {CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
+  @OneToMany(mappedBy = "progress", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
   @JsonIdentityReference(alwaysAsId = true)
   private List<QuestionProgress> questionProgressList = new ArrayList<>();
 

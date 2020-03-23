@@ -468,18 +468,43 @@ public class ProgressServiceImpl implements ProgressService {
         });
 
     // Increase attemptCount of QuestionProgress
-    QuestionProgress questionProgress = questionProgressRepository
-        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId())
-        .orElseThrow(() -> {
-          String questionProgressErrorMsg = String
-              .format("QuestionProgress with questionId: [%s] and progressId: [%s] not found",
-                  questionId, progress.getId());
-          log.error(questionProgressErrorMsg);
-          throw new ResourceNotFoundException(questionProgressErrorMsg);
-        });
+//    QuestionProgress questionProgress = questionProgressRepository
+//        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId())
+//        .orElseThrow(() -> {
+//          String questionProgressErrorMsg = String
+//              .format("QuestionProgress with questionId: [%s] and progressId: [%s] not found",
+//                  questionId, progress.getId());
+//          log.error(questionProgressErrorMsg);
+//          throw new ResourceNotFoundException(questionProgressErrorMsg);
+//        });
 
-    questionProgress.setAttemptCount(questionProgress.getAttemptCount() + 1);
+    Optional<QuestionProgress> questionProgressToFind = questionProgressRepository
+        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId());
 
-    return questionProgress.getQuestion().getAnswer() == answer;
+    if (questionProgressToFind.isEmpty()){
+      QuestionProgress questionProgress = new QuestionProgress();
+      questionProgress.setProgress(progress);
+
+      Optional<Question> question = questionRepository.findById(questionId);
+      if (question.isPresent()) {
+        questionProgress.setQuestion(question.get());
+      }
+      else{
+        String progressErrorMsg = String
+            .format("Question with id: [%s] not found", questionId);
+        log.error(progressErrorMsg);
+        throw new ResourceNotFoundException(progressErrorMsg);
+      }
+      questionProgress.setAttemptCount(1);
+      questionProgressRepository.save(questionProgress);
+      return questionProgress.getQuestion().getAnswer() == answer;
+    }
+    else{
+      QuestionProgress questionProgress = questionProgressToFind.get();
+      questionProgress.setAttemptCount(questionProgress.getAttemptCount() + 1);
+      questionProgressRepository.save(questionProgress);
+      return questionProgress.getQuestion().getAnswer() == answer;
+    }
   }
 }
+
