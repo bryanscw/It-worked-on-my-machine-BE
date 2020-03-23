@@ -6,7 +6,10 @@
 :toc-title: Table of Content
 :toclevels: 4
 
-This is the documentation for eduamp APIs.
+For the backend, Continuous Integration is used to ensure that the code that is pushed to the development branches is always in working condition, and that the developers working on the backend are immediately notified of any failure in tests so that the failures/errors can be remedied as soon as possible. Travis is used for Continuous Integration in the backend. Upon adding any new features, a Pull Request is raised for integrating the changes in the development branch into the master branch. Travis will help test the Pull Request commits and branch, and let all parties involved know of the test results. Once the test passes, the requested code vetter will vet changes in the code/file to ensure that certain standards, i.e. Google java Style, is used for the incoming changes. This way, the changes are doubly checked by both automated testing and code reviewer to ensure working and standardised code is always in the master branch.
+
+
+This is the documentation for eduamp APIs and are automatically generated through tests which were written to test use cases for the eduamp application. At the end of each test case (after comparing expected outputs to true outputs), the .andDo(document(...)) method is called to document the method and pretty print the request and response body. Click on the hyperlinks on the left of this page to jump to the section desired. For each action, 3 sample requests and 3 sample responses are provided.
 
 == oAuth
 
