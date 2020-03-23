@@ -179,6 +179,22 @@ public class GameMapControllerTest {
 
   @Test
   @Order(7)
+  @WithUserDetails("student1@test.com")
+  @Transactional
+  public void should_allowFetchGameMap_ifAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders
+        .get(String
+            .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+                getPersistentGameMapId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(8)
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectUpdateGameMap_ifNotAuthorized() throws Exception {
@@ -198,7 +214,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(8)
+  @Order(9)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowUpdateGameMap_ifAuthorized() throws Exception {
@@ -221,7 +237,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(9)
+  @Order(10)
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectDeleteGameMap_ifNotAuthorized() throws Exception {
@@ -236,7 +252,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(10)
+  @Order(11)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowDeleteGameMap_ifAuthorized() throws Exception {
@@ -258,7 +274,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(11)
+  @Order(12)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_rejectDeleteGameMap_ifNotExists() throws Exception {
@@ -297,6 +313,7 @@ public class GameMapControllerTest {
 //  }
 
 }
+
 
 
 

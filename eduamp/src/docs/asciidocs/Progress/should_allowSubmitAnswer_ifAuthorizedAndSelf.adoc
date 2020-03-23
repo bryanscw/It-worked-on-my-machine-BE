@@ -1,0 +1,30 @@
+= Getting started with Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+This is the documentation of eduamp API to accept submitted answer if token and user match.
+
+=== Accept submitted answer if token and user match
+
+.Request sample with curl
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/response-body.adoc[]

@@ -609,7 +609,7 @@ public class ProgressControllerTest {
   @Test
   @Transactional
   @WithUserDetails("teacher1@test.com")
-  public void should_allowRequestForAttemptCountByGameMapId_ifAuthorized() throws Exception {
+  public void should_allowRequestForAttemptCount_ifAuthorized() throws Exception {
 
     mockMvc.perform(
         MockMvcRequestBuilders
@@ -626,7 +626,7 @@ public class ProgressControllerTest {
   @Test
   @Transactional
   @WithUserDetails("user1@test.com")
-  public void should_rejectRequestForAttemptCountByGameMapId_ifNotAuthorized() throws Exception {
+  public void should_rejectRequestForAttemptCount_ifNotAuthorized() throws Exception {
 
     mockMvc.perform(
         MockMvcRequestBuilders
@@ -697,7 +697,7 @@ public class ProgressControllerTest {
   @Order(19)
   @Test
   @Transactional
-  public void should_allowSubmitAnswer_ifAuthorized() throws Exception {
+  public void should_allowSubmitAnswer_ifAuthorizedAndSelf() throws Exception {
 
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)

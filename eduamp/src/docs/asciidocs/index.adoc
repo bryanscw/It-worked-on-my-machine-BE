@@ -8,6 +8,88 @@
 
 This is the documentation for eduamp APIs.
 
+== oAuth
+
+=== Login user if credentials are valid
+
+.Request sample with curl
+include::{snippets}/should_allow_ifValidCredentials/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allow_ifValidCredentials/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allow_ifValidCredentials/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allow_ifValidCredentials/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allow_ifValidCredentials/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allow_ifValidCredentials/response-body.adoc[]
+
+=== Logout if valid session
+
+.Request sample with curl
+include::{snippets}/should_logout_ifValidSession/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_logout_ifValidSession/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_logout_ifValidSession/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_logout_ifValidSession/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_logout_ifValidSession/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_logout_ifValidSession/response-body.adoc[]
+
+=== Reject user if credentials are invalid
+
+.Request sample with curl
+include::{snippets}/should_reject_ifInvalidCredentials/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_reject_ifInvalidCredentials/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_reject_ifInvalidCredentials/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_reject_ifInvalidCredentials/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_reject_ifInvalidCredentials/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_reject_ifInvalidCredentials/response-body.adoc[]
+
+=== Logout with invalid Session
+
+.Request sample with curl
+include::{snippets}/should_throwError_ifInvalidSession/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_throwError_ifInvalidSession/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_throwError_ifInvalidSession/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_throwError_ifInvalidSession/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_throwError_ifInvalidSession/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_throwError_ifInvalidSession/response-body.adoc[]
+
 == Admin
 
 === Allow request to get list of tokens if authorized
@@ -29,26 +111,6 @@ include::{snippets}/should_allowfetchListOfTokens_ifAuthorized/request-body.adoc
 
 .Response sample
 include::{snippets}/should_allowfetchListOfTokens_ifAuthorized/response-body.adoc[]
-
-=== Reject request to get refreshed token
-
-.Request sample with curl
-include::{snippets}/should_beDifferentToken_ifRefresh/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_beDifferentToken_ifRefresh/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_beDifferentToken_ifRefresh/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_beDifferentToken_ifRefresh/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_beDifferentToken_ifRefresh/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_beDifferentToken_ifRefresh/response-body.adoc[]
 
 === Reject request to get list of tokens if not authorized
 
@@ -91,66 +153,6 @@ include::{snippets}/should_allowCreate_ifAuthorized/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_allowCreate_ifAuthorized/response-body.adoc[]
-
-=== Login user if credentials are valid
-
-.Request sample with curl
-include::{snippets}/should_allow_ifValidCredentials/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_allow_ifValidCredentials/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_allow_ifValidCredentials/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_allow_ifValidCredentials/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_allow_ifValidCredentials/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_allow_ifValidCredentials/response-body.adoc[]
-
-=== Validify user
-
-.Request sample with curl
-include::{snippets}/should_allowUser_ifAuthorized/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_allowUser_ifAuthorized/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_allowUser_ifAuthorized/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_allowUser_ifAuthorized/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_allowUser_ifAuthorized/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_allowUser_ifAuthorized/response-body.adoc[]
-
-=== Logout if valid session
-
-.Request sample with curl
-include::{snippets}/should_logout_ifValidSession/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_logout_ifValidSession/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_logout_ifValidSession/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_logout_ifValidSession/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_logout_ifValidSession/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_logout_ifValidSession/response-body.adoc[]
 
 === Allow delete user if authorized
 
@@ -272,86 +274,6 @@ include::{snippets}/should_rejectCreate_ifUserAlreadyExists/request-body.adoc[]
 .Response sample
 include::{snippets}/should_rejectCreate_ifUserAlreadyExists/response-body.adoc[]
 
-=== Reject user if credentials are invalid
-
-.Request sample with curl
-include::{snippets}/should_reject_ifInvalidCredentials/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_reject_ifInvalidCredentials/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_reject_ifInvalidCredentials/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_reject_ifInvalidCredentials/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_reject_ifInvalidCredentials/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_reject_ifInvalidCredentials/response-body.adoc[]
-
-=== Reject user if invalid token
-
-.Request sample with curl
-include::{snippets}/should_reject_ifNotAuthorized/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_reject_ifNotAuthorized/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_reject_ifNotAuthorized/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_reject_ifNotAuthorized/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_reject_ifNotAuthorized/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_reject_ifNotAuthorized/response-body.adoc[]
-
-=== Reject user if user is unauthorized
-
-.Request sample with curl
-include::{snippets}/should_rejectUser_ifNotAuthorized/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_rejectUser_ifNotAuthorized/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_rejectUser_ifNotAuthorized/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_rejectUser_ifNotAuthorized/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_rejectUser_ifNotAuthorized/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_rejectUser_ifNotAuthorized/response-body.adoc[]
-
-=== Invalid Session
-
-.Request sample with curl
-include::{snippets}/should_throwError_ifInvalidSession/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_throwError_ifInvalidSession/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_throwError_ifInvalidSession/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_throwError_ifInvalidSession/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_throwError_ifInvalidSession/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_throwError_ifInvalidSession/response-body.adoc[]
-
 === Reject delete user if user is not authorized
 
 .Request sample with curl
@@ -412,7 +334,7 @@ include::{snippets}/should_rejectFetchUser_ifNotAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_rejectFetchUser_ifNotAuthorized/response-body.adoc[]
 
-=== Reject fetching user if user is not authorized
+=== Reject fetch users if user is not authorized
 
 .Request sample with curl
 include::{snippets}/should_rejectFetchUsers_ifNotAuthorized/curl-request.adoc[]
@@ -474,7 +396,7 @@ include::{snippets}/should_rejectUpdateUser_ifNotExists/response-body.adoc[]
 
 == Topic
 
-=== Allow create if authorized
+=== Allow create topic if authorized
 
 .Request sample with curl
 include::{snippets}/should_allowCreateTopic_ifAuthorized/curl-request.adoc[]
@@ -494,7 +416,7 @@ include::{snippets}/should_allowCreateTopic_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowCreateTopic_ifAuthorized/response-body.adoc[]
 
-=== Allow fetch if authorized
+=== Allow fetch topic if authorized
 
 .Request sample with curl
 include::{snippets}/should_allowFetchTopic_ifAuthorized/curl-request.adoc[]
@@ -514,7 +436,7 @@ include::{snippets}/should_allowFetchTopic_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowFetchTopic_ifAuthorized/response-body.adoc[]
 
-=== Fetch topics if authorized
+=== Allow fetch topics if authorized
 
 .Request sample with curl
 include::{snippets}/should_allowFetchTopics_ifAuthorized/curl-request.adoc[]
@@ -554,7 +476,7 @@ include::{snippets}/should_allowUpdateTopic_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowUpdateTopic_ifAuthorized/response-body.adoc[]
 
-=== Patch topics if authorized
+=== Allow patch topic if authorized
 
 .Request sample with curl
 include::{snippets}/should_allowPatchTopic_ifAuthorized/curl-request.adoc[]
@@ -594,7 +516,7 @@ include::{snippets}/should_allowDeleteTopic_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowDeleteTopic_ifAuthorized/response-body.adoc[]
 
-=== Reject create if not authorized
+=== Reject create topic if not authorized
 
 .Request sample with curl
 include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/curl-request.adoc[]
@@ -614,7 +536,7 @@ include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_rejectCreateTopic_ifNotAuthorized/response-body.adoc[]
 
-=== Reject delete if not authorized
+=== Reject delete topic if not authorized
 
 .Request sample with curl
 include::{snippets}/should_rejectDeleteTopic_ifNotAuthorized/curl-request.adoc[]
@@ -714,7 +636,7 @@ include::{snippets}/should_rejectPatchTopic_ifNotAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_rejectPatchTopic_ifNotAuthorized/response-body.adoc[]
 
-=== Reject delete topics if topic does not exist
+=== Reject delete topic if topic does not exist
 
 .Request sample with curl
 include::{snippets}/should_rejectDeleteTopic_ifNotExists/curl-request.adoc[]
@@ -759,6 +681,26 @@ include::{snippets}/should_allowCreateGameMap_ifAuthorized/response-body.adoc[]
 === Allow fetching of game map if user is authorized
 
 .Request sample with curl
+include::{snippets}/should_allowFetchGameMap_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchGameMap_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchGameMap_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchGameMap_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchGameMap_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchGameMap_ifAuthorized/response-body.adoc[]
+
+=== Allow fetching of game maps if user is authorized
+
+.Request sample with curl
 include::{snippets}/should_allowFetchGameMaps_ifAuthorized/curl-request.adoc[]
 
 .Request sample with http
@@ -776,25 +718,25 @@ include::{snippets}/should_allowFetchGameMaps_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowFetchGameMaps_ifAuthorized/response-body.adoc[]
 
-=== Delete game map by question
+=== Allow updating of game map if user is authorized
 
 .Request sample with curl
-include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/curl-request.adoc[]
+include::{snippets}/should_allowUpdateGameMap_ifAuthorized/curl-request.adoc[]
 
 .Request sample with http
-include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/http-request.adoc[]
+include::{snippets}/should_allowUpdateGameMap_ifAuthorized/http-request.adoc[]
 
 .Request sample with httpie
-include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/httpie-request.adoc[]
+include::{snippets}/should_allowUpdateGameMap_ifAuthorized/httpie-request.adoc[]
 
 .HTTP response
-include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/http-response.adoc[]
+include::{snippets}/should_allowUpdateGameMap_ifAuthorized/http-response.adoc[]
 
 .Request sample
-include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/request-body.adoc[]
+include::{snippets}/should_allowUpdateGameMap_ifAuthorized/request-body.adoc[]
 
 .Response sample
-include::{snippets}/should_allowDeleteGameMapByQuestion_ifAuthorized/response-body.adoc[]
+include::{snippets}/should_allowUpdateGameMap_ifAuthorized/response-body.adoc[]
 
 === Allow deletion of game map if user is authorized
 
@@ -815,6 +757,26 @@ include::{snippets}/should_allowDeleteGameMap_ifAuthorized/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_allowDeleteGameMap_ifAuthorized/response-body.adoc[]
+
+=== Reject creation of game map if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectCreateGameMap_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectCreateGameMap_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectCreateGameMap_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectCreateGameMap_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectCreateGameMap_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectCreateGameMap_ifNotAuthorized/response-body.adoc[]
 
 === Reject fetching of game map if user is not authorized
 
@@ -856,25 +818,25 @@ include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/request-body.adoc
 .Response sample
 include::{snippets}/should_rejectFetchGameMaps_ifNotAuthorized/response-body.adoc[]
 
-=== Reject delete game map by question if not authorized
+=== Reject updating of game map if user is not authorized
 
 .Request sample with curl
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/curl-request.adoc[]
+include::{snippets}/should_rejectUpdateGameMap_ifNotAuthorized/curl-request.adoc[]
 
 .Request sample with http
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/http-request.adoc[]
+include::{snippets}/should_rejectUpdateGameMap_ifNotAuthorized/http-request.adoc[]
 
 .Request sample with httpie
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/httpie-request.adoc[]
+include::{snippets}/should_rejectUpdateGameMap_ifNotAuthorized/httpie-request.adoc[]
 
 .HTTP response
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/http-response.adoc[]
+include::{snippets}/should_rejectUpdateGameMap_ifNotAuthorized/http-response.adoc[]
 
 .Request sample
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/request-body.adoc[]
+include::{snippets}/should_rejectUpdateGameMap_ifNotAuthorized/request-body.adoc[]
 
 .Response sample
-include::{snippets}/should_rejectDeleteGameMapByQuestion_ifNotAuthorized/response-body.adoc[]
+include::{snippets}/should_rejectUpdateGameMap_ifNotAuthorized/response-body.adoc[]
 
 === Reject deleting of game map if user is not authorized
 
@@ -1160,45 +1122,85 @@ include::{snippets}/should_allowCreateQuestion_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowCreateQuestion_ifAuthorized/response-body.adoc[]
 
-=== Fetch question if authorized
+=== Allow fetching of question and show answer if user is authorized
 
 .Request sample with curl
-include::{snippets}/should_allowFetchQuestion_ifAuthorized/curl-request.adoc[]
+include::{snippets}/should_allowFetchQuestionAndShowAnswer_ifAuthorized/curl-request.adoc[]
 
 .Request sample with http
-include::{snippets}/should_allowFetchQuestion_ifAuthorized/http-request.adoc[]
+include::{snippets}/should_allowFetchQuestionAndShowAnswer_ifAuthorized/http-request.adoc[]
 
 .Request sample with httpie
-include::{snippets}/should_allowFetchQuestion_ifAuthorized/httpie-request.adoc[]
+include::{snippets}/should_allowFetchQuestionAndShowAnswer_ifAuthorized/httpie-request.adoc[]
 
 .HTTP response
-include::{snippets}/should_allowFetchQuestion_ifAuthorized/http-response.adoc[]
+include::{snippets}/should_allowFetchQuestionAndShowAnswer_ifAuthorized/http-response.adoc[]
 
 .Request sample
-include::{snippets}/should_allowFetchQuestion_ifAuthorized/request-body.adoc[]
+include::{snippets}/should_allowFetchQuestionAndShowAnswer_ifAuthorized/request-body.adoc[]
 
 .Response sample
-include::{snippets}/should_allowFetchQuestion_ifAuthorized/response-body.adoc[]
+include::{snippets}/should_allowFetchQuestionAndShowAnswer_ifAuthorized/response-body.adoc[]
 
-=== Fetch questions by game map id if authorized
+=== Allow fetching of question but not show answer if user is authorized
 
 .Request sample with curl
-include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/curl-request.adoc[]
+include::{snippets}/should_allowFetchQuestionButNotShowAnswer_ifAuthorized/curl-request.adoc[]
 
 .Request sample with http
-include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/http-request.adoc[]
+include::{snippets}/should_allowFetchQuestionButNotShowAnswer_ifAuthorized/http-request.adoc[]
 
 .Request sample with httpie
-include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/httpie-request.adoc[]
+include::{snippets}/should_allowFetchQuestionButNotShowAnswer_ifAuthorized/httpie-request.adoc[]
 
 .HTTP response
-include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/http-response.adoc[]
+include::{snippets}/should_allowFetchQuestionButNotShowAnswer_ifAuthorized/http-response.adoc[]
 
 .Request sample
-include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/request-body.adoc[]
+include::{snippets}/should_allowFetchQuestionButNotShowAnswer_ifAuthorized/request-body.adoc[]
 
 .Response sample
-include::{snippets}/should_allowFetchQuestionsByGameMapId_ifAuthorized/response-body.adoc[]
+include::{snippets}/should_allowFetchQuestionButNotShowAnswer_ifAuthorized/response-body.adoc[]
+
+=== Allow fetching of question by game map id but not show answer if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchQuestionsByGameMapIdButNotShowAnswer_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchQuestionsByGameMapIdButNotShowAnswer_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchQuestionsByGameMapIdButNotShowAnswer_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchQuestionsByGameMapIdButNotShowAnswer_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchQuestionsByGameMapIdButNotShowAnswer_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchQuestionsByGameMapIdButNotShowAnswer_ifAuthorized/response-body.adoc[]
+
+=== Allow fetching of question by game map id and show answer if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowFetchQuestionsByGameMapIdAndShowAnswer_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowFetchQuestionsByGameMapIdAndShowAnswer_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowFetchQuestionsByGameMapIdAndShowAnswer_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowFetchQuestionsByGameMapIdAndShowAnswer_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowFetchQuestionsByGameMapIdAndShowAnswer_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowFetchQuestionsByGameMapIdAndShowAnswer_ifAuthorized/response-body.adoc[]
 
 === Update question if authorized
 
@@ -1219,6 +1221,26 @@ include::{snippets}/should_allowUpdateQuestion_ifAuthorized/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_allowUpdateQuestion_ifAuthorized/response-body.adoc[]
+
+=== Allow deleting of question by game map id if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteQuestionByGameMapId_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteQuestionByGameMapId_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteQuestionByGameMapId_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteQuestionByGameMapId_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteQuestionByGameMapId_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteQuestionByGameMapId_ifAuthorized/response-body.adoc[]
 
 === Reject creation of question if not authorized
 
@@ -1299,6 +1321,46 @@ include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/request-body.ado
 
 .Response sample
 include::{snippets}/should_rejectUpdateQuestion_ifNotAuthorized/response-body.adoc[]
+
+=== Reject deleting of question by game map id if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotAuthorized/response-body.adoc[]
+
+=== Reject deleting of question by game map id if question does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/response-body.adoc[]
 
 == Progress
 
@@ -1382,6 +1444,66 @@ include::{snippets}/should_allowFetchProgressByUserEmail_ifAuthorized/request-bo
 .Response sample
 include::{snippets}/should_allowFetchProgressByUserEmail_ifAuthorized/response-body.adoc[]
 
+=== Allow request for attempt count if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowRequestForAttemptCount_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowRequestForAttemptCount_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowRequestForAttemptCount_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowRequestForAttemptCount_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowRequestForAttemptCount_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowRequestForAttemptCount_ifAuthorized/response-body.adoc[]
+
+=== Allow reqeust for leaderboard if user is authorized
+
+.Request sample with curl
+include::{snippets}/should_allowRequestForLeaderboard_ifAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowRequestForLeaderboard_ifAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowRequestForLeaderboard_ifAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowRequestForLeaderboard_ifAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowRequestForLeaderboard_ifAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowRequestForLeaderboard_ifAuthorized/response-body.adoc[]
+
+=== Accept submitted answer if token and user match
+
+.Request sample with curl
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowSubmitAnswer_ifAuthorizedAndSelf/response-body.adoc[]
+
 === Allow update of progress if authorized
 
 .Request sample with curl
@@ -1441,26 +1563,6 @@ include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotAuthorized/reques
 
 .Response sample
 include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotAuthorized/response-body.adoc[]
-
-=== Reject fetch progress by game map id if progress does not exist
-
-.Request sample with curl
-include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/curl-request.adoc[]
-
-.Request sample with http
-include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/http-request.adoc[]
-
-.Request sample with httpie
-include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/httpie-request.adoc[]
-
-.HTTP response
-include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/http-response.adoc[]
-
-.Request sample
-include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/request-body.adoc[]
-
-.Response sample
-include::{snippets}/should_rejectFetchProgressByGameMapId_ifNotExists/response-body.adoc[]
 
 === Reject fetch progress by user email and game map id if not authorized
 
@@ -1542,7 +1644,88 @@ include::{snippets}/should_rejectFetchProgressByUserEmail_ifNotAuthorized/reques
 .Response sample
 include::{snippets}/should_rejectFetchProgressByUserEmail_ifNotAuthorized/response-body.adoc[]
 
+=== Reject submitted answer if token and user do not match
+
+.Request sample with curl
+include::{snippets}/should_rejectSubmittedAnswer_ifNotSelf/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectSubmittedAnswer_ifNotSelf/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectSubmittedAnswer_ifNotSelf/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectSubmittedAnswer_ifNotSelf/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectSubmittedAnswer_ifNotSelf/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectSubmittedAnswer_ifNotSelf/response-body.adoc[]
+
+=== Reject request for leaderboard if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectRequestForLeaderboard_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectRequestForLeaderboard_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectRequestForLeaderboard_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectRequestForLeaderboard_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectRequestForLeaderboard_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectRequestForLeaderboard_ifNotAuthorized/response-body.adoc[]
+
+=== Reject submitted answer by user if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectSubmittedAnswer_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectSubmittedAnswer_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectSubmittedAnswer_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectSubmittedAnswer_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectSubmittedAnswer_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectSubmittedAnswer_ifNotAuthorized/response-body.adoc[]
+
+=== Reject request for attempt count if user email does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectRequestForAttemptCount_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectRequestForAttemptCount_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectRequestForAttemptCount_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectRequestForAttemptCount_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectRequestForAttemptCount_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectRequestForAttemptCount_ifNotAuthorized/response-body.adoc[]
+
 === Reject update progress if user is not authorized
+
 .Request sample with curl
 include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/curl-request.adoc[]
 

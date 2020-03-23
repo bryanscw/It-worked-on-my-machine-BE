@@ -9,7 +9,7 @@
 
 This is the documentation of eduamp API to allow for fetching of game map if user is authorized.
 
-=== Allow fetching of game map if user is authorized
+=== Allow fetching of game maps if user is authorized
 
 .Request sample with curl
 include::{snippets}/should_allowFetchGameMaps_ifAuthorized/curl-request.adoc[]
