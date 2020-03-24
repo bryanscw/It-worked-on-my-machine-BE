@@ -126,7 +126,10 @@ public class LearningMaterialControllerTest {
             String.format("/gameMaps/%s/learningMaterials/create", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(learningMaterialJson))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
