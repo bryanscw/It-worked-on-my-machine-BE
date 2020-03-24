@@ -1,0 +1,29 @@
+= Getting started with Eduamp API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Table of Content
+:toclevels: 4
+
+This is the documentation for eduamp API to reject deleting of question by game map id if question does not exist.
+
+=== Reject deleting of question by game map id if question does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteQuestionByGameMapId_ifNotExist/response-body.adoc[]

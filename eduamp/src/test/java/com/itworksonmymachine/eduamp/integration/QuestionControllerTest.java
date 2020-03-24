@@ -80,11 +80,6 @@ public class QuestionControllerTest {
   @BeforeEach
   private void setUp() {
 
-    // Initialise Game Map for question
-    GameMap gameMap = new GameMap();
-    gameMap.setMapDescriptor("This is a map descriptor");
-    gameMap.setPlayable(false);
-
     // Initialise Coordinates for question
     Coordinates coordinates = new Coordinates();
     coordinates.setX(1);
@@ -99,7 +94,6 @@ public class QuestionControllerTest {
 
     // Create a Question
     this.question = new Question();
-    this.question.setGameMap(gameMap);
     this.question.setAnswer(1);
     this.question.setCoordinates(coordinates);
     this.question.setQuestionText("This is a question");
@@ -122,13 +116,13 @@ public class QuestionControllerTest {
             .content(topicJson))
         .andExpect(status().isOk()).andReturn();
 
-    // Required during test as ObjectMapper cannot have a non-null Topic.
-    // In actual production, Topic can be null
-    topic = getPersistentTopic();
-    this.question.getGameMap().setTopic(topic);
+    // Initialise Game Map for question
+    GameMap gameMap = new GameMap();
+    gameMap.setMapDescriptor("This is a map descriptor");
+    gameMap.setPlayable(false);
 
     String gameMapJson = new com.fasterxml.jackson.databind.ObjectMapper()
-        .writeValueAsString(this.question.getGameMap());
+        .writeValueAsString(gameMap);
     mockMvc.perform(
         MockMvcRequestBuilders
             .post(String.format("/topics/%s/gameMaps/create", getPersistentTopic().getId()))
@@ -141,9 +135,6 @@ public class QuestionControllerTest {
   @Order(1)
   @WithUserDetails("teacher1@test.com")
   public void should_allowCreateQuestion_ifAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    this.question.setGameMap(getPersistentGameMap());
 
     String questionJson = new ObjectMapper().writeValueAsString(this.question);
     mockMvc.perform(
@@ -151,7 +142,10 @@ public class QuestionControllerTest {
             .post(String.format("/gameMaps/%s/questions/create", getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(questionJson))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -159,9 +153,6 @@ public class QuestionControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectCreateQuestion_ifNotAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    this.question.setGameMap(getPersistentGameMap());
 
     String questionJson = new ObjectMapper().writeValueAsString(this.question);
     mockMvc.perform(
@@ -300,9 +291,6 @@ public class QuestionControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectUpdateQuestion_ifNotAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    this.question.setGameMap(getPersistentGameMap());
 
     this.question.setQuestionText("New question");
 
@@ -323,9 +311,6 @@ public class QuestionControllerTest {
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowUpdateQuestion_ifAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null GameMap.
-    // In actual production, GameMap can be null
-    this.question.setGameMap(getPersistentGameMap());
 
     this.question.setQuestionText("New question");
 
@@ -353,7 +338,7 @@ public class QuestionControllerTest {
   @Order(11)
   @WithUserDetails("student1@test.com")
   @Transactional
-  public void should_rejectDeleteGameMapByQuestion_ifNotAuthorized() throws Exception {
+  public void should_rejectDeleteQuestionByGameMapId_ifNotAuthorized() throws Exception {
 
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(),
@@ -368,7 +353,7 @@ public class QuestionControllerTest {
   @Test
   @Order(12)
   @WithUserDetails("teacher1@test.com")
-  public void should_allowDeleteQuestionByGameMap_ifAuthorized() throws Exception {
+  public void should_allowDeleteQuestionByGameMapId_ifAuthorized() throws Exception {
     int questionId = getPersistentQuestionId();
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(),
@@ -389,7 +374,7 @@ public class QuestionControllerTest {
   @Test
   @Order(13)
   @WithUserDetails("teacher1@test.com")
-  public void should_rejectDeleteQuestionByGameMap_ifNotExist() throws Exception {
+  public void should_rejectDeleteQuestionByGameMapId_ifNotExist() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(),
         this.question.getId()))

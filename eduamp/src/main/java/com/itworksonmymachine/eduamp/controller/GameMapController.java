@@ -80,6 +80,8 @@ public class GameMapController {
       @PathVariable(value = "topicId") Integer topicId,
       @RequestBody GameMap gameMap
   ) {
+    log.info("Creating game map: [{}] for topicId: [{}]",
+        gameMap.toString(), topicId);
     return gameMapService.createGameMap(topicId, gameMap);
   }
 

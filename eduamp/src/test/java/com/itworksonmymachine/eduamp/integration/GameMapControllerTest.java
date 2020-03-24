@@ -100,9 +100,6 @@ public class GameMapControllerTest {
   @Order(2)
   @WithUserDetails("teacher1@test.com")
   public void should_allowCreateGameMap_ifAuthorized() throws Exception {
-    // Required during test as ObjectMapper cannot have a non-null Topic.
-    // In actual production, Topic can be null
-    this.gameMap.setTopic(getPersistentTopic());
 
     String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
@@ -121,15 +118,16 @@ public class GameMapControllerTest {
   @WithUserDetails("student1@test.com")
   @Transactional
   public void should_rejectCreateGameMap_ifNotAuthorized() throws Exception {
-    Topic topic = getPersistentTopic();
-    this.gameMap.setTopic(topic);
 
     String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
     mockMvc.perform(
-        MockMvcRequestBuilders.post(String.format("/topics/%s/gameMaps/create", topic.getId()))
+        MockMvcRequestBuilders.post(String.format("/topics/%s/gameMaps/create", getPersistentTopic().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .content(gameMapJson))
-        .andExpect(status().isForbidden());
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -183,6 +181,65 @@ public class GameMapControllerTest {
   @Order(7)
   @WithUserDetails("student1@test.com")
   @Transactional
+  public void should_allowFetchGameMap_ifAuthorized() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders
+        .get(String
+            .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+                getPersistentGameMapId()))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(8)
+  @WithUserDetails("user1@test.com")
+  @Transactional
+  public void should_rejectUpdateGameMap_ifNotAuthorized() throws Exception {
+
+    this.gameMap.setMapDescriptor("This is a edited map descriptor");
+    String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
+
+    mockMvc.perform(MockMvcRequestBuilders
+        .put(String.format("/topics/%s/gameMaps/%s",
+            getPersistentTopic().getId(), getPersistentGameMapId()))
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(gameMapJson))
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(9)
+  @WithUserDetails("teacher1@test.com")
+  @Transactional
+  public void should_allowUpdateGameMap_ifAuthorized() throws Exception {
+
+    this.gameMap.setMapDescriptor("This is a edited map descriptor");
+    String gameMapJson = new ObjectMapper().writeValueAsString(this.gameMap);
+
+    // There will only be 1 topic in the database
+    mockMvc.perform(MockMvcRequestBuilders
+        .put(String.format("/topics/%s/gameMaps/%s",
+            getPersistentTopic().getId(), getPersistentGameMapId()))
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(gameMapJson))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.mapDescriptor", is(this.gameMap.getMapDescriptor())))
+        .andExpect(jsonPath("$.playable", is(this.gameMap.isPlayable())))
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @Order(10)
+  @WithUserDetails("student1@test.com")
+  @Transactional
   public void should_rejectDeleteGameMap_ifNotAuthorized() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.delete(String
         .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
@@ -195,7 +252,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(8)
+  @Order(11)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_allowDeleteGameMap_ifAuthorized() throws Exception {
@@ -217,7 +274,7 @@ public class GameMapControllerTest {
   }
 
   @Test
-  @Order(9)
+  @Order(12)
   @WithUserDetails("teacher1@test.com")
   @Transactional
   public void should_rejectDeleteGameMap_ifNotExists() throws Exception {
@@ -256,5 +313,7 @@ public class GameMapControllerTest {
 //  }
 
 }
+
+
 
 

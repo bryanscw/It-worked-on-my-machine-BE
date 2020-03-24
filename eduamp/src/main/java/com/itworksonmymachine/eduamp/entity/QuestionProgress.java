@@ -3,6 +3,7 @@ package com.itworksonmymachine.eduamp.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,13 +34,14 @@ public class QuestionProgress extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToOne
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "question_id", insertable = false, updatable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private Question question;
 
   @Getter
   @Setter
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "progress_id", insertable = false, updatable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private Progress progress;
