@@ -131,7 +131,9 @@ public class ProgressServiceImpl implements ProgressService {
     // Sort the ArrayList in default Ascending order
     leaderboardResultDTOArrayList.sort(Comparator.comparing(LeaderboardResultDTO::getTiming));
 
-    return leaderboardResultDTOArrayList;
+    return leaderboardResultDTOArrayList.size() > 10 ? new ArrayList<>(
+        leaderboardResultDTOArrayList.stream().limit(10).collect(Collectors.toList()))
+        : leaderboardResultDTOArrayList;
   }
 
   /**
@@ -481,15 +483,14 @@ public class ProgressServiceImpl implements ProgressService {
     Optional<QuestionProgress> questionProgressToFind = questionProgressRepository
         .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId());
 
-    if (questionProgressToFind.isEmpty()){
+    if (questionProgressToFind.isEmpty()) {
       QuestionProgress questionProgress = new QuestionProgress();
       questionProgress.setProgress(progress);
 
       Optional<Question> question = questionRepository.findById(questionId);
       if (question.isPresent()) {
         questionProgress.setQuestion(question.get());
-      }
-      else{
+      } else {
         String progressErrorMsg = String
             .format("Question with id: [%s] not found", questionId);
         log.error(progressErrorMsg);
@@ -498,8 +499,7 @@ public class ProgressServiceImpl implements ProgressService {
       questionProgress.setAttemptCount(1);
       questionProgressRepository.save(questionProgress);
       return questionProgress.getQuestion().getAnswer() == answer;
-    }
-    else{
+    } else {
       QuestionProgress questionProgress = questionProgressToFind.get();
       questionProgress.setAttemptCount(questionProgress.getAttemptCount() + 1);
       questionProgressRepository.save(questionProgress);

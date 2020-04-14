@@ -1,5 +1,6 @@
 package com.itworksonmymachine.eduamp.integration;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
@@ -83,33 +84,33 @@ public class ProgressControllerTest {
 
   private Progress progress;
 
-  public Topic getPersistentTopic(){
+  public Topic getPersistentTopic() {
     Iterable<Topic> allTopics = topicRepository.findAll();
     return allTopics.iterator().next();
   }
 
-  public GameMap getPersistentGameMap(){
+  public GameMap getPersistentGameMap() {
     Iterable<GameMap> allGameMaps = gameMapRepository.findAll();
     return allGameMaps.iterator().next();
   }
 
-  public User getPersistentUser(){
+  public User getPersistentUser() {
     Iterable<User> allUsers = userRepository.findAll();
     return allUsers.iterator().next();
   }
 
-  public Progress getPersistentProgress(){
+  public Progress getPersistentProgress() {
     Iterable<Progress> allProgress = progressRepository.findAll();
     return allProgress.iterator().next();
   }
 
-  public Question getPersistentQuestion(){
+  public Question getPersistentQuestion() {
     Iterable<Question> allQuestions = questionRepository.findAll();
     return allQuestions.iterator().next();
   }
 
   @BeforeEach
-  public void setUp(){
+  public void setUp() {
     this.user1 = new MockUserClass();
     this.user1.setEmail("student2@test.com");
     this.user1.setName("student2");
@@ -447,7 +448,8 @@ public class ProgressControllerTest {
   @Order(9)
   @Test
   @Transactional
-  public void should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists() throws Exception {
+  public void should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists()
+      throws Exception {
 
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -465,7 +467,7 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders
             .get(String.format("/progress/users/%s/gameMaps/%s",
-                this.user1.getEmail(), getPersistentGameMap().getId()-1))
+                this.user1.getEmail(), getPersistentGameMap().getId() - 1))
             .header("Authorization", "Bearer " + accessToken)
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
@@ -477,7 +479,8 @@ public class ProgressControllerTest {
   @Order(10)
   @Test
   @Transactional
-  public void should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists() throws Exception {
+  public void should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists()
+      throws Exception {
 
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -495,7 +498,7 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders
             .get(String.format("/progress/users/%s/gameMaps/%s",
-                this.user1.getEmail(), getPersistentGameMap().getId()-1))
+                this.user1.getEmail(), getPersistentGameMap().getId() - 1))
             .header("Authorization", "Bearer " + accessToken)
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
@@ -586,6 +589,8 @@ public class ProgressControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+
+
   }
 
   @Order(14)
@@ -684,7 +689,8 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders
             .post(String.format("/progress/users/%s/gameMaps/%s/questions/%s/submit",
-                this.user1.getEmail(), getPersistentGameMap().getId(), getPersistentQuestion().getId()))
+                this.user1.getEmail(), getPersistentGameMap().getId(),
+                getPersistentQuestion().getId()))
             .header("Authorization", "Bearer " + accessToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content(answerJson))
@@ -718,7 +724,8 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders
             .post(String.format("/progress/users/%s/gameMaps/%s/questions/%s/submit",
-                this.user1.getEmail(), getPersistentGameMap().getId(), getPersistentQuestion().getId()))
+                this.user1.getEmail(), getPersistentGameMap().getId(),
+                getPersistentQuestion().getId()))
             .header("Authorization", "Bearer " + accessToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content(answerJson))
@@ -750,7 +757,7 @@ public class ProgressControllerTest {
 
   @Order(9998)
   @Test
-  public void cleanupContext2() throws Exception{
+  public void cleanupContext2() throws Exception {
 
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -776,7 +783,7 @@ public class ProgressControllerTest {
 
   @Order(9999)
   @Test
-  public void cleanupContext3() throws Exception{
+  public void cleanupContext3() throws Exception {
 
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
