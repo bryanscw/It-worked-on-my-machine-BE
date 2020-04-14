@@ -47,11 +47,11 @@ public class UserServiceImpl implements UserService {
     });
 
     if (user.getEmail() != null) {
-      userToFind.setPass(user.getEmail());
+      userToFind.setEmail(user.getEmail());
     }
 
     if (user.getName() != null) {
-      userToFind.setPass(user.getName());
+      userToFind.setName(user.getName());
     }
 
     if (user.getRole() != null) {
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
       userToFind.setPass(encryptPassword(user.getPass()));
     }
 
-    return userRepository.save(user);
+    return userRepository.save(userToFind);
   }
 
   @Override
