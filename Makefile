@@ -26,6 +26,9 @@ clean-docker:
 	
 deploy:
 	cd ./infra/deploy && docker-compose up -d
+	
+load-test:
+	cd ./eduamp/src/test/resources && jmeter -n -t eduamp_load_test.jmx
 
 ## For cleaning of java docs
 #clean-html:
