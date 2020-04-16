@@ -63,6 +63,13 @@ public class GameMap extends Auditable<String> {
       CascadeType.REFRESH, CascadeType.REMOVE})
   @JsonIdentityReference(alwaysAsId = true)
   private Set<LearningMaterial> learningMaterials;
+  
+  @Getter
+  @Setter
+  @OneToMany(mappedBy = "gameMap", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
+      CascadeType.REFRESH, CascadeType.REMOVE})
+  @JsonIdentityReference(alwaysAsId = true)
+  private Set<Progress> progresses;
 
   @Getter
   @Setter

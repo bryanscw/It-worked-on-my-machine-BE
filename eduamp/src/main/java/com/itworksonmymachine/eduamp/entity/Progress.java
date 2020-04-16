@@ -47,7 +47,7 @@ public class Progress extends Auditable<String> {
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "game_map_id", nullable = false)
   @JsonIdentityReference(alwaysAsId = true)
-  private GameMap map;
+  private GameMap gameMap;
 
   @Getter
   @Setter
