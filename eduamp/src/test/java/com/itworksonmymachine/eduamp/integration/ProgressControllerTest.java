@@ -735,75 +735,75 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-//  @Order(9997)
-//  @WithUserDetails("teacher1@test.com")
-//  @Test
-//  public void cleanupContext1() throws Exception {
-//
-//    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
-//        getPersistentGameMap().getId(), getPersistentQuestion().getId()))
-//        .contentType(MediaType.APPLICATION_JSON));
-//
-//    mockMvc.perform(MockMvcRequestBuilders.delete(String
-//        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
-//            getPersistentGameMap().getId()))
-//        .contentType(MediaType.APPLICATION_JSON));
-//
-//    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopic().getId())
-//        .contentType(MediaType.APPLICATION_JSON));
-//  }
-//
-//  @Order(9998)
-//  @Test
-//  public void cleanupContext2() throws Exception {
-//
-//    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
-//        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//        .header(HttpHeaders.AUTHORIZATION,
-//            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
-//        .param("username", this.user1.getEmail())
-//        .param("password", this.user1.getPass())
-//        .param("grant_type", "password"))
-//        .andReturn();
-//
-//    String accessToken1 = JsonPath
-//        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
-//
-//    mockMvc.perform(
-//        MockMvcRequestBuilders.delete(String.format("/users/%s", this.user1.getEmail()))
-//            .contentType(MediaType.APPLICATION_JSON)
-//            .header("Authorization", "Bearer " + accessToken1));
-//
-//    mockMvc.perform(delete("/oauth/revoke")
-//        .accept(MediaType.APPLICATION_JSON)
-//        .header("Authorization", "Bearer " + accessToken1));
-//  }
-//
-//  @Order(9999)
-//  @Test
-//  public void cleanupContext3() throws Exception {
-//
-//    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
-//        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//        .header(HttpHeaders.AUTHORIZATION,
-//            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
-//        .param("username", this.user2.getEmail())
-//        .param("password", this.user2.getPass())
-//        .param("grant_type", "password"))
-//        .andReturn();
-//
-//    String accessToken2 = JsonPath
-//        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
-//
-//    mockMvc.perform(
-//        MockMvcRequestBuilders.delete(String.format("/users/%s", this.user2.getEmail()))
-//            .contentType(MediaType.APPLICATION_JSON)
-//            .header("Authorization", "Bearer " + accessToken2));
-//
-//    mockMvc.perform(delete("/oauth/revoke")
-//        .accept(MediaType.APPLICATION_JSON)
-//        .header("Authorization", "Bearer " + accessToken2));
-//  }
+  @Order(9997)
+  @WithUserDetails("teacher1@test.com")
+  @Test
+  public void cleanupContext1() throws Exception {
+
+    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
+        getPersistentGameMap().getId(), getPersistentQuestion().getId()))
+        .contentType(MediaType.APPLICATION_JSON));
+
+    mockMvc.perform(MockMvcRequestBuilders.delete(String
+        .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
+            getPersistentGameMap().getId()))
+        .contentType(MediaType.APPLICATION_JSON));
+
+    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopic().getId())
+        .contentType(MediaType.APPLICATION_JSON));
+  }
+
+  @Order(9998)
+  @Test
+  public void cleanupContext2() throws Exception {
+
+    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", this.user1.getEmail())
+        .param("password", this.user1.getPass())
+        .param("grant_type", "password"))
+        .andReturn();
+
+    String accessToken1 = JsonPath
+        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
+
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/users/%s", this.user1.getEmail()))
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorization", "Bearer " + accessToken1));
+
+    mockMvc.perform(delete("/oauth/revoke")
+        .accept(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer " + accessToken1));
+  }
+
+  @Order(9999)
+  @Test
+  public void cleanupContext3() throws Exception {
+
+    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", this.user2.getEmail())
+        .param("password", this.user2.getPass())
+        .param("grant_type", "password"))
+        .andReturn();
+
+    String accessToken2 = JsonPath
+        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
+
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/users/%s", this.user2.getEmail()))
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorization", "Bearer " + accessToken2));
+
+    mockMvc.perform(delete("/oauth/revoke")
+        .accept(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer " + accessToken2));
+  }
 }
 
 
