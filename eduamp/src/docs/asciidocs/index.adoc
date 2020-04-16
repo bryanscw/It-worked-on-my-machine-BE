@@ -11,6 +11,8 @@ For the backend, Continuous Integration is used to ensure that the code that is 
 
 This is the documentation for eduamp APIs and are automatically generated through tests which were written to test use cases for the eduamp application. At the end of each test case (after comparing expected outputs to true outputs), the .andDo(document(...)) method is called to document the method and pretty print the request and response body. Click on the hyperlinks on the left of this page to jump to the section desired. For each action, 3 sample requests and 3 sample responses are provided.
 
+Do note that the format of the APIs are as follows: http://localhost:8080/eduamp/api<Documented API endpoint>
+
 == oAuth
 
 === Login user if credentials are valid
