@@ -22,13 +22,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "question")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Question extends Auditable<String> {
 
@@ -40,7 +38,7 @@ public class Question extends Auditable<String> {
 
   @Getter
   @Setter
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @ManyToOne(cascade = {CascadeType.REFRESH})
   @JoinColumn(name = "game_map_id", nullable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private GameMap gameMap;

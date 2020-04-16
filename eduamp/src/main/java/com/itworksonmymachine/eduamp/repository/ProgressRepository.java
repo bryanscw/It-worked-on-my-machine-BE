@@ -11,14 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProgressRepository extends PagingAndSortingRepository<Progress, Integer> {
 
-  Optional<Progress> findProgressByUser_EmailAndMap_Id(String userEmail, Integer gameMapId);
+  Optional<Progress> findProgressByUser_EmailAndGameMap_Id(String userEmail, Integer gameMapId);
 
-  Page<Progress> findProgressByUser_EmailAndMap_Id(String userEmail, Integer gameMapId,
+  Page<Progress> findProgressByUser_EmailAndGameMap_Id(String userEmail, Integer gameMapId,
       Pageable pageable);
 
-  Page<Progress> findProgressByMap_Id(Integer gameMapId, Pageable pageable);
+  Page<Progress> findProgressByGameMap_Id(Integer gameMapId, Pageable pageable);
 
-  List<Progress> findProgressByMap_Id(Integer gameMapId);
+  List<Progress> findProgressByGameMap_Id(Integer gameMapId);
 
   Page<Progress> findProgressByUser_Email(String userEmail, Pageable pageable);
 

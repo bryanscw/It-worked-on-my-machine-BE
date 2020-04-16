@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,14 +33,14 @@ public class QuestionProgress extends Auditable<String> {
 
   @Getter
   @Setter
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @ManyToOne(cascade = {CascadeType.REFRESH})
   @JoinColumn(name = "question_id", insertable = false, updatable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private Question question;
 
   @Getter
   @Setter
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @ManyToOne(cascade = {CascadeType.REFRESH})
   @JoinColumn(name = "progress_id", insertable = false, updatable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private Progress progress;

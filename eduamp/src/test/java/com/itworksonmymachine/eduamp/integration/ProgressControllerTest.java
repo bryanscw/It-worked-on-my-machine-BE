@@ -290,7 +290,7 @@ public class ProgressControllerTest {
         .andExpect(jsonPath("$.content[0].user.email", is(this.user1.getEmail())))
         .andExpect(jsonPath("$.content[0].user.role", is(this.user1.getRole())))
         .andExpect(jsonPath("$.content[0].user.name", is(this.user1.getName())))
-        .andExpect(jsonPath("$.content[0].map", is(getPersistentProgress().getMap().getId())))
+        .andExpect(jsonPath("$.content[0].gameMap", is(getPersistentProgress().getGameMap().getId())))
         .andExpect(jsonPath("$.content[0].timeTaken", is(getPersistentProgress().getTimeTaken())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
@@ -341,7 +341,7 @@ public class ProgressControllerTest {
         .andExpect(jsonPath("$.content[0].user.email", is(this.user1.getEmail())))
         .andExpect(jsonPath("$.content[0].user.role", is(this.user1.getRole())))
         .andExpect(jsonPath("$.content[0].user.name", is(this.user1.getName())))
-        .andExpect(jsonPath("$.content[0].map", is(getPersistentProgress().getMap().getId())))
+        .andExpect(jsonPath("$.content[0].gameMap", is(getPersistentProgress().getGameMap().getId())))
         .andExpect(jsonPath("$.content[0].timeTaken", is(getPersistentProgress().getTimeTaken())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
@@ -422,7 +422,7 @@ public class ProgressControllerTest {
         .andExpect(jsonPath("$.user.email", is(this.user1.getEmail())))
         .andExpect(jsonPath("$.user.role", is(this.user1.getRole())))
         .andExpect(jsonPath("$.user.name", is(this.user1.getName())))
-        .andExpect(jsonPath("$.map", is(getPersistentProgress().getMap().getId())))
+        .andExpect(jsonPath("$.gameMap", is(getPersistentProgress().getGameMap().getId())))
         .andExpect(jsonPath("$.timeTaken", is(getPersistentProgress().getTimeTaken())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
@@ -739,8 +739,6 @@ public class ProgressControllerTest {
   @WithUserDetails("teacher1@test.com")
   @Test
   public void cleanupContext1() throws Exception {
-
-    progressRepository.deleteById(getPersistentProgress().getId());
 
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(), getPersistentQuestion().getId()))

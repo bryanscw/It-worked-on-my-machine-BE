@@ -87,7 +87,7 @@ public class ProgressServiceImpl implements ProgressService {
 
     if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
       return progressRepository
-          .findProgressByUser_EmailAndMap_Id(principalName, gameMapId, pageable);
+          .findProgressByUser_EmailAndGameMap_Id(principalName, gameMapId, pageable);
     } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_TEACHER"))
         || authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
       // Sanity check to see GameMap exists
@@ -97,7 +97,7 @@ public class ProgressServiceImpl implements ProgressService {
         log.error(gameMapNotFoundMsg);
         return new ResourceNotFoundException(gameMapNotFoundMsg);
       });
-      return progressRepository.findProgressByMap_Id(gameMapId, pageable);
+      return progressRepository.findProgressByGameMap_Id(gameMapId, pageable);
     } else {
       throw new NotAuthorizedException(errorMsg);
     }
@@ -119,7 +119,7 @@ public class ProgressServiceImpl implements ProgressService {
       return new ResourceNotFoundException(gameMapNotFoundMsg);
     });
 
-    List<Progress> progressList = progressRepository.findProgressByMap_Id(gameMapId);
+    List<Progress> progressList = progressRepository.findProgressByGameMap_Id(gameMapId);
     // Filter for progress of users who have completed the GameMap
     progressList = progressList.stream().filter(Progress::isComplete).collect(Collectors.toList());
 
@@ -152,7 +152,7 @@ public class ProgressServiceImpl implements ProgressService {
       return new ResourceNotFoundException(gameMapNotFoundMsg);
     });
 
-    List<Progress> progressList = progressRepository.findProgressByMap_Id(gameMapId);
+    List<Progress> progressList = progressRepository.findProgressByGameMap_Id(gameMapId);
     // Filter for progress of users who have completed the GameMap
     progressList = progressList.stream().filter(Progress::isComplete).collect(Collectors.toList());
 
@@ -245,7 +245,7 @@ public class ProgressServiceImpl implements ProgressService {
     Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
     Progress progress = progressRepository
-        .findProgressByUser_EmailAndMap_Id(userEmail, gameMapId)
+        .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
         .orElseThrow(() -> new ResourceNotFoundException(errorMsg));
 
     if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT")) && progress.getUser()
@@ -299,7 +299,7 @@ public class ProgressServiceImpl implements ProgressService {
     });
 
     Optional<Progress> progressToFind = progressRepository
-        .findProgressByUser_EmailAndMap_Id(userEmail, gameMapId);
+        .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId);
 
     // Only able to create QuestionProgress for questions available in the GameMap
     for (QuestionProgress questionProgress : progress.getQuestionProgressList()) {
@@ -314,7 +314,7 @@ public class ProgressServiceImpl implements ProgressService {
     if (progressToFind.isEmpty()) {
       // Progress not found, should create
       progress.setUser(userToFind);
-      progress.setMap(gameMapToFind);
+      progress.setGameMap(gameMapToFind);
 
       Progress savedProgress = progressRepository.save(progress);
 
@@ -373,7 +373,7 @@ public class ProgressServiceImpl implements ProgressService {
       return new ResourceNotFoundException(errorMsg);
     });
     Progress progressToFind = progressRepository
-        .findProgressByUser_EmailAndMap_Id(userEmail, gameMapId).orElseThrow(() -> {
+        .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId).orElseThrow(() -> {
           String errorMsg = String
               .format("Progress referenced by User: [%s] and GameMap: [%s] not found", userEmail,
                   gameMapId);
@@ -390,7 +390,7 @@ public class ProgressServiceImpl implements ProgressService {
     // TODO: Prevent cheating when user tries to mutate questions attempted in regressive manner
 
     progress.setId(progressToFind.getId());
-    progress.setMap(gameMapToFind);
+    progress.setGameMap(gameMapToFind);
     progress.setUser(userToFind);
     progressToFind.setTimeTaken(progress.getTimeTaken());
     progressToFind.setComplete(progress.isComplete());
@@ -460,7 +460,8 @@ public class ProgressServiceImpl implements ProgressService {
 //      throw new ResourceNotFoundException(errorMsg);
 //    }
 
-    Progress progress = progressRepository.findProgressByUser_EmailAndMap_Id(userEmail, gameMapId)
+    Progress progress = progressRepository
+        .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
         .orElseThrow(() -> {
           String progressErrorMsg = String
               .format("Progress for User with userEmail: [%s] and gameMapId: [%s] not found",
