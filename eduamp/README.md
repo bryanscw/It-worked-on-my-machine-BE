@@ -70,9 +70,9 @@ To deploy the app, do the following:
 
 ## 4. Testing
 
-### Automated testing
+### Automated functional testing
 
-The following commands are run for to automate testing:
+The following commands are run to automate testing:
 ```
 # Start MySQL container
 sudo make run-mysql
@@ -82,4 +82,15 @@ sudo mvn clean test
 
 # Stop MySQL container once testing is done
 sudo make stop-mysql
+```
+
+### Automated load testing
+
+The following commands are run to do load testing:
+```
+# To install Jmeter
+sudo apt install jmeter
+
+# Start load testing with Jmeter
+sudo make load-test
 ```
