@@ -3,4 +3,4 @@ language: java
 jdk: openjdk11
 services:
   - mysql
-script: mvn clean install
+script: mvn clean install && apt install jmeter && jmeter -n -t eduamp/src/test/resources/eduamp_load_test.jmx
