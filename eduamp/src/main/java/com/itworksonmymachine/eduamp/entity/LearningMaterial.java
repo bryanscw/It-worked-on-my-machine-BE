@@ -34,7 +34,7 @@ public class LearningMaterial extends Auditable<String> {
 
   @Getter
   @Setter
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @ManyToOne(cascade = {CascadeType.REFRESH})
   @JoinColumn(name = "game_map_id", nullable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private GameMap gameMap;

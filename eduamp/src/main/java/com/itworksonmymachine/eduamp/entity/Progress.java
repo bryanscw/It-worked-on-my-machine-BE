@@ -21,13 +21,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "progress")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Progress extends Auditable<String> {
 
@@ -44,7 +42,7 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+  @ManyToOne(cascade = {CascadeType.REFRESH})
   @JoinColumn(name = "game_map_id", nullable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private GameMap gameMap;
@@ -63,7 +61,11 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "progress", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
+  @OneToMany(
+      mappedBy = "progress",
+      fetch = FetchType.EAGER,
+      cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH},
+      orphanRemoval = true)
   @JsonIdentityReference(alwaysAsId = true)
   private List<QuestionProgress> questionProgressList = new ArrayList<>();
 
