@@ -1,7 +1,7 @@
 PROJECT_ROOT 	:= $(shell git rev-parse --show-toplevel)
 
 test:
-	docker run --name eduamp-mysql -e MYSQL_ROOT_PASSWORD=12345 -e MYSQL_USER=user -e MYSQL_PASSWORD=my5ql -p 3306:3306 -d mysql:latest && mvn test && docker rm -rf $(docker ps -aq)
+	docker run --name eduamp-mysql -e MYSQL_ROOT_PASSWORD=12345 -e MYSQL_USER=user -e MYSQL_PASSWORD=my5ql -p 3306:3306 -d mysql:latest && mvn clean test && docker rm -rf $(docker ps -aq)
 
 #test-integration:
 #	$(MAKE) -C testing/integration test-integration TYPE=$(TYPE) ID=$(ID)
@@ -21,7 +21,7 @@ image:
 javadocs:
 	sudo mvn javadoc:javadoc && rm -rf target/ && rm -rf eduamp/target/javadoc-bundle-options
 	
-clean-docker:
+clean-up:
 	cd ./infra/deploy && docker-compose down
 	
 deploy:
