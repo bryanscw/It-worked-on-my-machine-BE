@@ -276,15 +276,9 @@ public class ProgressServiceImpl implements ProgressService {
   @Override
   public Progress createProgress(String userEmail, Integer gameMapId, Progress progress,
       Authentication authentication) {
-    String principalName = ((org.springframework.security.core.userdetails.User) authentication
-        .getPrincipal()).getUsername();
-    // Ensure that user is only creating a  Progress for themselves
-    if (!userEmail.equals(principalName)) {
-      String notAuthMsg = String
-          .format("[%s] is not allowed to create a Progress for [%s]", principalName, userEmail);
-      log.error(notAuthMsg);
-      throw new NotAuthorizedException(notAuthMsg);
-    }
+
+    // Check if user is authorized to perform action
+    this.isAuthorized(userEmail, authentication);
 
     // Find the referenced User and GameMap
     User userToFind = userRepository.findUserByEmail(userEmail).orElseThrow(() -> {
@@ -367,6 +361,7 @@ public class ProgressServiceImpl implements ProgressService {
       log.error(errorMsg);
       return new ResourceNotFoundException(errorMsg);
     });
+
     GameMap gameMapToFind = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
       String errorMsg = String.format("GameMap with gameMapId [%s] not found", gameMapId);
       log.error(errorMsg);
@@ -426,16 +421,6 @@ public class ProgressServiceImpl implements ProgressService {
       Integer answer,
       Authentication authentication
   ) {
-    String principalName = ((org.springframework.security.core.userdetails.User) authentication
-        .getPrincipal()).getUsername();
-
-    // User is only allowed to submit answers for themselves
-    if (!userEmail.equals(principalName)) {
-      String errorMsg = String.format(
-          "User with userEmail: [%s] is not allowed to submit answers for user with userEmail: [%s]",
-          principalName, userEmail);
-      throw new NotAuthorizedException(errorMsg);
-    }
 
 //    // Sanity check to check if GameMap exists
 //    GameMap gameMap = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
@@ -507,5 +492,53 @@ public class ProgressServiceImpl implements ProgressService {
       return questionProgress.getQuestion().getAnswer() == answer;
     }
   }
+
+  @Override
+  public boolean deleteProgress(
+      String userEmail,
+      Integer gameMapId,
+      Integer progressId,
+      Authentication authentication) {
+
+    // Check if user is authorized to perform action
+    this.isAuthorized(userEmail, authentication);
+
+    progressRepository.findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
+        .orElseThrow(() -> {
+          String progressErrorMsg = String
+              .format("Progress for User with userEmail: [%s] and gameMapId: [%s] not found",
+                  userEmail, gameMapId);
+          log.error(progressErrorMsg);
+          throw new ResourceNotFoundException(progressErrorMsg);
+        });
+
+    // Delete the Progress
+    progressRepository.deleteById(gameMapId);
+
+    return true;
+  }
+
+  /**
+   * Check if userEmail is the same as that of that defined in the authentication context.
+   * <p>
+   * This check is for actions where users are only allowed to modify their own resources.
+   *
+   * @param userEmail      User email.
+   * @param authentication Authentication context containing information of the user submitting the
+   *                       request.
+   */
+  private void isAuthorized(String userEmail, Authentication authentication) {
+    String principalName = ((org.springframework.security.core.userdetails.User) authentication
+        .getPrincipal()).getUsername();
+
+    // User is only allowed to submit answers for themselves
+    if (!userEmail.equals(principalName)) {
+      String errorMsg = String.format(
+          "User with userEmail: [%s] is not allowed to submit answers for user with userEmail: [%s]",
+          principalName, userEmail);
+      throw new NotAuthorizedException(errorMsg);
+    }
+  }
+
 }
 

@@ -159,6 +159,32 @@ public class ProgressController {
   }
 
   /**
+   * Delete a Progress of a User in a specific GameMap.
+   *
+   * @param userEmail      Email of User
+   * @param gameMapId      GameMap id
+   * @param progress       Progress to be created
+   * @param authentication Authentication context containing information of the user submitting the
+   *                       request
+   * @return Deleted flag; True of the deletion is successful
+   */
+  @RequestMapping(method = RequestMethod.POST, path = "/users/{userEmail}/gameMaps/{gameMapId}/progress/{progressId}")
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
+  public boolean deleteProgress(
+      @PathVariable(value = "userEmail") String userEmail,
+      @PathVariable(value = "gameMapId") Integer gameMapId,
+      @PathVariable(value = "progressId") Integer progressId,
+      @RequestBody Progress progress,
+      Authentication authentication
+  ) {
+    log.info("Creating progress for User with email: [{}] and GameMap with gameMapId: [{}]",
+        userEmail, gameMapId);
+    return progressService.deleteProgress(userEmail, gameMapId, progressId, authentication);
+  }
+
+
+  /**
    * Process user answer submission
    *
    * @param userEmail      Email of User

@@ -123,7 +123,7 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
 //      throw new NotAuthorizedException();
 //    }
 
-    // Delete the learning Material
+    // Delete the LearningMaterial
     learningMaterialRepository.deleteById(learningMaterialId);
 
     return true;
