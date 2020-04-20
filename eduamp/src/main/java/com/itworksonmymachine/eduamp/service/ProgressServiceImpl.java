@@ -480,7 +480,7 @@ public class ProgressServiceImpl implements ProgressService {
     }
     
     // Delete the Progress
-    progressRepository.deleteById(gameMapId);
+    progressRepository.deleteById(progressToFind.getId());
 
     return true;
   }

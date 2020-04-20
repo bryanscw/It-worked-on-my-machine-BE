@@ -784,6 +784,7 @@ public class ProgressControllerTest {
   
   @Order(22)
   @Test
+  @Transactional
   public void should_rejectDeleteProgress_ifNotExists() throws Exception {
 
     MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
