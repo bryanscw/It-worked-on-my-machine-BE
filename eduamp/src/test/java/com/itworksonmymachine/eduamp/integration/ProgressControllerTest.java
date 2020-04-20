@@ -348,35 +348,6 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
 
-//  @Order(8)
-//  @Test
-//  @Transactional
-//  public void should_rejectFetchProgressByGameMapId_ifNotExists() throws Exception {
-//
-//    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
-//        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//        .header(HttpHeaders.AUTHORIZATION,
-//            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
-//        .param("username", this.user1.getEmail())
-//        .param("password", this.user1.getPass())
-//        .param("grant_type", "password"))
-//        .andExpect(status().isOk())
-//        .andReturn();
-//
-//    String accessToken = JsonPath
-//        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
-//
-//    mockMvc.perform(
-//        MockMvcRequestBuilders
-//            .get(String.format("/progress/gameMaps/%s", getPersistentGameMap().getId()-1))
-//            .header("Authorization", "Bearer " + accessToken)
-//            .contentType(MediaType.APPLICATION_JSON))
-//        .andExpect(status().isNotFound())
-//        .andDo(document("{methodName}",
-//            preprocessRequest(prettyPrint()),
-//            preprocessResponse(prettyPrint())));
-//  }
-
   @Order(6)
   @Test
   @WithUserDetails("user1@test.com")
