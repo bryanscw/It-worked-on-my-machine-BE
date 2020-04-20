@@ -242,8 +242,11 @@ public class ProgressServiceImpl implements ProgressService {
       Integer gameMapId,
       Authentication authentication
   ) {
-    String errorMsg = String
+    String notAuthErrorMsg = String
         .format("Not authorized to view Progress of userEmail: [%s] with gameMapId: [%s]",
+            userEmail, gameMapId);
+    String notFoundErrorMsg = String
+        .format("Progress of userEmail: [%s] with gameMapId: [%s] not found",
             userEmail, gameMapId);
     String principalName = ((org.springframework.security.core.userdetails.User) authentication
         .getPrincipal()).getUsername();
@@ -251,7 +254,7 @@ public class ProgressServiceImpl implements ProgressService {
 
     Progress progress = progressRepository
         .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
-        .orElseThrow(() -> new ResourceNotFoundException(errorMsg));
+        .orElseThrow(() -> new ResourceNotFoundException(notFoundErrorMsg));
 
     if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT")) && progress.getUser()
         .getEmail().equals(principalName)) {
@@ -260,7 +263,7 @@ public class ProgressServiceImpl implements ProgressService {
         || authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
       return progress;
     } else {
-      throw new NotAuthorizedException(errorMsg);
+      throw new NotAuthorizedException(notAuthErrorMsg);
     }
   }
 
