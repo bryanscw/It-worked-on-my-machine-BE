@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.itworksonmymachine.eduamp.model.Coordinates;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -66,7 +65,7 @@ public class Progress extends Auditable<String> {
       fetch = FetchType.EAGER,
       cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
   @JsonIdentityReference(alwaysAsId = true)
-  private List<QuestionProgress> questionProgressList = new ArrayList<>();
+  private Set<QuestionProgress> questionProgressSet;
 
 }
 

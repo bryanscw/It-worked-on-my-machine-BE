@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -172,7 +174,7 @@ public class ProgressServiceImpl implements ProgressService {
 
     // Build report
     for (Progress progress : progressList) {
-      for (QuestionProgress questionProgress : progress.getQuestionProgressList()) {
+      for (QuestionProgress questionProgress : progress.getQuestionProgressSet()) {
         int arrayListIdx = questionMap.get(questionProgress.getQuestion().getId());
         questionAttemptDTOArrayList.get(arrayListIdx)
             .addAttempt(progress.getUser(), questionProgress.getAttemptCount());
@@ -181,7 +183,6 @@ public class ProgressServiceImpl implements ProgressService {
 
     return questionAttemptDTOArrayList;
   }
-
 
   /**
    * Fetch all Progress of a certain user.
@@ -197,9 +198,11 @@ public class ProgressServiceImpl implements ProgressService {
    * @return Progress of a User referenced by User email.
    */
   @Override
-  public Page<Progress> fetchAllProgressByUserEmail(String userEmail, Authentication authentication,
-      Pageable pageable) {
-
+  public Page<Progress> fetchAllProgressByUserEmail(
+      String userEmail,
+      Authentication authentication,
+      Pageable pageable
+  ) {
     String errorMsg = String
         .format("Not authorized to view Progress for userEmail: [%s]", userEmail);
     String principalName = ((org.springframework.security.core.userdetails.User) authentication
@@ -234,8 +237,11 @@ public class ProgressServiceImpl implements ProgressService {
    * GameMap id
    */
   @Override
-  public Progress fetchProgressByUserEmailAndGameMapId(String userEmail, Integer gameMapId,
-      Authentication authentication) {
+  public Progress fetchProgressByUserEmailAndGameMapId(
+      String userEmail,
+      Integer gameMapId,
+      Authentication authentication
+  ) {
     String errorMsg = String
         .format("Not authorized to view Progress of userEmail: [%s] with gameMapId: [%s]",
             userEmail, gameMapId);
@@ -273,9 +279,12 @@ public class ProgressServiceImpl implements ProgressService {
    * @return Created Progress
    */
   @Override
-  public Progress createProgress(String userEmail, Integer gameMapId, Progress progress,
-      Authentication authentication) {
-
+  public Progress createProgress(
+      String userEmail,
+      Integer gameMapId,
+      Progress progress,
+      Authentication authentication
+  ) {
     // Check if user is authorized to perform action
     this.isAuthorized(userEmail, authentication);
 
@@ -295,7 +304,7 @@ public class ProgressServiceImpl implements ProgressService {
         .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId);
 
     // Only able to create QuestionProgress for questions available in the GameMap
-    for (QuestionProgress questionProgress : progress.getQuestionProgressList()) {
+    for (QuestionProgress questionProgress : progress.getQuestionProgressSet()) {
       if (!gameMapToFind.getQuestions().contains(questionProgress.getQuestion())) {
         String notFoundMsg = String
             .format("Unable to create QuestionProgress for Question: [%s] in GameMap [%s]",
@@ -312,11 +321,11 @@ public class ProgressServiceImpl implements ProgressService {
       Progress savedProgress = progressRepository.save(progress);
 
       // Initialise QuestionProgressList
-      List<QuestionProgress> questionProgressList = new ArrayList<>();
+      Set<QuestionProgress> questionProgressSet = new HashSet<>();
       for (Question question : gameMapToFind.getQuestions()) {
-        questionProgressList.add(new QuestionProgress(0, question, savedProgress, 0, false));
+        questionProgressSet.add(new QuestionProgress(0, question, savedProgress, 0, false));
       }
-      savedProgress.setQuestionProgressList(questionProgressList);
+      savedProgress.setQuestionProgressSet(questionProgressSet);
 
       return progressRepository.save(savedProgress);
     } else {
@@ -342,9 +351,12 @@ public class ProgressServiceImpl implements ProgressService {
    * @return Updated Progress
    */
   @Override
-  public Progress updateProgress(String userEmail, Integer gameMapId, Progress progress,
-      Authentication authentication) {
-
+  public Progress updateProgress(
+      String userEmail,
+      Integer gameMapId,
+      Progress progress,
+      Authentication authentication
+  ) {
     // Check if user is authorized to perform action
     this.isAuthorized(userEmail, authentication);
 
@@ -387,9 +399,9 @@ public class ProgressServiceImpl implements ProgressService {
       progressToFind.setPosition(progress.getPosition());
     }
 
-    if (!progress.getQuestionProgressList().isEmpty()
-        || progress.getQuestionProgressList() != null) {
-      progressToFind.setQuestionProgressList(progress.getQuestionProgressList());
+    if (!progress.getQuestionProgressSet().isEmpty()
+        || progress.getQuestionProgressSet() != null) {
+      progressToFind.setQuestionProgressSet(progress.getQuestionProgressSet());
     }
 
     // Save the progress
@@ -414,7 +426,6 @@ public class ProgressServiceImpl implements ProgressService {
       Integer answer,
       Authentication authentication
   ) {
-
     // Check if user is authorized to perform action
     this.isAuthorized(userEmail, authentication);
 
@@ -461,12 +472,13 @@ public class ProgressServiceImpl implements ProgressService {
   public boolean deleteProgress(
       String userEmail,
       Integer gameMapId,
-      Authentication authentication) {
-
+      Authentication authentication
+  ) {
     // Check if user is authorized to perform action
     this.isAuthorized(userEmail, authentication);
 
-    Progress progressToFind = progressRepository.findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
+    Progress progressToFind = progressRepository
+        .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
         .orElseThrow(() -> {
           String progressErrorMsg = String
               .format("Progress for User with userEmail: [%s] and gameMapId: [%s] not found",
@@ -474,11 +486,11 @@ public class ProgressServiceImpl implements ProgressService {
           log.error(progressErrorMsg);
           throw new ResourceNotFoundException(progressErrorMsg);
         });
-    
-    for (QuestionProgress questionProgress: progressToFind.getQuestionProgressList()){
-        questionProgressRepository.delete(questionProgress);
+
+    for (QuestionProgress questionProgress : progressToFind.getQuestionProgressSet()) {
+      questionProgressRepository.delete(questionProgress);
     }
-    
+
     // Delete the Progress
     progressRepository.deleteById(progressToFind.getId());
 

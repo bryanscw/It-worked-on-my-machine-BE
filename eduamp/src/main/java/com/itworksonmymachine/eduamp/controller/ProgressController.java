@@ -182,7 +182,6 @@ public class ProgressController {
     return progressService.deleteProgress(userEmail, gameMapId, authentication);
   }
 
-
   /**
    * Process user answer submission
    *
@@ -208,7 +207,6 @@ public class ProgressController {
         answer, userEmail, gameMapId, questionId);
     return progressService.checkAnswer(userEmail, gameMapId, questionId, answer, authentication);
   }
-
 
   /**
    * Update a Progress of a user in a specific GameMap.
