@@ -782,7 +782,7 @@ public class ProgressControllerTest {
             preprocessResponse(prettyPrint())));
   }
   
-  @Order(22)
+  @Order(23)
   @Test
   @Transactional
   public void should_rejectDeleteProgress_ifNotExists() throws Exception {
