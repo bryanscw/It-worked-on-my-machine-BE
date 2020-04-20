@@ -20,6 +20,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "progress")
@@ -60,6 +62,7 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
+  @Fetch(FetchMode.SUBSELECT)
   @OneToMany(
       mappedBy = "progress",
       fetch = FetchType.EAGER,
