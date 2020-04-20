@@ -1,6 +1,5 @@
 package com.itworksonmymachine.eduamp.integration;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
@@ -290,7 +289,8 @@ public class ProgressControllerTest {
         .andExpect(jsonPath("$.content[0].user.email", is(this.user1.getEmail())))
         .andExpect(jsonPath("$.content[0].user.role", is(this.user1.getRole())))
         .andExpect(jsonPath("$.content[0].user.name", is(this.user1.getName())))
-        .andExpect(jsonPath("$.content[0].gameMap", is(getPersistentProgress().getGameMap().getId())))
+        .andExpect(
+            jsonPath("$.content[0].gameMap", is(getPersistentProgress().getGameMap().getId())))
         .andExpect(jsonPath("$.content[0].timeTaken", is(getPersistentProgress().getTimeTaken())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
@@ -341,42 +341,14 @@ public class ProgressControllerTest {
         .andExpect(jsonPath("$.content[0].user.email", is(this.user1.getEmail())))
         .andExpect(jsonPath("$.content[0].user.role", is(this.user1.getRole())))
         .andExpect(jsonPath("$.content[0].user.name", is(this.user1.getName())))
-        .andExpect(jsonPath("$.content[0].gameMap", is(getPersistentProgress().getGameMap().getId())))
+        .andExpect(
+            jsonPath("$.content[0].gameMap", is(getPersistentProgress().getGameMap().getId())))
         .andExpect(jsonPath("$.content[0].timeTaken", is(getPersistentProgress().getTimeTaken())))
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
-
-//  @Order(8)
-//  @Test
-//  @Transactional
-//  public void should_rejectFetchProgressByGameMapId_ifNotExists() throws Exception {
-//
-//    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
-//        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//        .header(HttpHeaders.AUTHORIZATION,
-//            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
-//        .param("username", this.user1.getEmail())
-//        .param("password", this.user1.getPass())
-//        .param("grant_type", "password"))
-//        .andExpect(status().isOk())
-//        .andReturn();
-//
-//    String accessToken = JsonPath
-//        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
-//
-//    mockMvc.perform(
-//        MockMvcRequestBuilders
-//            .get(String.format("/progress/gameMaps/%s", getPersistentGameMap().getId()-1))
-//            .header("Authorization", "Bearer " + accessToken)
-//            .contentType(MediaType.APPLICATION_JSON))
-//        .andExpect(status().isNotFound())
-//        .andDo(document("{methodName}",
-//            preprocessRequest(prettyPrint()),
-//            preprocessResponse(prettyPrint())));
-//  }
-
+  
   @Order(6)
   @Test
   @WithUserDetails("user1@test.com")
@@ -724,12 +696,117 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders
             .post(String.format("/progress/users/%s/gameMaps/%s/questions/%s/submit",
-                this.user1.getEmail(), getPersistentGameMap().getId(),
-                getPersistentQuestion().getId()))
+                this.user1.getEmail(), getPersistentGameMap().getId(), getPersistentQuestion().getId()))
             .header("Authorization", "Bearer " + accessToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content(answerJson))
         .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+  
+  @Order(20)
+  @WithUserDetails("user1@test.com")
+  @Test
+  @Transactional
+  public void should_rejectDeleteProgress_ifNotAuthorized() throws Exception {
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete(String.format("/progress/users/%s/gameMaps/%s",
+                "user1@test.com", getPersistentGameMap().getId()))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isForbidden())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+  
+  @Order(21)
+  @Test
+  @Transactional
+  public void should_rejectDeleteProgress_ifNotSelf() throws Exception {
+  
+  MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", this.user1.getEmail())
+        .param("password", this.user1.getPass())
+        .param("grant_type", "password"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    String accessToken = JsonPath
+        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete(String.format("/progress/users/%s/gameMaps/%s",
+                this.user2.getEmail(), getPersistentGameMap().getId()))
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorizaton", "Bearer" + accessToken))
+        .andExpect(status().isUnauthorized())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+  
+  @Order(22)
+  @Test
+  public void should_allowDeleteProgress_ifAuthorizedAndSelf() throws Exception {
+
+    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", this.user1.getEmail())
+        .param("password", this.user1.getPass())
+        .param("grant_type", "password"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    String accessToken = JsonPath
+        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete(String.format("/progress/users/%s/gameMaps/%s",
+                this.user1.getEmail(), getPersistentGameMap().getId()))
+            .header("Authorization", "Bearer " + accessToken)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
+  }
+  
+  @Order(23)
+  @Test
+  @Transactional
+  public void should_rejectDeleteProgress_ifNotExists() throws Exception {
+
+    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", this.user1.getEmail())
+        .param("password", this.user1.getPass())
+        .param("grant_type", "password"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    String accessToken = JsonPath
+        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete(String.format("/progress/users/%s/gameMaps/%s",
+                this.user1.getEmail(), getPersistentGameMap().getId()))
+            .header("Authorization", "Bearer " + accessToken)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
@@ -742,68 +819,42 @@ public class ProgressControllerTest {
 
     mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/gameMaps/%s/questions/%s",
         getPersistentGameMap().getId(), getPersistentQuestion().getId()))
-        .contentType(MediaType.APPLICATION_JSON));
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
     mockMvc.perform(MockMvcRequestBuilders.delete(String
         .format("/topics/%s/gameMaps/%s", getPersistentTopic().getId(),
             getPersistentGameMap().getId()))
-        .contentType(MediaType.APPLICATION_JSON));
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
     mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopic().getId())
-        .contentType(MediaType.APPLICATION_JSON));
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
   }
 
   @Order(9998)
   @Test
+  @WithUserDetails("admin1@test.com")
   public void cleanupContext2() throws Exception {
-
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
-        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-        .header(HttpHeaders.AUTHORIZATION,
-            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
-        .param("username", this.user1.getEmail())
-        .param("password", this.user1.getPass())
-        .param("grant_type", "password"))
-        .andReturn();
-
-    String accessToken1 = JsonPath
-        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
 
     mockMvc.perform(
         MockMvcRequestBuilders.delete(String.format("/users/%s", this.user1.getEmail()))
-            .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + accessToken1));
-
-    mockMvc.perform(delete("/oauth/revoke")
-        .accept(MediaType.APPLICATION_JSON)
-        .header("Authorization", "Bearer " + accessToken1));
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
   }
 
   @Order(9999)
   @Test
+  @WithUserDetails("admin1@test.com")
   public void cleanupContext3() throws Exception {
-
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
-        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-        .header(HttpHeaders.AUTHORIZATION,
-            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
-        .param("username", this.user2.getEmail())
-        .param("password", this.user2.getPass())
-        .param("grant_type", "password"))
-        .andReturn();
-
-    String accessToken2 = JsonPath
-        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
 
     mockMvc.perform(
         MockMvcRequestBuilders.delete(String.format("/users/%s", this.user2.getEmail()))
-            .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + accessToken2));
-
-    mockMvc.perform(delete("/oauth/revoke")
-        .accept(MediaType.APPLICATION_JSON)
-        .header("Authorization", "Bearer " + accessToken2));
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
   }
+
 }
 
 

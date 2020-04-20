@@ -34,14 +34,14 @@ public class QuestionProgress extends Auditable<String> {
   @Getter
   @Setter
   @ManyToOne(cascade = {CascadeType.REFRESH})
-  @JoinColumn(name = "question_id", insertable = false, updatable = false)
+  @JoinColumn(name = "question_id", nullable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private Question question;
 
   @Getter
   @Setter
   @ManyToOne(cascade = {CascadeType.REFRESH})
-  @JoinColumn(name = "progress_id", insertable = false, updatable = false)
+  @JoinColumn(name = "progress_id", nullable = false)
   @JsonIdentityReference(alwaysAsId = true)
   private Progress progress;
 

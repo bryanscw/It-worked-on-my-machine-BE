@@ -91,7 +91,8 @@ public class LearningMaterialController {
    *                         request
    * @return Updated learningMaterial
    */
-  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{gameMapId}/learningMaterials/{learningMaterialId}")
+  @RequestMapping(method = {RequestMethod.PUT,
+      RequestMethod.PATCH}, path = "/{gameMapId}/learningMaterials/{learningMaterialId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public LearningMaterial updateLearningMaterial(
@@ -105,6 +106,15 @@ public class LearningMaterialController {
         .updateLearningMaterial(gameMapId, learningMaterial, principal.getName());
   }
 
+  /**
+   * Delete a LearningMaterial
+   *
+   * @param gameMapId          GameMap Id
+   * @param learningMaterialId LearningMaterial Id
+   * @param principal          Authentication context containing information of the user submitting
+   *                           the request
+   * @return Deleted flag; True of the deletion is successful
+   */
   @RequestMapping(method = RequestMethod.DELETE, path = "/{gameMapId}/learningMaterials/{learningMaterialId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
