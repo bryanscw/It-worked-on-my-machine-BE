@@ -345,15 +345,9 @@ public class ProgressServiceImpl implements ProgressService {
   @Override
   public Progress updateProgress(String userEmail, Integer gameMapId, Progress progress,
       Authentication authentication) {
-    String principalName = ((org.springframework.security.core.userdetails.User) authentication
-        .getPrincipal()).getUsername();
-    // Ensure that user is only modifying the Progress for themselves
-    if (!userEmail.equals(principalName)) {
-      String notAuthMsg = String
-          .format("[%s] is not allowed to modify the Progress for [%s]", principalName, userEmail);
-      log.error(notAuthMsg);
-      throw new NotAuthorizedException(notAuthMsg);
-    }
+
+    // Check if user is authorized to perform action
+    this.isAuthorized(userEmail, authentication);
 
     // Find the referenced User, GameMap and Progress
     User userToFind = userRepository.findUserByEmail(userEmail).orElseThrow(() -> {
@@ -422,6 +416,9 @@ public class ProgressServiceImpl implements ProgressService {
       Authentication authentication
   ) {
 
+    // Check if user is authorized to perform action
+    this.isAuthorized(userEmail, authentication);
+
 //    // Sanity check to check if GameMap exists
 //    GameMap gameMap = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
 //      String gameMapNotFoundMsg = String
@@ -455,25 +452,16 @@ public class ProgressServiceImpl implements ProgressService {
           throw new ResourceNotFoundException(progressErrorMsg);
         });
 
-    // Increase attemptCount of QuestionProgress
-//    QuestionProgress questionProgress = questionProgressRepository
-//        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId())
-//        .orElseThrow(() -> {
-//          String questionProgressErrorMsg = String
-//              .format("QuestionProgress with questionId: [%s] and progressId: [%s] not found",
-//                  questionId, progress.getId());
-//          log.error(questionProgressErrorMsg);
-//          throw new ResourceNotFoundException(questionProgressErrorMsg);
-//        });
-
     Optional<QuestionProgress> questionProgressToFind = questionProgressRepository
         .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId());
 
+    // Increase attemptCount of QuestionProgress
     if (questionProgressToFind.isEmpty()) {
       QuestionProgress questionProgress = new QuestionProgress();
       questionProgress.setProgress(progress);
 
       Optional<Question> question = questionRepository.findById(questionId);
+
       if (question.isPresent()) {
         questionProgress.setQuestion(question.get());
       } else {

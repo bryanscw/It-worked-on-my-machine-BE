@@ -163,7 +163,6 @@ public class ProgressController {
    *
    * @param userEmail      Email of User
    * @param gameMapId      GameMap id
-   * @param progress       Progress to be created
    * @param authentication Authentication context containing information of the user submitting the
    *                       request
    * @return Deleted flag; True of the deletion is successful
@@ -175,7 +174,6 @@ public class ProgressController {
       @PathVariable(value = "userEmail") String userEmail,
       @PathVariable(value = "gameMapId") Integer gameMapId,
       @PathVariable(value = "progressId") Integer progressId,
-      @RequestBody Progress progress,
       Authentication authentication
   ) {
     log.info("Creating progress for User with email: [{}] and GameMap with gameMapId: [{}]",
