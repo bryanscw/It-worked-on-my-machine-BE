@@ -227,7 +227,7 @@ public class ProgressControllerTest {
 
     String progress1Json = new ObjectMapper().writeValueAsString(this.progress);
     mockMvc.perform(
-        post(String.format("/progress/users/%s/gameMaps/%s",
+        MockMvcRequestBuilders.post(String.format("/progress/users/%s/gameMaps/%s",
             this.user1.getEmail(), getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
