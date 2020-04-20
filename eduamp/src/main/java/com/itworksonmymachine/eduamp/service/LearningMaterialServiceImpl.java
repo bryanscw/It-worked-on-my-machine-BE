@@ -54,7 +54,7 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
     });
 
     learningMaterial.setGameMap(gameMapToFind);
-    
+
     return learningMaterialRepository.save(learningMaterial);
   }
 

@@ -419,29 +419,6 @@ public class ProgressServiceImpl implements ProgressService {
     // Check if user is authorized to perform action
     this.isAuthorized(userEmail, authentication);
 
-//    // Sanity check to check if GameMap exists
-//    GameMap gameMap = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
-//      String gameMapNotFoundMsg = String
-//          .format("GameMap with gameMapId: [%s] not found", gameMapId);
-//      log.error(gameMapNotFoundMsg);
-//      return new ResourceNotFoundException(gameMapNotFoundMsg);
-//    });
-//
-//    // Sanity check to check if Question exists
-//    Question question = questionRepository.findById(questionId).orElseThrow(() -> {
-//      String questionNotFoundMsg = String
-//          .format("Question with questionId: [%s] not found", questionId);
-//      log.error(questionNotFoundMsg);
-//      return new ResourceNotFoundException(questionNotFoundMsg);
-//    });
-//
-//    if (question.getGameMap_id() != gameMapId) {
-//      String errorMsg = String
-//          .format("Question with questionId: [%s] and gameMapId: [%s] not found", questionId,
-//              gameMapId);
-//      throw new ResourceNotFoundException(errorMsg);
-//    }
-
     Progress progress = progressRepository
         .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
         .orElseThrow(() -> {
