@@ -723,16 +723,29 @@ public class ProgressControllerTest {
   }
   
   @Order(21)
-  @WithUserDetails("user1@test.com")
   @Test
   public void should_rejectDeleteProgress_ifNotSelf() throws Exception {
+  
+  MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", this.user1.getEmail())
+        .param("password", this.user1.getPass())
+        .param("grant_type", "password"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    String accessToken = JsonPath
+        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
 
     mockMvc.perform(
         MockMvcRequestBuilders
             .delete(String.format("/progress/users/%s/gameMaps/%s",
-                this.user1.getEmail(), getPersistentGameMap().getId()))
-            .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isForbidden())
+                this.user2.getEmail(), getPersistentGameMap().getId()))
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorizaton", "Bearer" + accessToken))
+        .andExpect(status().isUnauthorized())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
