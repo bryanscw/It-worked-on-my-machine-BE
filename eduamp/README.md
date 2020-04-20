@@ -42,7 +42,7 @@ sudo apt install openjdk-11-jdk
 # Installing and setting up Docker
 sudo apt install docker.io
 groupadd docker
-sudo usermod -aG docker $USER
+sudo usermod -aG docker $USER # Need to restart before changes are applied
 
 # Installing Docker-compose
 sudo apt install docker-compose.io
@@ -66,7 +66,7 @@ To deploy the app, do the following:
 1. Go to root folder.
 2. Execute `sudo make image`. This will create the latest eduamp Docker image.
 3. Execute `sudo make deploy`. This will run the Docker containers for eduamp-app and eduamp-mysql. Note that on first run, the eduamp-app will throw errors as the MySQL is getting started.
-4. To clean up, execute `sudo make clean-docker`. This will stop and remove the running Docker containers.
+4. To clean up, execute `sudo make clean-up`. This will stop and remove the running Docker containers.
 
 ## 4. Testing
 
@@ -94,3 +94,6 @@ sudo apt install jmeter
 # Start load testing with Jmeter
 sudo make load-test
 ```
+
+Upon executing `sudo make load-test`, the summary of the tests will be displayed on the command line. For more in-depth details on the test, refer to the jmeter.log file in `src/test/resources`.
+To check test settings such as number of users or types of endpoints queried, use the jmeter GUI and open eduamp\_load\_test.jmx

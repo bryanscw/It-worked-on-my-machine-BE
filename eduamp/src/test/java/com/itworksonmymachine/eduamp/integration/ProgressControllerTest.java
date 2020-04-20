@@ -348,7 +348,7 @@ public class ProgressControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
-  
+
   @Order(6)
   @Test
   @WithUserDetails("user1@test.com")
