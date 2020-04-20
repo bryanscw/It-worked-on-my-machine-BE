@@ -101,7 +101,8 @@ public class QuestionController {
    * @param principal  Principal context containing information of the user submitting the request
    * @return Updated Question
    */
-  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{gameMapId}/questions/{questionId}")
+  @RequestMapping(method = {RequestMethod.PUT,
+      RequestMethod.PATCH}, path = "/{gameMapId}/questions/{questionId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_TEACHER"})
   public Question updateQuestion(

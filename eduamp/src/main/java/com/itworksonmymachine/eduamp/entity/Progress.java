@@ -64,8 +64,7 @@ public class Progress extends Auditable<String> {
   @OneToMany(
       mappedBy = "progress",
       fetch = FetchType.EAGER,
-      cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH},
-      orphanRemoval = true)
+      cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
   @JsonIdentityReference(alwaysAsId = true)
   private List<QuestionProgress> questionProgressList = new ArrayList<>();
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Welcome implements Serializable {
 
-  private static final String GREETINGS_FORMAT = new String("Welcome %s!");
+  private static final String GREETINGS_FORMAT = "Welcome %s!";
 
   public String greetings;
 

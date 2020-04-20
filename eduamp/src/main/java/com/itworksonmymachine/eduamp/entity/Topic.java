@@ -44,8 +44,10 @@ public class Topic extends Auditable<String> {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "topic", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
-      CascadeType.REFRESH, CascadeType.REMOVE})
+  @OneToMany(
+      mappedBy = "topic",
+      fetch = FetchType.EAGER,
+      cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
   @JsonIdentityReference(alwaysAsId = true)
   private Set<GameMap> gameMaps;
 

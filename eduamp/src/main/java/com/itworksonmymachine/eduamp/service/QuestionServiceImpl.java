@@ -36,7 +36,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     // Remove answer if request is from a user
     if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
-      questions.stream().forEach(question -> {question.setAnswer(-1);});
+      questions.stream().forEach(question -> {
+        question.setAnswer(-1);
+      });
     }
 
     return questions;

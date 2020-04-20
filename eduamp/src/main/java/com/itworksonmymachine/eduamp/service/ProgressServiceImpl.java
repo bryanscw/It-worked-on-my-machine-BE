@@ -51,7 +51,6 @@ public class ProgressServiceImpl implements ProgressService {
       GameMapRepository gameMapRepository,
       QuestionRepository questionRepository,
       QuestionProgressRepository questionProgressRepository
-
   ) {
     this.progressRepository = progressRepository;
     this.userRepository = userRepository;
@@ -276,15 +275,9 @@ public class ProgressServiceImpl implements ProgressService {
   @Override
   public Progress createProgress(String userEmail, Integer gameMapId, Progress progress,
       Authentication authentication) {
-    String principalName = ((org.springframework.security.core.userdetails.User) authentication
-        .getPrincipal()).getUsername();
-    // Ensure that user is only creating a  Progress for themselves
-    if (!userEmail.equals(principalName)) {
-      String notAuthMsg = String
-          .format("[%s] is not allowed to create a Progress for [%s]", principalName, userEmail);
-      log.error(notAuthMsg);
-      throw new NotAuthorizedException(notAuthMsg);
-    }
+
+    // Check if user is authorized to perform action
+    this.isAuthorized(userEmail, authentication);
 
     // Find the referenced User and GameMap
     User userToFind = userRepository.findUserByEmail(userEmail).orElseThrow(() -> {
@@ -323,7 +316,7 @@ public class ProgressServiceImpl implements ProgressService {
       for (Question question : gameMapToFind.getQuestions()) {
         questionProgressList.add(new QuestionProgress(0, question, savedProgress, 0, false));
       }
-      progress.setQuestionProgressList(questionProgressList);
+      savedProgress.setQuestionProgressList(questionProgressList);
 
       return progressRepository.save(savedProgress);
     } else {
@@ -351,15 +344,9 @@ public class ProgressServiceImpl implements ProgressService {
   @Override
   public Progress updateProgress(String userEmail, Integer gameMapId, Progress progress,
       Authentication authentication) {
-    String principalName = ((org.springframework.security.core.userdetails.User) authentication
-        .getPrincipal()).getUsername();
-    // Ensure that user is only modifying the Progress for themselves
-    if (!userEmail.equals(principalName)) {
-      String notAuthMsg = String
-          .format("[%s] is not allowed to modify the Progress for [%s]", principalName, userEmail);
-      log.error(notAuthMsg);
-      throw new NotAuthorizedException(notAuthMsg);
-    }
+
+    // Check if user is authorized to perform action
+    this.isAuthorized(userEmail, authentication);
 
     // Find the referenced User, GameMap and Progress
     User userToFind = userRepository.findUserByEmail(userEmail).orElseThrow(() -> {
@@ -367,6 +354,7 @@ public class ProgressServiceImpl implements ProgressService {
       log.error(errorMsg);
       return new ResourceNotFoundException(errorMsg);
     });
+
     GameMap gameMapToFind = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
       String errorMsg = String.format("GameMap with gameMapId [%s] not found", gameMapId);
       log.error(errorMsg);
@@ -426,6 +414,87 @@ public class ProgressServiceImpl implements ProgressService {
       Integer answer,
       Authentication authentication
   ) {
+
+    // Check if user is authorized to perform action
+    this.isAuthorized(userEmail, authentication);
+
+    Progress progressToFind = progressRepository
+        .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
+        .orElseThrow(() -> {
+          String progressErrorMsg = String
+              .format("Progress for User with userEmail: [%s] and gameMapId: [%s] not found",
+                  userEmail, gameMapId);
+          log.error(progressErrorMsg);
+          throw new ResourceNotFoundException(progressErrorMsg);
+        });
+
+    Optional<QuestionProgress> questionProgressToFind = questionProgressRepository
+        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progressToFind.getId());
+
+    QuestionProgress questionProgress;
+    // Update QuestionProgress and increase attemptCount
+    if (questionProgressToFind.isEmpty()) {
+      // Find question
+      Question question = questionRepository.findById(questionId).orElseThrow(() -> {
+        String progressErrorMsg = String
+            .format("Question with id: [%s] not found", questionId);
+        log.error(progressErrorMsg);
+        throw new ResourceNotFoundException(progressErrorMsg);
+      });
+
+      questionProgress = new QuestionProgress();
+      questionProgress.setProgress(progressToFind);
+      questionProgress.setQuestion(question);
+      questionProgress.setAttemptCount(1);
+    } else {
+      questionProgress = questionProgressToFind.get();
+      questionProgress.setAttemptCount(questionProgress.getAttemptCount() + 1);
+    }
+
+    // Save question progress
+    questionProgressRepository.save(questionProgress);
+
+    return questionProgress.getQuestion().getAnswer() == answer;
+  }
+
+  @Override
+  public boolean deleteProgress(
+      String userEmail,
+      Integer gameMapId,
+      Authentication authentication) {
+
+    // Check if user is authorized to perform action
+    this.isAuthorized(userEmail, authentication);
+
+    Progress progressToFind = progressRepository.findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
+        .orElseThrow(() -> {
+          String progressErrorMsg = String
+              .format("Progress for User with userEmail: [%s] and gameMapId: [%s] not found",
+                  userEmail, gameMapId);
+          log.error(progressErrorMsg);
+          throw new ResourceNotFoundException(progressErrorMsg);
+        });
+    
+    for (QuestionProgress questionProgress: progressToFind.getQuestionProgressList()){
+        questionProgressRepository.delete(questionProgress);
+    }
+    
+    // Delete the Progress
+    progressRepository.deleteById(progressToFind.getId());
+
+    return true;
+  }
+
+  /**
+   * Check if userEmail is the same as that of that defined in the authentication context.
+   * <p>
+   * This check is for actions where users are only allowed to modify their own resources.
+   *
+   * @param userEmail      User email.
+   * @param authentication Authentication context containing information of the user submitting the
+   *                       request.
+   */
+  private void isAuthorized(String userEmail, Authentication authentication) {
     String principalName = ((org.springframework.security.core.userdetails.User) authentication
         .getPrincipal()).getUsername();
 
@@ -436,76 +505,7 @@ public class ProgressServiceImpl implements ProgressService {
           principalName, userEmail);
       throw new NotAuthorizedException(errorMsg);
     }
-
-//    // Sanity check to check if GameMap exists
-//    GameMap gameMap = gameMapRepository.findById(gameMapId).orElseThrow(() -> {
-//      String gameMapNotFoundMsg = String
-//          .format("GameMap with gameMapId: [%s] not found", gameMapId);
-//      log.error(gameMapNotFoundMsg);
-//      return new ResourceNotFoundException(gameMapNotFoundMsg);
-//    });
-//
-//    // Sanity check to check if Question exists
-//    Question question = questionRepository.findById(questionId).orElseThrow(() -> {
-//      String questionNotFoundMsg = String
-//          .format("Question with questionId: [%s] not found", questionId);
-//      log.error(questionNotFoundMsg);
-//      return new ResourceNotFoundException(questionNotFoundMsg);
-//    });
-//
-//    if (question.getGameMap_id() != gameMapId) {
-//      String errorMsg = String
-//          .format("Question with questionId: [%s] and gameMapId: [%s] not found", questionId,
-//              gameMapId);
-//      throw new ResourceNotFoundException(errorMsg);
-//    }
-
-    Progress progress = progressRepository
-        .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
-        .orElseThrow(() -> {
-          String progressErrorMsg = String
-              .format("Progress for User with userEmail: [%s] and gameMapId: [%s] not found",
-                  userEmail, gameMapId);
-          log.error(progressErrorMsg);
-          throw new ResourceNotFoundException(progressErrorMsg);
-        });
-
-    // Increase attemptCount of QuestionProgress
-//    QuestionProgress questionProgress = questionProgressRepository
-//        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId())
-//        .orElseThrow(() -> {
-//          String questionProgressErrorMsg = String
-//              .format("QuestionProgress with questionId: [%s] and progressId: [%s] not found",
-//                  questionId, progress.getId());
-//          log.error(questionProgressErrorMsg);
-//          throw new ResourceNotFoundException(questionProgressErrorMsg);
-//        });
-
-    Optional<QuestionProgress> questionProgressToFind = questionProgressRepository
-        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId());
-
-    if (questionProgressToFind.isEmpty()) {
-      QuestionProgress questionProgress = new QuestionProgress();
-      questionProgress.setProgress(progress);
-
-      Optional<Question> question = questionRepository.findById(questionId);
-      if (question.isPresent()) {
-        questionProgress.setQuestion(question.get());
-      } else {
-        String progressErrorMsg = String
-            .format("Question with id: [%s] not found", questionId);
-        log.error(progressErrorMsg);
-        throw new ResourceNotFoundException(progressErrorMsg);
-      }
-      questionProgress.setAttemptCount(1);
-      questionProgressRepository.save(questionProgress);
-      return questionProgress.getQuestion().getAnswer() == answer;
-    } else {
-      QuestionProgress questionProgress = questionProgressToFind.get();
-      questionProgress.setAttemptCount(questionProgress.getAttemptCount() + 1);
-      questionProgressRepository.save(questionProgress);
-      return questionProgress.getQuestion().getAnswer() == answer;
-    }
   }
+
 }
 

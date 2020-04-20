@@ -9,26 +9,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * A HTTP 404 status code will be thrown.
  *
  * @author suvoonhou
- *
  */
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException
-{
+public class ResourceNotFoundException extends RuntimeException {
+
   private static final long serialVersionUID = 1853310707351992059L;
 
-  public ResourceNotFoundException()
-  {
+  public ResourceNotFoundException() {
     super();
   }
 
-  public ResourceNotFoundException(String message)
-  {
+  public ResourceNotFoundException(String message) {
     super(message);
   }
 
-  public ResourceNotFoundException(String message, Throwable cause)
-  {
+  public ResourceNotFoundException(String message, Throwable cause) {
     super(message, cause);
   }
 
