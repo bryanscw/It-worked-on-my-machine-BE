@@ -66,7 +66,7 @@ To deploy the app, do the following:
 1. Go to root folder.
 2. Execute `sudo make image`. This will create the latest eduamp Docker image.
 3. Execute `sudo make deploy`. This will run the Docker containers for eduamp-app and eduamp-mysql. Note that on first run, the eduamp-app will throw errors as the MySQL is getting started.
-4. To clean up, execute `sudo make clean-docker`. This will stop and remove the running Docker containers.
+4. To clean up, execute `sudo make clean-up`. This will stop and remove the running Docker containers.
 
 ## 4. Testing
 
