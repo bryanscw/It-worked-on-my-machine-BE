@@ -670,6 +670,10 @@ public class ProgressControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+     
+     mockMvc.perform(delete("/oauth/revoke")
+        .accept(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer " + accessToken));
   }
 
   @Order(19)
@@ -780,6 +784,10 @@ public class ProgressControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+            
+     mockMvc.perform(delete("/oauth/revoke")
+        .accept(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer " + accessToken));
   }
   
   @Order(23)
@@ -810,6 +818,10 @@ public class ProgressControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+            
+    mockMvc.perform(delete("/oauth/revoke")
+        .accept(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer " + accessToken));
   }
 
   @Order(9997)

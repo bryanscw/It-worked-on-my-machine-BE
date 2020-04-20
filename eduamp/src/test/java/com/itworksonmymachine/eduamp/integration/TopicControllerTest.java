@@ -320,6 +320,16 @@ public class TopicControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
+  
+  @Order(9999)
+  @WithUserDetails("teacher1@test.com")
+  @Test
+  public void cleanupContext() throws Exception {
+
+    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
+  }
 
 //  @Test
 //  @Order(14)
