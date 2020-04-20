@@ -42,7 +42,7 @@ sudo apt install openjdk-11-jdk
 # Installing and setting up Docker
 sudo apt install docker.io
 groupadd docker
-sudo usermod -aG docker $USER
+sudo usermod -aG docker $USER # Need to restart before changes are applied
 
 # Installing Docker-compose
 sudo apt install docker-compose.io
