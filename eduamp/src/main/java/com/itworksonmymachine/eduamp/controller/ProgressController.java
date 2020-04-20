@@ -167,18 +167,19 @@ public class ProgressController {
    *                       request
    * @return Deleted flag; True of the deletion is successful
    */
-  @RequestMapping(method = RequestMethod.POST, path = "/users/{userEmail}/gameMaps/{gameMapId}/progress/{progressId}")
+  @RequestMapping(
+      method = RequestMethod.DELETE,
+      path = "users/{userEmail}/gameMaps/{gameMapId}")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_ADMIN", "ROLE_STUDENT", "ROLE_TEACHER"})
   public boolean deleteProgress(
       @PathVariable(value = "userEmail") String userEmail,
       @PathVariable(value = "gameMapId") Integer gameMapId,
-      @PathVariable(value = "progressId") Integer progressId,
       Authentication authentication
   ) {
     log.info("Creating progress for User with email: [{}] and GameMap with gameMapId: [{}]",
         userEmail, gameMapId);
-    return progressService.deleteProgress(userEmail, gameMapId, progressId, authentication);
+    return progressService.deleteProgress(userEmail, gameMapId, authentication);
   }
 
 

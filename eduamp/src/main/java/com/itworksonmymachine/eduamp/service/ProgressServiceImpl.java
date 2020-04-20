@@ -51,7 +51,6 @@ public class ProgressServiceImpl implements ProgressService {
       GameMapRepository gameMapRepository,
       QuestionRepository questionRepository,
       QuestionProgressRepository questionProgressRepository
-
   ) {
     this.progressRepository = progressRepository;
     this.userRepository = userRepository;
@@ -317,7 +316,7 @@ public class ProgressServiceImpl implements ProgressService {
       for (Question question : gameMapToFind.getQuestions()) {
         questionProgressList.add(new QuestionProgress(0, question, savedProgress, 0, false));
       }
-      progress.setQuestionProgressList(questionProgressList);
+      savedProgress.setQuestionProgressList(questionProgressList);
 
       return progressRepository.save(savedProgress);
     } else {
@@ -419,7 +418,7 @@ public class ProgressServiceImpl implements ProgressService {
     // Check if user is authorized to perform action
     this.isAuthorized(userEmail, authentication);
 
-    Progress progress = progressRepository
+    Progress progressToFind = progressRepository
         .findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
         .orElseThrow(() -> {
           String progressErrorMsg = String
@@ -430,39 +429,38 @@ public class ProgressServiceImpl implements ProgressService {
         });
 
     Optional<QuestionProgress> questionProgressToFind = questionProgressRepository
-        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progress.getId());
+        .findQuestionProgressByQuestion_IdAndProgress_Id(questionId, progressToFind.getId());
 
-    // Increase attemptCount of QuestionProgress
+    QuestionProgress questionProgress;
+    // Update QuestionProgress and increase attemptCount
     if (questionProgressToFind.isEmpty()) {
-      QuestionProgress questionProgress = new QuestionProgress();
-      questionProgress.setProgress(progress);
-
-      Optional<Question> question = questionRepository.findById(questionId);
-
-      if (question.isPresent()) {
-        questionProgress.setQuestion(question.get());
-      } else {
+      // Find question
+      Question question = questionRepository.findById(questionId).orElseThrow(() -> {
         String progressErrorMsg = String
             .format("Question with id: [%s] not found", questionId);
         log.error(progressErrorMsg);
         throw new ResourceNotFoundException(progressErrorMsg);
-      }
+      });
+
+      questionProgress = new QuestionProgress();
+      questionProgress.setProgress(progressToFind);
+      questionProgress.setQuestion(question);
       questionProgress.setAttemptCount(1);
-      questionProgressRepository.save(questionProgress);
-      return questionProgress.getQuestion().getAnswer() == answer;
     } else {
-      QuestionProgress questionProgress = questionProgressToFind.get();
+      questionProgress = questionProgressToFind.get();
       questionProgress.setAttemptCount(questionProgress.getAttemptCount() + 1);
-      questionProgressRepository.save(questionProgress);
-      return questionProgress.getQuestion().getAnswer() == answer;
     }
+
+    // Save question progress
+    questionProgressRepository.save(questionProgress);
+
+    return questionProgress.getQuestion().getAnswer() == answer;
   }
 
   @Override
   public boolean deleteProgress(
       String userEmail,
       Integer gameMapId,
-      Integer progressId,
       Authentication authentication) {
 
     // Check if user is authorized to perform action

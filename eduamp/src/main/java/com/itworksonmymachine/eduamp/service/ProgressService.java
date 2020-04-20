@@ -32,7 +32,6 @@ public interface ProgressService {
   boolean checkAnswer(String userEmail, Integer gameMapId, Integer questionId, Integer answer,
       Authentication authentication);
 
-  boolean deleteProgress(String userEmail, Integer gameMapId, Integer progressId,
-      Authentication authentication);
+  boolean deleteProgress(String userEmail, Integer gameMapId, Authentication authentication);
 
 }
