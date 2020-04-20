@@ -709,6 +709,7 @@ public class ProgressControllerTest {
   @Order(20)
   @WithUserDetails("user1@test.com")
   @Test
+  @Transactional
   public void should_rejectDeleteProgress_ifNotAuthorized() throws Exception {
 
     mockMvc.perform(
@@ -724,6 +725,7 @@ public class ProgressControllerTest {
   
   @Order(21)
   @Test
+  @Transactional
   public void should_rejectDeleteProgress_ifNotSelf() throws Exception {
   
   MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
@@ -778,13 +780,35 @@ public class ProgressControllerTest {
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
-    
-    
+  }
+  
+  @Order(22)
+  @Test
+  public void should_rejectDeleteProgress_ifNotExists() throws Exception {
 
-    mockMvc.perform(delete("/oauth/revoke")
-        .accept(MediaType.APPLICATION_JSON)
-        .header("Authorization", "Bearer" + accessToken))
-        .andExpect(status().isOk());
+    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+        .header(HttpHeaders.AUTHORIZATION,
+            "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
+        .param("username", this.user1.getEmail())
+        .param("password", this.user1.getPass())
+        .param("grant_type", "password"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    String accessToken = JsonPath
+        .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete(String.format("/progress/users/%s/gameMaps/%s",
+                this.user1.getEmail(), getPersistentGameMap().getId()))
+            .header("Authorization", "Bearer " + accessToken)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andDo(document("{methodName}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Order(9997)
