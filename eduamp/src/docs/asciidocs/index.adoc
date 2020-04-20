@@ -11,7 +11,8 @@ For the backend, Continuous Integration is used to ensure that the code that is 
 
 This is the documentation for eduamp APIs and are automatically generated through tests which were written to test use cases for the eduamp application. At the end of each test case (after comparing expected outputs to true outputs), the .andDo(document(...)) method is called to document the method and pretty print the request and response body. Click on the hyperlinks on the left of this page to jump to the section desired. For each action, 3 sample requests and 3 sample responses are provided.
 
-Do note that the format of the APIs are as follows: http://localhost:8080/eduamp/api<Documented API endpoint>
+Do note that while the documentation of the APIs are in the format http://localhost:8080/<Documented API endpoint>, 
+the actual format of the APIs are as follows: http://localhost:8080/eduamp/api<Documented API endpoint>
 
 == oAuth
 
@@ -1529,6 +1530,26 @@ include::{snippets}/should_allowUpdateProgress_ifAuthorized/request-body.adoc[]
 .Response sample
 include::{snippets}/should_allowUpdateProgress_ifAuthorized/response-body.adoc[]
 
+=== Allow deletion of progress if authorized and self
+
+.Request sample with curl
+include::{snippets}/should_allowDeleteProgress_ifAuthorizedAndSelf/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_allowDeleteProgress_ifAuthorizedAndSelf/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_allowDeleteProgress_ifAuthorizedAndSelf/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_allowDeleteProgress_ifAuthorizedAndSelf/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_allowDeleteProgress_ifAuthorizedAndSelf/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_allowDeleteProgress_ifAuthorizedAndSelf/response-body.adoc[]
+
 === Reject create progress if not authorized
 
 .Request sample with curl
@@ -1748,3 +1769,43 @@ include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/request-body.ado
 
 .Response sample
 include::{snippets}/should_rejectUpdateProgress_ifNotAuthorized/response-body.adoc[]
+
+=== Reject delete progress if user is not authorized
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteProgress_ifNotAuthorized/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteProgress_ifNotAuthorized/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteProgress_ifNotAuthorized/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteProgress_ifNotAuthorized/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteProgress_ifNotAuthorized/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteProgress_ifNotAuthorized/response-body.adoc[]
+
+=== Reject delete progress if user is not self
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteProgress_ifNotSelf/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteProgress_ifNotSelf/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteProgress_ifNotSelf/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteProgress_ifNotSelf/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteProgress_ifNotSelf/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteProgress_ifNotSelf/response-body.adoc[]
