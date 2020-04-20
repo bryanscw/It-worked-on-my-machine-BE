@@ -1809,3 +1809,23 @@ include::{snippets}/should_rejectDeleteProgress_ifNotSelf/request-body.adoc[]
 
 .Response sample
 include::{snippets}/should_rejectDeleteProgress_ifNotSelf/response-body.adoc[]
+
+=== Reject delete progress if progress does not exist
+
+.Request sample with curl
+include::{snippets}/should_rejectDeleteProgress_ifNotExists/curl-request.adoc[]
+
+.Request sample with http
+include::{snippets}/should_rejectDeleteProgress_ifNotExists/http-request.adoc[]
+
+.Request sample with httpie
+include::{snippets}/should_rejectDeleteProgress_ifNotExists/httpie-request.adoc[]
+
+.HTTP response
+include::{snippets}/should_rejectDeleteProgress_ifNotExists/http-response.adoc[]
+
+.Request sample
+include::{snippets}/should_rejectDeleteProgress_ifNotExists/request-body.adoc[]
+
+.Response sample
+include::{snippets}/should_rejectDeleteProgress_ifNotExists/response-body.adoc[]
