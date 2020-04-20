@@ -96,3 +96,4 @@ sudo make load-test
 ```
 
 Upon executing `sudo make load-test`, the summary of the tests will be displayed on the command line. For more in-depth details on the test, refer to the jmeter.log file in `src/test/resources`.
+To check test settings such as number of users or types of endpoints queried, use the jmeter GUI and open eduamp\_load\_test.jmx
