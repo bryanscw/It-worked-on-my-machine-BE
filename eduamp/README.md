@@ -94,3 +94,5 @@ sudo apt install jmeter
 # Start load testing with Jmeter
 sudo make load-test
 ```
+
+Upon executing `sudo make load-test`, the summary of the tests will be displayed on the command line. For more in-depth details on the test, refer to the jmeter.log file in `src/test/resources`.
