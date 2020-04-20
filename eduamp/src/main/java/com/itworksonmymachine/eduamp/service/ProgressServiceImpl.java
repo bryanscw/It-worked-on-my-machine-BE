@@ -466,7 +466,7 @@ public class ProgressServiceImpl implements ProgressService {
     // Check if user is authorized to perform action
     this.isAuthorized(userEmail, authentication);
 
-    progressRepository.findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
+    Progress progressToFind = progressRepository.findProgressByUser_EmailAndGameMap_Id(userEmail, gameMapId)
         .orElseThrow(() -> {
           String progressErrorMsg = String
               .format("Progress for User with userEmail: [%s] and gameMapId: [%s] not found",
@@ -474,7 +474,11 @@ public class ProgressServiceImpl implements ProgressService {
           log.error(progressErrorMsg);
           throw new ResourceNotFoundException(progressErrorMsg);
         });
-
+    
+    for (QuestionProgress questionProgress: progressToFind.getQuestionProgressList()){
+        questionProgressRepository.delete(questionProgress);
+    }
+    
     // Delete the Progress
     progressRepository.deleteById(gameMapId);
 
