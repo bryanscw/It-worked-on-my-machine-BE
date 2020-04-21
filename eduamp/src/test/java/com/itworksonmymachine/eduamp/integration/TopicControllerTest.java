@@ -74,7 +74,8 @@ public class TopicControllerTest {
   @Transactional
   public void should_rejectCreateTopic_ifNotAuthorized() throws Exception {
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.post("/topics/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/topics/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isForbidden())
@@ -88,7 +89,8 @@ public class TopicControllerTest {
   @WithUserDetails("teacher1@test.com")
   public void should_allowCreateTopic_ifAuthorized() throws Exception {
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.post("/topics/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/topics/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isOk())
@@ -104,7 +106,8 @@ public class TopicControllerTest {
   @Order(3)
   @WithUserDetails("user1@test.com")
   public void should_rejectFetchTopics_ifNotAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/topics/")
+    mockMvc.perform(
+        MockMvcRequestBuilders.get("/topics/")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
         .andDo(document("{methodName}",
@@ -117,7 +120,8 @@ public class TopicControllerTest {
   @WithUserDetails("teacher1@test.com")
   public void should_allowFetchTopics_ifAuthorized() throws Exception {
     // There will only be 1 topic in the database
-    mockMvc.perform(MockMvcRequestBuilders.get("/topics/")
+    mockMvc.perform(
+        MockMvcRequestBuilders.get("/topics/")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.content[0].title", is(this.topic.getTitle())))
@@ -131,7 +135,8 @@ public class TopicControllerTest {
   @Order(5)
   @WithUserDetails("user1@test.com")
   public void should_rejectFetchTopic_ifNotAuthorized() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/topics/" + getPersistentTopicId())
+    mockMvc.perform(
+        MockMvcRequestBuilders.get("/topics/" + getPersistentTopicId())
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
         .andDo(document("{methodName}",
@@ -144,7 +149,8 @@ public class TopicControllerTest {
   @WithUserDetails("teacher1@test.com")
   public void should_allowFetchTopic_ifAuthorized() throws Exception {
     // There will only be 1 topic in the database
-    mockMvc.perform(MockMvcRequestBuilders.get("/topics/" + getPersistentTopicId())
+    mockMvc.perform(
+        MockMvcRequestBuilders.get("/topics/" + getPersistentTopicId())
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.title", is(this.topic.getTitle())))
@@ -161,7 +167,8 @@ public class TopicControllerTest {
   public void should_rejectUpdateTopic_ifNotAuthorized() throws Exception {
     // Update topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.put("/topics/1")
+    mockMvc.perform(
+        MockMvcRequestBuilders.put("/topics/1")
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isForbidden())
@@ -201,7 +208,8 @@ public class TopicControllerTest {
 
     // Update topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.put("/topics/" + getPersistentTopicId())
+    mockMvc.perform(
+        MockMvcRequestBuilders.put("/topics/" + getPersistentTopicId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isOk())
@@ -219,7 +227,8 @@ public class TopicControllerTest {
   public void should_rejectPatchTopic_ifNotAuthorized() throws Exception {
     // Update topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.patch("/topics/1")
+    mockMvc.perform(
+        MockMvcRequestBuilders.patch("/topics/1")
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isForbidden())
@@ -259,7 +268,8 @@ public class TopicControllerTest {
 
     // Update topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.patch("/topics/" + getPersistentTopicId())
+    mockMvc.perform(
+        MockMvcRequestBuilders.patch("/topics/" + getPersistentTopicId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isOk())
@@ -277,7 +287,8 @@ public class TopicControllerTest {
   public void should_rejectDeleteTopic_ifNotAuthorized() throws Exception {
     // Delete topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isForbidden())
@@ -293,14 +304,16 @@ public class TopicControllerTest {
   public void should_allowDeleteTopic_ifAuthorized() throws Exception {
     // Delete topic
     int topicId = getPersistentTopicId();
-    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + topicId)
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/topics/" + topicId)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{methodName}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
 
-    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + topicId)
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/topics/" + topicId)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
   }
@@ -312,7 +325,8 @@ public class TopicControllerTest {
   public void should_rejectDeleteTopic_ifNotExists() throws Exception {
     // Delete topic
     String topicJson = new ObjectMapper().writeValueAsString(this.topic);
-    mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/topics/%s", getPersistentTopicId()-1))
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/topics/%s", getPersistentTopicId()-1))
         .contentType(MediaType.APPLICATION_JSON)
         .content(topicJson))
         .andExpect(status().isNotFound())
@@ -326,7 +340,8 @@ public class TopicControllerTest {
   @Test
   public void cleanupContext() throws Exception {
 
-    mockMvc.perform(MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/topics/" + getPersistentTopicId())
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
   }
