@@ -2,8 +2,6 @@ package com.itworksonmymachine.eduamp.integration;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -73,12 +71,14 @@ public class AdminControllerTest {
   public void createUser() throws Exception {
     // Create user
     String userJson = new ObjectMapper().writeValueAsString(this.user);
-    this.mockMvc.perform(post("/users/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk());
         
-    mockMvc.perform(post("/oauth/token")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -93,7 +93,8 @@ public class AdminControllerTest {
   @WithUserDetails("teacher1@test.com")
   public void should_rejectRequest_ifNotAuthorized() throws Exception {
     // Perform login
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/admin/token/list")
+    this.mockMvc.perform(
+        MockMvcRequestBuilders.get("/admin/token/list")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
         .andExpect(status().isForbidden())
         .andDo(document("{methodName}",
@@ -106,7 +107,8 @@ public class AdminControllerTest {
   @WithUserDetails("admin1@test.com")
   public void should_allowfetchListOfTokens_ifAuthorized() throws Exception {
     
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/admin/token/list")
+    this.mockMvc.perform(
+        MockMvcRequestBuilders.get("/admin/token/list")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(1)))
@@ -120,7 +122,8 @@ public class AdminControllerTest {
   public void cleanUpContext() throws Exception {
     
     // Perform login
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -132,7 +135,8 @@ public class AdminControllerTest {
     String accessToken = JsonPath
         .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
             
-    mockMvc.perform(delete("/oauth/revoke")
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/oauth/revoke")
         .accept(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken));
 

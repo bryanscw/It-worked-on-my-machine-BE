@@ -2,8 +2,6 @@ package com.itworksonmymachine.eduamp.integration;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -28,6 +26,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.Base64Utils;
 
 @RunWith(SpringRunner.class)
@@ -59,13 +58,15 @@ public class TokenControllerTest {
   public void should_allow_ifValidCredentials() throws Exception {
     // Create user
     String userJson = new ObjectMapper().writeValueAsString(this.user);
-    this.mockMvc.perform(post("/users/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk());
 
     // Perform login
-    this.mockMvc.perform(post("/oauth/token")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -82,7 +83,8 @@ public class TokenControllerTest {
   @Test
   public void should_reject_ifInvalidCredentials() throws Exception {
     // Perform login
-    this.mockMvc.perform(post("/oauth/token")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -101,13 +103,15 @@ public class TokenControllerTest {
   public void should_logout_ifValidSession() throws Exception {
     // Create user
     String userJson = new ObjectMapper().writeValueAsString(this.user);
-    this.mockMvc.perform(post("/users/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk());
 
     // Perform login
-    MvcResult mvcResult = this.mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -122,7 +126,8 @@ public class TokenControllerTest {
         .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
 
     // Perform logout
-    this.mockMvc.perform(delete("/oauth/revoke")
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/oauth/revoke")
         .accept(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken))
         .andExpect(status().isOk())
@@ -134,7 +139,8 @@ public class TokenControllerTest {
   @Test
   public void should_throwError_ifInvalidSession() throws Exception {
     // Perform logout
-    this.mockMvc.perform(delete("/oauth/revoke")
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/oauth/revoke")
         .accept(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer invalidToken"))
         .andExpect(status().isUnauthorized())

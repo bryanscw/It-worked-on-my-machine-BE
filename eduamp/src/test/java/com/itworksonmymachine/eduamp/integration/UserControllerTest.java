@@ -2,8 +2,6 @@ package com.itworksonmymachine.eduamp.integration;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -73,7 +71,8 @@ public class UserControllerTest {
   @WithUserDetails("teacher1@test.com")
   public void should_rejectCreate_ifNotAuthorized() throws Exception {
     String userJson = new ObjectMapper().writeValueAsString(this.user);
-    mockMvc.perform(post("/users/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isForbidden())
@@ -87,7 +86,8 @@ public class UserControllerTest {
   @WithUserDetails("admin1@test.com")
   public void should_allowCreate_ifAuthorized() throws Exception {
     String userJson = new ObjectMapper().writeValueAsString(this.user);
-    mockMvc.perform(post("/users/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isOk())
@@ -105,7 +105,8 @@ public class UserControllerTest {
     String userJson = new ObjectMapper().writeValueAsString(this.user);
 
     // Add a user that already exists
-    mockMvc.perform(post("/users/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
         .andExpect(status().isBadRequest())
@@ -119,7 +120,8 @@ public class UserControllerTest {
   @Transactional
   public void should_allowFetchUser_ifAuthorized() throws Exception {
 
-    MvcResult mvcResult = this.mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = this.mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -132,7 +134,8 @@ public class UserControllerTest {
     String accessToken = JsonPath
         .read(mvcResult.getResponse().getContentAsString(), "$.access_token");
 
-    mockMvc.perform(post("/users/me")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/me")
         .contentType(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken))
         .andExpect(status().isOk())
@@ -143,7 +146,8 @@ public class UserControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
     
-    mockMvc.perform(delete("/oauth/revoke")
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/oauth/revoke")
         .accept(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken));
   }
@@ -153,7 +157,8 @@ public class UserControllerTest {
   @WithUserDetails("user1@test.com")
   @Transactional
   public void should_rejectFetchUser_ifNotAuthorized() throws Exception {
-    mockMvc.perform(post("/users/me")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/me")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andDo(document("{methodName}",

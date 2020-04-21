@@ -2,8 +2,6 @@ package com.itworksonmymachine.eduamp.integration;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -136,7 +134,8 @@ public class ProgressControllerTest {
   @WithUserDetails("admin1@test.com")
   public void createContext1() throws Exception {
     String user1Json = new ObjectMapper().writeValueAsString(this.user1);
-    mockMvc.perform(post("/users/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(user1Json));
   }
@@ -146,7 +145,8 @@ public class ProgressControllerTest {
   @WithUserDetails("admin1@test.com")
   public void createContext2() throws Exception {
     String user2Json = new ObjectMapper().writeValueAsString(this.user2);
-    mockMvc.perform(post("/users/create")
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
         .content(user2Json));
   }
@@ -213,7 +213,8 @@ public class ProgressControllerTest {
   @Test
   public void should_allowCreateProgress_ifAuthorized() throws Exception {
     // ---------------- For User 1 --------------------//
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -263,7 +264,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_allowFetchProgressByUserEmail_ifAuthorized() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -315,7 +317,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_allowFetchProgressByGameMapId_ifAuthorized() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -367,7 +370,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_allowFetchProgressByUserEmailAndGameMapId_ifAuthorized() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -421,7 +425,8 @@ public class ProgressControllerTest {
   public void should_rejectFetchProgressByUserEmailAndGameMapId_ifGameMapNotExists()
       throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -452,7 +457,8 @@ public class ProgressControllerTest {
   public void should_rejectFetchProgressByUserEmailAndGameMapId_ifUserEmailNotExists()
       throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -502,7 +508,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_allowUpdateProgress_ifAuthorized() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -536,7 +543,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_allowRequestForLeaderboard_ifAuthorized() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -640,7 +648,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_rejectSubmittedAnswer_ifNotSelf() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -669,7 +678,8 @@ public class ProgressControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
      
-     mockMvc.perform(delete("/oauth/revoke")
+     mockMvc.perform(
+         MockMvcRequestBuilders.delete("/oauth/revoke")
         .accept(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken));
   }
@@ -679,7 +689,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_allowSubmitAnswer_ifAuthorizedAndSelf() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -731,7 +742,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_rejectDeleteProgress_ifNotSelf() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -760,7 +772,8 @@ public class ProgressControllerTest {
   @Test
   public void should_allowDeleteProgress_ifAuthorizedAndSelf() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -784,7 +797,8 @@ public class ProgressControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
             
-     mockMvc.perform(delete("/oauth/revoke")
+     mockMvc.perform(
+         MockMvcRequestBuilders.delete("/oauth/revoke")
         .accept(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken));
   }
@@ -794,7 +808,8 @@ public class ProgressControllerTest {
   @Transactional
   public void should_rejectDeleteProgress_ifNotExists() throws Exception {
 
-    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+    MvcResult mvcResult = mockMvc.perform(
+        MockMvcRequestBuilders.post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -818,7 +833,8 @@ public class ProgressControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
             
-    mockMvc.perform(delete("/oauth/revoke")
+    mockMvc.perform(
+        MockMvcRequestBuilders.delete("/oauth/revoke")
         .accept(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken));
   }
