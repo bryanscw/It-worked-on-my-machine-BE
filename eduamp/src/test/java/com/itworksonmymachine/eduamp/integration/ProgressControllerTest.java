@@ -135,7 +135,6 @@ public class ProgressControllerTest {
   @Order(-3)
   @WithUserDetails("admin1@test.com")
   public void createContext1() throws Exception {
-
     String user1Json = new ObjectMapper().writeValueAsString(this.user1);
     mockMvc.perform(post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
@@ -146,7 +145,6 @@ public class ProgressControllerTest {
   @Order(-2)
   @WithUserDetails("admin1@test.com")
   public void createContext2() throws Exception {
-
     String user2Json = new ObjectMapper().writeValueAsString(this.user2);
     mockMvc.perform(post("/users/create")
         .contentType(MediaType.APPLICATION_JSON)
@@ -166,7 +164,8 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders.post("/topics/create")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(topicJson));
+            .content(topicJson))
+        .andExpect(status().isOk());
 
     GameMap gameMap = new GameMap();
     gameMap.setTitle("Game map title");
@@ -229,9 +228,8 @@ public class ProgressControllerTest {
 
     String progress1Json = new ObjectMapper().writeValueAsString(this.progress);
     mockMvc.perform(
-        MockMvcRequestBuilders
-            .post(String.format("/progress/users/%s/gameMaps/%s",
-                this.user1.getEmail(), getPersistentGameMap().getId()))
+        MockMvcRequestBuilders.post(String.format("/progress/users/%s/gameMaps/%s",
+            this.user1.getEmail(), getPersistentGameMap().getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
             .content(progress1Json))
@@ -700,7 +698,8 @@ public class ProgressControllerTest {
     mockMvc.perform(
         MockMvcRequestBuilders
             .post(String.format("/progress/users/%s/gameMaps/%s/questions/%s/submit",
-                this.user1.getEmail(), getPersistentGameMap().getId(), getPersistentQuestion().getId()))
+                this.user1.getEmail(), getPersistentGameMap().getId(),
+                getPersistentQuestion().getId()))
             .header("Authorization", "Bearer " + accessToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content(answerJson))
@@ -709,7 +708,7 @@ public class ProgressControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
-  
+
   @Order(20)
   @WithUserDetails("user1@test.com")
   @Test
@@ -726,13 +725,13 @@ public class ProgressControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
-  
+
   @Order(21)
   @Test
   @Transactional
   public void should_rejectDeleteProgress_ifNotSelf() throws Exception {
-  
-  MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
+
+    MvcResult mvcResult = mockMvc.perform(post("/oauth/token")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
         .header(HttpHeaders.AUTHORIZATION,
             "Basic " + Base64Utils.encodeToString("my-client:my-secret".getBytes()))
@@ -756,7 +755,7 @@ public class ProgressControllerTest {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
   }
-  
+
   @Order(22)
   @Test
   public void should_allowDeleteProgress_ifAuthorizedAndSelf() throws Exception {
@@ -789,7 +788,7 @@ public class ProgressControllerTest {
         .accept(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken));
   }
-  
+
   @Order(23)
   @Test
   @Transactional

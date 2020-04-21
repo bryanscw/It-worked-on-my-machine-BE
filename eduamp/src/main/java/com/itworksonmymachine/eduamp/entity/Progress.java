@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.itworksonmymachine.eduamp.model.Coordinates;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +21,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "progress")
@@ -61,12 +63,13 @@ public class Progress extends Auditable<String> {
 
   @Getter
   @Setter
+  @Fetch(FetchMode.SUBSELECT)
   @OneToMany(
       mappedBy = "progress",
       fetch = FetchType.EAGER,
       cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
   @JsonIdentityReference(alwaysAsId = true)
-  private List<QuestionProgress> questionProgressList = new ArrayList<>();
+  private Set<QuestionProgress> questionProgressSet = new HashSet<>();
 
 }
 
